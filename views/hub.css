@@ -1,0 +1,15 @@
+#chatroomMain {
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color:green;
+	opacity:0.5;
+}
+#chatRoomList {
+	width:20%;
+	height:45%;
+	left:10px;
+	top:10px;
+	position:absolute;
+	overflow:scroll;
+}
