@@ -11,13 +11,6 @@
 				<div id="chatRoom1" class="crNum">ChatRoom No.1</div>
 				<div id="chatRoom2" class="crNum">ChatRoom No.2</div>
 				<div id="chatRoom3" class="crNum">ChatRoom No.3</div>
-				<div id="chatRoom4" class="crNum">ChatRoom No.4</div>
-				<div id="chatRoom5" class="crNum">ChatRoom No.5</div>
-				<div id="chatRoom6" class="crNum">ChatRoom No.6</div>
-				<div id="chatRoom6" class="crNum">ChatRoom No.7</div>
-				<div id="chatRoom6" class="crNum">ChatRoom No.8</div>
-				<div id="chatRoom6" class="crNum">ChatRoom No.9</div>
-				<div id="chatRoom6" class="crNum">ChatRoom No.10</div>
 			</div>
 			<div id="chatDisplay">
 				<div id="userNameList">
@@ -26,27 +19,42 @@
 					<div id="user3" class="users">UserName 3</div>
 				</div>
 				<div id="chatDetails">
-					<div id="user3_Img_text" class="userInp">
-						<img src="1.jpg" id="jpg1" class="user_jpg"/>
-						<input type="text" placeholder="user3's chat message" class="user_text_contents"/>						
+					<div id="addChatRoomPopUpPage">
+						<div id="personName_to_be_added">Person Name: FirstName LastName</div>
+						<div id="personContactInfo">
+							<div id="userContact">User Contact</div>
+							<div id="userEmail">User Email</div>
+							<div id="userAddress">User Address</div>
+						
+						</div>
+						<button id="createButton">Create</button>
+					
 					</div>
-					<div id="user2_Img_text" class="userInp">
-						<img src="2.jpg" id="jpg2" class="user_jpg"/>
-						<input type="text" placeholder="user2's chat message" class="user_text_contents"/>
+					<div id="user3_Img_text" class="userImgText">
+						<img src="imgs/3.jpg" id="jpg1" class="user_jpg" />
+						<div id="user3_text" class="user_text_contents">User3 text</div>
+						<div class="user_name">User3 Name</div>
+						
 					</div>
-					<div id="user1_Img_text" class="userInp">
-						<img src="3.jpg" id="jpg3" class="user_jpg"/>
-						<input type="text" placeholder="user1's chat message" class="user_text_contents"/>
+					<div id="user2_Img_text" class="userImgText">
+						<img src="imgs/2.jpg" id="jpg2" class="user_jpg" />
+						<div id="user2_text" class="user_text_contents">User2 text</div>
+						<div class="user_name">User2 Name</div>
+					</div>
+					<div id="user1_Img_text" class="userImgText">
+						<img src="imgs/1.jpg" id="jpg3" class="user_jpg" />
+						<div id="user1_text" class="user_text_contents">User1 text</div>
+						<div class="user_name">User1 Name</div>
 					</div>				
 				</div>
 							
 			</div>
 			<div id="sendMessageDiv">
-					<input type="button" value="Send" id="sendBtn"/>
+					<button id="sendBtn">Send Message</button>
 					<input type="text" placeholder="type message to send" id="sendInp"/>
 			</div>
 			<div id="addChatRoom">
-				<input type="button" value="Add_Chat_Room" id="addCrButton"/>
+				<button id="addCrButton">New Chatroom</button>
 			</div>
 		</div>
 
