@@ -17,9 +17,12 @@
 .crNum {
 	text-align:center;
 	height:35px;
-	width:18%;
+	width:85%;
 	position:relative;
 	margin:10px;
+	border:3px solid #fffa00;
+	border-radius:10px;
+	background-color:#8cccc7;
 }
 #addChatRoom {
 	width:230px;
@@ -103,6 +106,9 @@
 	display:inline-block;
 	background-color: red;
 	border-radius: 25%;
+	border:10px solid yellow;
+	font-size:20px;
+	color:black;
 }
 .userImgText {
 	height:25%;
