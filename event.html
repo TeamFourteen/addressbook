@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- saved from url=(0025)http://localhost:3000/hub -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Welcome glenn</title>
+    <link rel="stylesheet" type="text/css" href="event.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    
+  
+    <style>html { font-size: 12px; font-family: Arial, Helvetica, sans-serif; }</style>
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
+    
+    <script src="http://cdn.kendostatic.com/2015.1.429/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+</head>
+
+<body>
+    <header id="upper_menus">
+        <div>Hello, user glenn</div>
+        <div id="options">
+        Options
+        <div class="dropdown-content">
+                <div id="add">Add Contact</div>
+                <div id="update">Edit Profile</div>
+                <div id="logout">Logout</div>
+            </div>
+        </div>
+    </header>
+ 
+<div id="left_selection">
+    <div id = "username">Username</div>
+    <div id="example">
+	<div class="demo-section k-header" style="width: 300px; text-align: center;">
+            <div id="calendar"></div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#calendar").kendoCalendar();
+        });
+    </script>
+    </div>
+    <input  id="evname" type="text" placeholder="Enter your event name">
+    <input  id ="hourfrom"type="number" min="0" max="24" placeholder="Hours">
+    <input id="datefrom" type="number" min="0" max="31" placeholder="Date" step="1">
+    <div id="text">
+        TO
+    </div>
+    <input id= "tohour" type="number" min="0" max="24" placeholder="Hours">
+    <input id="todate" type="number" min="0" max="31" placeholder="Date" step="1">
+    <div id="floating-panel">
+        <input id="address" type="textbox" value="Vancouver,CA">
+        <input id="sendadd" type="button" value="OK">
+    </div>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: {lat: 49.246292, lng: -123.116226}
+            });
+            var geocoder = new google.maps.Geocoder();
+            document.getElementById('sendadd').addEventListener('click', function() {
+                geocodeAddress(geocoder, map);
+            });
+        }
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = document.getElementById('address').value;
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+            });
+        }
+    </script>
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFRnN-cwt0ZNwN6slQX_zy7xt8UWbpXKE&callback=initMap">
+    </script>
+    <div id="submit">
+        <button>Submit</button>
+    </div>-->
+</div>
+
+<div class="right_window" id="profile">
+    <div id ="eventsinfo">
+        <div id="eventname">EventName</div>
+        <div id="info">Your Event Info</div>
+    </div>
+    
+<!-- Triple squiggy for displaying the stuff-->
+</div>
+    <script src="event.js"></script>
+</body>
+</html>

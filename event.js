@@ -62,3 +62,67 @@ for (i = 0; i < buttonSelection.length; i++) {
 		document.getElementById(e2).style.display = "block"
 	})
 }
+
+var evname =document.getElementById('evname'),
+    eventname = document.getElementById('eventname'),
+    date = document.getElementById('datefrom'),
+    submit = document.getElementById('submit'),
+    datefrom = document.getElementById('datefrom'),
+    hourfrom = document.getElementById('hourfrom'),
+    tohour = document.getElementById('tohour'),
+    todate = document.getElementById('todate'),
+    address = document.getElementById('address'),
+    info = document.getElementById('info'),
+    objectarr =[];
+
+submit.addEventListener("click",function(){
+    eventname.innerHTML = evname.value;
+    var objects ={event:(eventname.innerHTML),
+                from:('Date:'+datefrom.value+'/'+hourfrom.value+':00 To'),
+                end:('Date:'+todate.value+'/'+tohour.value+':00'),
+                address:(address.value)};
+    
+    objectarr.push(objects);
+    var newd=document.createElement('div'),
+        fromtime ='',
+        endtime ='',
+        addressa ='';
+    for(i=0;i<objectarr.length;i++){
+        fromtime = objectarr[i].from;
+        endtime = objectarr[i].end;
+        addressa = objectarr[i].address;
+    }
+    newd.innerHTML = fromtime+endtime+' '+addressa;
+    info.appendChild(newd);
+    console.log(fromtime);
+});
+
+
+
+todate.addEventListener("change",function(){
+    if(todate.value >'31'){
+        todate.value = 31
+    }
+});
+
+tohour.addEventListener("change",function(){
+    if(tohour.value >'24'){
+        tohour.value = 24
+    }
+});
+
+datefrom.addEventListener("change",function(){
+    if(datefrom.value >'31'){
+        datefrom.value = 31
+    }
+});
+
+hourfrom.addEventListener("change",function(){
+    if(hourfrom.value >'24'){
+        hourfrom.value = 24
+    }
+});
+
+
+
+
