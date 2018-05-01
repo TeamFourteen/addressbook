@@ -5,17 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome glenn</title>
     <link rel="stylesheet" type="text/css" href="event.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    
-  
-    <style>html { font-size: 12px; font-family: Arial, Helvetica, sans-serif; }</style>
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
-    
-    <script src="http://cdn.kendostatic.com/2015.1.429/js/jquery.min.js"></script>
-    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+ 
 </head>
 
 <body>
@@ -33,28 +23,17 @@
  
 <div id="left_selection">
     <div id = "username">Username</div>
-    <div id="example">
-	<div class="demo-section k-header" style="width: 300px; text-align: center;">
-            <div id="calendar"></div>
-    </div>
-    <script>
-        $(document).ready(function() {
-            $("#calendar").kendoCalendar();
-        });
-    </script>
-    </div>
-    <input  id="evname" type="text" placeholder="Enter your event name">
-    <input  id ="hourfrom"type="number" min="0" max="24" placeholder="Hours">
-    <input id="datefrom" type="number" min="0" max="31" placeholder="Date" step="1">
+    <input id="evname" type="text" placeholder="Enter your event name">
+    <input id ="startfrom" type="date">
     <div id="text">
         TO
     </div>
-    <input id= "tohour" type="number" min="0" max="24" placeholder="Hours">
-    <input id="todate" type="number" min="0" max="31" placeholder="Date" step="1">
+    <input id="endtime" type="date" value ='2018-05-20'>
     <div id="floating-panel">
         <input id="address" type="textbox" value="Vancouver,CA">
         <input id="sendadd" type="button" value="OK">
     </div>
+    
     <div id="map"></div>
     <script>
         function initMap() {
@@ -93,8 +72,8 @@
 
 <div class="right_window" id="profile">
     <div id ="eventsinfo">
-        <div id="eventname">EventName</div>
-        <div id="info">Your Event Info</div>
+        <div id="eventname">Your Event Info</div>
+        <div id="info"></div>
     </div>
     
 <!-- Triple squiggy for displaying the stuff-->

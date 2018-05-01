@@ -111,38 +111,19 @@
     height: 4%;
 }
 
-/*.day{
-    display: inline-block;
-}*/
+#endtime{
+    top: 25%;
+    left: 67%;
+    position: absolute;
+    width: 15%;
+    height: 4%;
+}
 
-#hourfrom{
-    left: 45%;
+#startfrom{
+    left: 42%;
     top: 25%;
     position:absolute;
-    width: 6.7%;
-    height: 4%;
-}
-
-#datefrom{
-    top: 25%;
-    left: 53%;
-    position: absolute;
-    width: 6.7%;
-    height: 4%;
-}
-#tohour{
-    left: 67%;
-    top: 25%;
-    position: absolute;
-    width: 6.7%;
-    height: 4%;
-}
-
-#todate{
-    top: 25%;
-    left: 75%;
-    position: absolute;
-    width: 6.7%;
+    width: 15%;
     height: 4%;
 }
 
@@ -151,13 +132,15 @@
     position:absolute;
     left: 51%;
     width: 20%;
-    height: 3.5%;
+    height: 3%;
 }
 
 #sendadd{
     top: 31%;
     position: absolute;
     left: 75%;
+    width: 5%;
+    height: 25px;
 }
 
 #submit{
@@ -173,7 +156,7 @@
     width: 50%;
     height: 300px;
     position: absolute;
-    top: 35%;
+    top: 37%;
 }
 
 #eventinfo{

@@ -64,64 +64,60 @@ for (i = 0; i < buttonSelection.length; i++) {
 }
 
 var evname =document.getElementById('evname'),
-    eventname = document.getElementById('eventname'),
-    date = document.getElementById('datefrom'),
     submit = document.getElementById('submit'),
-    datefrom = document.getElementById('datefrom'),
-    hourfrom = document.getElementById('hourfrom'),
-    tohour = document.getElementById('tohour'),
-    todate = document.getElementById('todate'),
+    startfrom = document.getElementById('startfrom'),
+    endtime = document.getElementById('endtime'),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
     objectarr =[];
 
+console.log(endtime.value);
+
 submit.addEventListener("click",function(){
-    eventname.innerHTML = evname.value;
-    var objects ={event:(eventname.innerHTML),
-                from:('Date:'+datefrom.value+'/'+hourfrom.value+':00 To'),
-                end:('Date:'+todate.value+'/'+tohour.value+':00'),
+    //check();
+    var objects ={event:(evname.value),
+                from:(startfrom.value),
+                end:(endtime.value),
                 address:(address.value)};
     
     objectarr.push(objects);
+    console.log(objectarr);
+    
     var newd=document.createElement('div'),
         fromtime ='',
         endtime ='',
-        addressa ='';
+        location ='';
+    
     for(i=0;i<objectarr.length;i++){
+        evename = objectarr[i].event;
         fromtime = objectarr[i].from;
         endtime = objectarr[i].end;
-        addressa = objectarr[i].address;
+        location = objectarr[i].address;
     }
-    newd.innerHTML = fromtime+endtime+' '+addressa;
+    
+    newd.innerHTML ='Event Name: '+evename+'<br />';
+    newd.innerHTML +='From: '+fromtime+'<br />';
+    newd.innerHTML +='End: '+endtime+'<br />';
+    newd.innerHTML +='Location: '+location+'<br /><br />';
+    newd.style.fontSize ='20px';
+    newd.style.textAlign ='left';
     info.appendChild(newd);
-    console.log(fromtime);
 });
 
 
-
-todate.addEventListener("change",function(){
-    if(todate.value >'31'){
-        todate.value = 31
+function check(){
+    if (evname.value == ''){
+        alert('You should enter a event name');
+        throw new Error("Something went wrong!");
+    }else if(startfrom.value==''){
+        alert('You should enter the start time');
+        throw new Error("Something went wrong!");
+    }else if(endtime.value==''){
+        alert('You should enter a ending time');
+        throw new Error("Something went wrong!");
     }
-});
-
-tohour.addEventListener("change",function(){
-    if(tohour.value >'24'){
-        tohour.value = 24
-    }
-});
-
-datefrom.addEventListener("change",function(){
-    if(datefrom.value >'31'){
-        datefrom.value = 31
-    }
-});
-
-hourfrom.addEventListener("change",function(){
-    if(hourfrom.value >'24'){
-        hourfrom.value = 24
-    }
-});
+    
+}
 
 
 
