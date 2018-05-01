@@ -32,6 +32,7 @@ nChtRoom.addEventListener("click",function(){
 	addChtRmPupPg.style.display = "block";
 });
 createBtn.addEventListener("click",function(){
+	addChtRmPupPg.style.display = "none";
 	alert("Add Person to Chat room !!!")
 });
 
