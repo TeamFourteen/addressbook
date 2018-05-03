@@ -66,40 +66,51 @@ for (i = 0; i < buttonSelection.length; i++) {
 var evname =document.getElementById('evname'),
     submit = document.getElementById('submit'),
     startfrom = document.getElementById('startfrom'),
-    endtime = document.getElementById("endtime"),
+    starttime=document.getElementById('hourf'),
+    endtime = document.getElementById('endtime'),
+    endh = document.getElementById('endh'),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
     objectarr =[];
 
-submit.addEventListener("click",function(){
-    check();
-    var objects ={event:(evname.value),
-                from:(startfrom.value),
-                endt:(endtime.value),
-                address:(address.value)};
-    
-    objectarr.push(objects);
-    console.log(objectarr);
-    
+function createinfo(ev){
     var newd=document.createElement('div'),
         fromtime ='',
         endti ='',
         location ='';
     
-    for(i=0;i<objectarr.length;i++){
-        evename = objectarr[i].event;
-        fromtime = objectarr[i].from;
-        endti = objectarr[i].endt;
-        location = objectarr[i].address;
+    for(i=0;i<ev.length;i++){
+        evename = ev[i].event;
+        fromtime = ev[i].from;
+        starthour = ev[i].fromh;
+        endti = ev[i].endt;
+        endho = ev[i].endh;
+        location = ev[i].address;
     }
     
     newd.innerHTML ='Event Name: '+evename+'<br />';
-    newd.innerHTML +='From: '+fromtime+'<br />';
-    newd.innerHTML +='End: '+endti+'<br />';
+    newd.innerHTML +='From: '+fromtime+'  '+starthour+'<br />';
+    newd.innerHTML +='End: '+endti+'  '+endho+'<br />';
     newd.innerHTML +='Location: '+location+'<br /><br />';
     newd.style.fontSize ='20px';
     newd.style.textAlign ='left';
     info.appendChild(newd);
+}
+
+submit.addEventListener("click",function(){
+    console.log(endtime.value);
+    check();
+    var objects ={event:(evname.value),
+                from:(startfrom.value),
+                fromh:(starttime.value),
+                endt:(endtime.value),
+                endh:(endh.value),
+                address:(address.value)};
+    
+    objectarr.push(objects);
+    console.log(objectarr);
+    
+    createinfo(objectarr);
 });
 
 
@@ -113,10 +124,22 @@ function check(){
     }else if(endtime.value==''){
         alert('You should enter a ending time');
         throw new Error("Something went wrong!");
+    }else if(starttime.value==''){
+        alert('You should enter the details of start time');
+        throw new Error("Something went wrong!");
+    }else if(endh.value==''){
+        alert('You should enter the details of ending time');
+        throw new Error("Something went wrong!");
     }else if(endtime.value < startfrom.value){
         alert('The end time must be greater than the start time');
         endtime.value = startfrom.value;
         throw new Error("Something went wrong!");
+    }else if(endtime.value == startfrom.value){
+        if(starttime.value > endh.value){
+            alert('The end time must be greater than the start time when they are on the same date');
+            endh.value = starttime.value;
+            throw new Error("Something went wrong!");
+        }
     }
     
 }

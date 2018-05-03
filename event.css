@@ -34,7 +34,6 @@
 	margin:auto;
 	background-color:floralwhite;
 	display: block;
-	overflow: scroll;
 }
 
 #options {
@@ -90,6 +89,14 @@
     height: 4%;
 }
 
+#endh{
+    top: 30%;
+    left: 67%;
+    position: absolute;
+    width: 15%;
+    height: 3%;
+}
+
 #startfrom{
     left: 42%;
     top: 25%;
@@ -98,24 +105,33 @@
     height: 4%;
 }
 
+#hourf{
+    left: 42%;
+    top: 30%;
+    position: absolute;
+    width: 15%;
+    height: 3%;
+    
+}
+
 #address{
-    top: 31%;
+    top: 37%;
     position:absolute;
-    left: 51%;
+    left: 53%;
     width: 20%;
     height: 3%;
 }
 
 #sendadd{
-    top: 31%;
+    top: 42%;
     position: absolute;
-    left: 75%;
-    width: 5%;
+    left: 52%;
+    width: 23%;
     height: 25px;
 }
 
 #submit{
-    top: 85%;
+    top: 90%;
     position: absolute;
     left: 60%;
     width: 10%;
@@ -127,7 +143,7 @@
     width: 50%;
     height: 300px;
     position: absolute;
-    top: 37%;
+    top: 47%;
 }
 
 #eventinfo{
