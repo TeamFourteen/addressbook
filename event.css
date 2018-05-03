@@ -62,36 +62,6 @@
     display: block;
 }
 
-/*.header{
-    font-size: 30px;
-    text-align: center;
-}
-
-.cal_b{
-    top:150%;
-    left: 25%;
-    width: 100%;
-    position: absolute;
-}
-
-.dates{
-    text-align: left;
-}
-
-#eventcal{
-    top: 15%;
-    left: -20%;
-    width: 100%;
-    position: absolute;
-}*/
-
-#calendar{
-    position: absolute;
-    top: 20%;
-    left: 5%;
-    width: 30%;
-    height: 50%;
-}
 
 #username{
     border: 3px solid ;
@@ -101,6 +71,7 @@
     top: 9%;
     font-size: 25px;
     height: 6%;
+    font-family: fantasy;
 }
 
 #evname{
@@ -174,6 +145,7 @@
     left: 5%;
     height: 85%;
     width: 90%;
+    overflow: scroll;
 }
  
 #eventname{
@@ -183,6 +155,8 @@
     position:absolute;
     height: 10%;
     width: 80%;
+    font-family:cursive;
+    color: dimgray;
 }
 
 #text{

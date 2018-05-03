@@ -66,18 +66,16 @@ for (i = 0; i < buttonSelection.length; i++) {
 var evname =document.getElementById('evname'),
     submit = document.getElementById('submit'),
     startfrom = document.getElementById('startfrom'),
-    endtime = document.getElementById('endtime'),
+    endtime = document.getElementById("endtime"),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
     objectarr =[];
 
-console.log(endtime.value);
-
 submit.addEventListener("click",function(){
-    //check();
+    check();
     var objects ={event:(evname.value),
                 from:(startfrom.value),
-                end:(endtime.value),
+                endt:(endtime.value),
                 address:(address.value)};
     
     objectarr.push(objects);
@@ -85,19 +83,19 @@ submit.addEventListener("click",function(){
     
     var newd=document.createElement('div'),
         fromtime ='',
-        endtime ='',
+        endti ='',
         location ='';
     
     for(i=0;i<objectarr.length;i++){
         evename = objectarr[i].event;
         fromtime = objectarr[i].from;
-        endtime = objectarr[i].end;
+        endti = objectarr[i].endt;
         location = objectarr[i].address;
     }
     
     newd.innerHTML ='Event Name: '+evename+'<br />';
     newd.innerHTML +='From: '+fromtime+'<br />';
-    newd.innerHTML +='End: '+endtime+'<br />';
+    newd.innerHTML +='End: '+endti+'<br />';
     newd.innerHTML +='Location: '+location+'<br /><br />';
     newd.style.fontSize ='20px';
     newd.style.textAlign ='left';
@@ -114,6 +112,10 @@ function check(){
         throw new Error("Something went wrong!");
     }else if(endtime.value==''){
         alert('You should enter a ending time');
+        throw new Error("Something went wrong!");
+    }else if(endtime.value < startfrom.value){
+        alert('The end time must be greater than the start time');
+        endtime.value = startfrom.value;
         throw new Error("Something went wrong!");
     }
     
