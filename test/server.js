@@ -15,7 +15,7 @@ app.get("/",function(require,response){
 
 app.post("/",function(require,response){
     console.log(require.body.want)
-    response.send({message:"something"})
+    response.send({message:"something1"})
 })
 
 app.listen(4500,function(err){
