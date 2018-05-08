@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- saved from url=(0025)http://localhost:3000/hub -->
+<html>
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="event.css">
+</head>
+
+<body>
+    <header id="upper_menus">
+        <div>Hello,user</div>
+        <div id="options">
+        Options
+        <div class="dropdown-content">
+                <div id="add">Add Contact</div>
+                <div id="update">Edit Profile</div>
+                <div id="logout">Logout</div>
+                <div id="event">Event</div>
+            </div>
+        </div>
+    </header>
+ 
+<div id="left_selection">
+    <div id = "username">name</div>
+    <input id="evname" type="text" placeholder="Enter your event name">
+    <input id="startfrom" type="date">
+    <input id="hourf" type="time"> 
+    <div id="text">
+        TO
+    </div>
+    <input id="endtime" type="date">
+    <input id="endh" type="time">
+    <div id="floating-panel">
+        <input id="address" type="textbox" value="Vancouver,CA">
+        <input id="sendadd" type="button" value="Show the location on the map">
+    </div>
+    
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: {lat: 49.246292, lng: -123.116226}
+            });
+            var geocoder = new google.maps.Geocoder();
+            document.getElementById('sendadd').addEventListener('click', function() {
+                geocodeAddress(geocoder, map);
+            });
+        }
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = document.getElementById('address').value;
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+            });
+        }
+    </script>
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFRnN-cwt0ZNwN6slQX_zy7xt8UWbpXKE&callback=initMap">
+    </script>
+    <div id="submit">
+        <button>Submit</button>
+    </div>-->
+</div>
+
+<div class="right_window" id="profile">
+    <div id ="eventsinfo">
+        <div id="eventname">Your Event Info</div>
+        <div id="info"></div>
+    </div>
+    
+<!-- Triple squiggy for displaying the stuff-->
+</div>
+    <script src="event.js"></script>
+</body>
+</html>
