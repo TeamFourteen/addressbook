@@ -117,9 +117,9 @@ submit.addEventListener("click",function(){
         headers:{
             "Content-Type":"application/json"
         },
-        body:JSON.stringify({
+        body:JSON.stringify(
             objects
-        })
+        )
     }).then((response)=>{
         return response.json();
     }).then((json)=>{
