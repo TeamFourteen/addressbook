@@ -1,85 +1,69 @@
 #display {
     position:absolute;
-    width:87%;
+    width:100%;
     height:90%;
     right:0px;
     bottom:0px;
     background-color:aliceblue;
 }
 
-#sideBar {
+#profileDiv {
     position:absolute;
-    width:11%;
-    height:90%;
-    left:0px;
-    bottom:0px;
-    background-color:azure;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:15%;
+    background-color:white;
 }
 
-#navBar {
+#contactDiv {
+    position:absolute;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:40%;
+    background-color:white;
+}
+
+#addressDiv {
+    position:absolute;
+    height:50px;
+    width:250px;
+    top:20%;
+    left:65%;
+    background-color:white;
+    font-size:50px;
+    transition:1s;
+}
+
+#profileName {
     position:absolute;
     width:100%;
-    height:9%;
-    top:0px;
-    left:0px;
-    background-color:beige;
+    height:auto;
+    font-size:50px;
 }
 
-#profilePic {
+#bioDiv {
     position:absolute;
-    width:250px;
-    height:250px;
-    left:75px;
-    top:50px;
-    background-color:white;
+    top:45%;
 }
 
-#nameDiv {
+#contactInfo {
     position:absolute;
-    height:40px;
-    width:200px;
-    left:75px;
+    font-size:50px;
+}
+
+#cellPhone {
+    position:absolute;
+    top:45%;
+}
+
+#workPhone {
+    position:absolute;
+    top:55%;
+}
+
+#homePhone {
+    position:absolute;
     top:65%;
-    background-color:white;
 }
-
-#locationDiv {
-    position:absolute;
-    height:250px;
-    width:300px;
-    right:7%;
-    top:50px;
-    background-color:white;
-}
-
-#picInput {
-    position:absolute;
-    left:75px;
-    top:58%;
-}
-
-#submitButton {
-    position:absolute;
-    left:250px;
-    top:57.9%;
-}
-
-#phoneDiv {
-    position:absolute;
-    height:40px;
-    width:200px;
-    left:35%;
-    top:65%;
-    background-color:white;
-}
-
-#emailDiv {
-    position:absolute;
-    height:40px;
-    width:200px;
-    left:35%;
-    
-}
-
-
-
