@@ -2,13 +2,13 @@
 <!-- saved from url=(0025)http://localhost:3000/hub -->
 <html>
 <head>
-    <title>Welcome glenn</title>
+    <title>Welcome {{name}}</title>
     <link rel="stylesheet" type="text/css" href="event.css">
 </head>
 
 <body>
     <header id="upper_menus">
-        <div>Top bar</div>
+        <div>Hello,user {{name}}</div>
         <div id="options">
         Options
         <div class="dropdown-content">
@@ -21,7 +21,7 @@
     </header>
  
 <div id="left_selection">
-    <div id = "username">Username</div>
+    <div id = "username">{{name}}</div>
     <input id="evname" type="text" placeholder="Enter your event name">
     <input id="startfrom" type="date">
     <input id="hourf" type="time"> 

@@ -26,6 +26,7 @@ const app = express();
 })*/
 
 app.use(express.static(__dirname + "/src"))
+app.use(express.static(__dirname+"/event"))
 
 app.use((request, response, next) => {
     profile = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/profile.hbs", 'utf8'))
@@ -85,6 +86,12 @@ app.post("/login", (request, response) => {
 //---------------------------------------------------------------------------------------------------------------
 /* From this line, look at the additions for the hub and the logout button*/
 //FRONT END CALL CENTRE HUB
+
+app.get("/event",function(request,response){
+    response.render("event.hbs",{name:'name'})
+})
+
+
 app.get("/hub", (request, response, next) => {
 
     // sessionInfos = request.session.user_id
