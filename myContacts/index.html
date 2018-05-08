@@ -15,8 +15,9 @@
             <div id="card">Contact Profile
                 <div id="info">Personal Info
                     <hr>
-                    <div id="name">Name:</div>
-                    <div id="age">Age:</div>
+                    <div id="confname">First Name:</div>
+                    <div id="conlname">Last Name:</div>
+                    <div id="conbio">Contact Bio:</div>
                     <div id="email">Email:</div>
 <!--
                     <div id="phone1">Home Phone:</div>
@@ -55,7 +56,7 @@
                     <input id="lnameinputbox" type="text" placeholder="Enter last name">
                 </div>
                 <div id="bioinput">Contact's Bio
-                    <input id="bioinputbox" type="text" placeholder="Enter Bio">
+                    <textarea id="bioinputbox" type="text" placeholder="Enter Bio" cols="40" rows="5"></textarea>
                 </div>
                 <div id="emailinput">Contact's Email
                     <input id="emailinputbox" type="text" placeholder="Enter Email">
@@ -71,8 +72,12 @@
                 <button id="confirmadd">Done</button>
             </div>
             <div id="editaddresspage">
-                <input id="newphonebox" type="text" placeholder="Enter a new phone">
+                <textarea id="newaddressbox" type="text" placeholder="Enter a new address" rows="2"></textarea>
                 <button id="okaddress">Done</button>
+            </div>
+            <div id="editphonepage">
+                <input id="newphonebox" type="text" placeholder="Enter a new phone number">
+                <button id="okphone">Done</button>
             </div>
             <button id="editcontact">Edit</button>
         </div>

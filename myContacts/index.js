@@ -1,4 +1,7 @@
 var count = 1;
+var infoobj = {};
+var infoaddress = {};
+var infophone = {};
 
 document.getElementById("hide").addEventListener("click",function(){
     if(leftbar.style.left == "0px"){
@@ -94,8 +97,51 @@ document.getElementById("addcontacts").addEventListener("click",function(){
 
 document.getElementById("confirmadd").addEventListener("click",function(){
     addone.style.display = "none";
+    infoobj.fname = fnameinputbox.value;
+    infoobj.lname = lnameinputbox.value;
+    infoobj.bio = bioinputbox.value;
+    infoobj.email = emailinputbox.value;
+    console.log(infoobj);
+    fnameinputbox.value = "";
+    lnameinputbox.value = "";
+    bioinputbox.value = "";
+    emailinputbox.value = "";
+    fetch("/item",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+        want:"ice cream"
+    })
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
 })
 
 document.getElementById("editaddress").addEventListener("click",function(){
-    
+    editaddresspage.style.display = "block";
 })
+
+document.getElementById("okaddress").addEventListener("click",function(){
+    infoaddress.newaddress = newaddressbox.value;
+    newaddressbox.value = "";
+    infoobj.address = infoaddress;
+    editaddresspage.style.display = "none";
+    console.log(infoobj);
+})
+
+document.getElementById("editphone").addEventListener("click",function(){
+    editphonepage.style.display = "block";
+})
+
+document.getElementById("okphone").addEventListener("click",function(){
+    infophone.newphone = newphonebox.value;
+    newphonebox.value = "";
+    infoobj.phone = infophone;
+    editphonepage.style.display = "none";
+    console.log(infoobj);
+})
+
