@@ -90,12 +90,17 @@
     overflow: auto;
 }
 
-#name{
+#confname{
     font-size: 20px;
     padding: 5px;
 }
 
-#age{
+#conlname{
+    font-size: 20px;
+    padding: 5px;
+}
+
+#conbio{
     font-size: 20px;
     padding: 5px;
 }
@@ -200,7 +205,6 @@
 
 #bioinputbox{
     width: 70%;
-    line-height: 8em;
 }
 
 #addressinputbox{
@@ -241,7 +245,47 @@
     top: 0px;
     bottom: 0px;
     margin: auto;
-    height: 20vh;
+    height: 10vh;
     width: 30vw;
-    background-color: 
+    background-color: palegreen;
+    display: none;
+}
+
+#newaddressbox{
+    position: absolute;
+    left: 3%;
+    top: 1vw;
+    width: 70%;
+}
+
+#okaddress{
+    position: absolute;
+    right: 10%;
+    top: 2vw;
+}
+
+#editphonepage{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    height: 10vh;
+    width: 30vw;
+    background-color: palegreen;
+    display: none;
+}
+
+#newphonebox{
+    position: absolute;
+    left: 3%;
+    top: 2vw;
+    width: 70%;
+}
+
+#okphone{
+    position: absolute;
+    right: 10%;
+    top: 2vw;
 }
