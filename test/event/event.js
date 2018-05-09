@@ -111,6 +111,20 @@ submit.addEventListener("click",function(){
     console.log(objectarr);
     
     createinfo(objectarr);
+    
+    fetch('/',{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(
+            objects
+        )
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
 });
 
 

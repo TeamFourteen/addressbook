@@ -133,6 +133,7 @@ const pgpool = new Pool({
 * @memberof module:app/use
 */
 app.use(express.static(__dirname + "/src"))
+app.use(express.static(__dirname+"/event"))
 
 /**
 * This will read all the HBS Files and store them to a variable (so any view files that had been created for the hub can be stored here for later use for this program).
@@ -200,6 +201,12 @@ app.post("/login", (request, response) => {
 //---------------------------------------------------------------------------------------------------------------
 /* From this line, look at the additions for the hub and the logout button*/
 //FRONT END CALL CENTRE HUB
+
+app.get("/event",function(request,response){
+    response.render("event.hbs",{name:'name'})
+})
+
+
 app.get("/hub", (request, response, next) => {
     sessionInfos = request.session.user_id
     pgpool.query('select cont_id, username, fname, lname, p_numbers, locate, firstname, lastname, address, phone from (select * from users where user_id = $1) n1 left join (select * from contacts) n2 on (n1.user_id =n2.user_id)', [sessionInfos], (err, res) => {
