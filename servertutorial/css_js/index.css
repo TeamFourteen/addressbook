@@ -1,0 +1,73 @@
+#display {
+    position:absolute;
+    width:100%;
+    height:90%;
+    right:0px;
+    bottom:0px;
+    background-color:aliceblue;
+}
+
+#profileDiv {
+    position:absolute;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:15%;
+    background-color:white;
+}
+
+#contactDiv {
+    position:absolute;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:40%;
+    background-color:white;
+}
+
+#addressDiv {
+    position:absolute;
+    height:50px;
+    width:250px;
+    top:20%;
+    left:65%;
+    background-color:white;
+    font-size:50px;
+    transition:1s;
+}
+
+#profileName {
+    position:absolute;
+    width:100%;
+    height:auto;
+    font-size:50px;
+}
+
+.columnName {
+    font-size:50px;
+}
+
+#bioDiv {
+    position:absolute;
+    top:45%;
+}
+
+#contactInfo {
+    position:absolute;
+    font-size:50px;
+}
+
+#cellPhone {
+    position:absolute;
+    top:45%;
+}
+
+#workPhone {
+    position:absolute;
+    top:55%;
+}
+
+#homePhone {
+    position:absolute;
+    top:65%;
+}
