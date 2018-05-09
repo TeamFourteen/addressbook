@@ -1,0 +1,13 @@
+<!DOCTYPE>
+<html>
+    <body>
+		{{stuff}} /* If you're just doing one thing */
+		{{#each phonenumber}} /* If you are getting an array or an array of objects*/
+			<div id="{{this.phone}}" class ="phones">{{this.phone}}  {{this.name}}</div> /*this.something refers to a key in that object*/
+		{{/each}}
+        <div id="wtf">WTF
+            <button id="button">Controls WTF</button>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>

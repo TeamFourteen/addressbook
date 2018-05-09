@@ -106,19 +106,19 @@ document.getElementById("confirmadd").addEventListener("click",function(){
     lnameinputbox.value = "";
     bioinputbox.value = "";
     emailinputbox.value = "";
-//    fetch("/item",{
-//        method:"POST",
-//        headers:{
-//            "Content-Type":"application/json"
-//        },
-//        body:JSON.stringify({
-//        want:"ice cream"
-//    })
-//    }).then((response)=>{
-//        return response.json();
-//    }).then((json)=>{
-//        console.log(json.message)
-//    })
+    fetch("/item",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+        want:"ice cream"
+    })
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
 })
 
 document.getElementById("editaddress").addEventListener("click",function(){
@@ -138,29 +138,10 @@ document.getElementById("editphone").addEventListener("click",function(){
 })
 
 document.getElementById("okphone").addEventListener("click",function(){
-    var numbers = document.getElementById("newphonebox").value;
-    if(numbers.length >= 10 & numbers.length <= 14 & numbers === parseInt(numbers, 10)){
-        infophone.newphone = newphonebox.value;
-        newphonebox.value = "";
-        infoobj.phone = infophone;
-        editphonepage.style.display = "none";
-        warningpic.style.display = "none";
-        warning.style.display = "none";
-        console.log(infoobj);
-    }else{
-        warningpic.style.display = "block";
-        warning.style.display = "block";
-        newphonebox.value = "";
-    }
-    
-});
+    infophone.newphone = newphonebox.value;
+    newphonebox.value = "";
+    infoobj.phone = infophone;
+    editphonepage.style.display = "none";
+    console.log(infoobj);
+})
 
-document.getElementById("viewonmap").addEventListener("click",function(){
-    if(previewmap.style.display == "none"){
-        previewmap.style.display = "block";
-        previewmap.src = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q='+newaddressbox.value;
-    }else{
-        previewmap.style.display = "none";
-    }
-    
-});

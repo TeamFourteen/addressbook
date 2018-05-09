@@ -261,7 +261,7 @@
 #okaddress{
     position: absolute;
     right: 10%;
-    top: 1vw;
+    top: 2vw;
 }
 
 #editphonepage{
@@ -280,48 +280,12 @@
 #newphonebox{
     position: absolute;
     left: 3%;
-    top: 1vw;
+    top: 2vw;
     width: 70%;
 }
 
 #okphone{
     position: absolute;
     right: 10%;
-    top: 1vw;
-}
-
-#warningpic{
-    position: absolute;
-    height: 30px;
-    width: 30px;
-    left: 5%;
-    bottom: 3%;
-    background-image: url(warning.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    display: none;
-}
-
-#warning{
-    position: absolute;
-    height: 30px;
-    width: 90%;
-    right: -8%;
-    bottom: -5%;
-    font-size: 15px;
-    display: none;
-}
-
-#viewonmap{
-    position: absolute;
-    top: 6vh;
-    right: 4%;
-}
-
-#previewmap{
-    position: absolute;
-    display: none;
-    left: 0px;
-    bottom: -250px;
+    top: 2vw;
 }
