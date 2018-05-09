@@ -43,6 +43,10 @@
     font-size:50px;
 }
 
+.columnName {
+    font-size:50px;
+}
+
 #bioDiv {
     position:absolute;
     top:45%;

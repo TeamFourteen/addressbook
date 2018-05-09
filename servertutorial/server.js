@@ -10,7 +10,7 @@ app.set("view engine", "hbs")
 app.get('/', function(require,response){
     
 	response.render("index.hbs", {
-        stuff:"a message",
+        profileName:"Profile Name",
         phoneNumber: [{phone:"1234567890", name:"John Doe"},{phone:"6045324567", name:"Jane Doe"},{phone:"4145679087", name:"November Falls"}]
     })
     
