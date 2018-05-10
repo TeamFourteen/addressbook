@@ -13,7 +13,7 @@ app.get('/', function(require,response){
 
         profileName:[{fname:"Jhon", lname:"Doe"}],
         bio:"This is a sample Bio",
-        phoneNumber: [{type:"Cell Phone:", phone:"123-123-1234"}, {type:"Work Phone:", phone:"123-123-1234"}, {type:"Home Phone:", phone:"123-123-1234"}]
+        phoneNumber: [{phone_id:"phone_1", type:"Cell Phone:", phone:"123-123-1234"}, {phone_id:"phone_2", type:"Work Phone:", phone:"123-123-1234"}, {phone_id:"phone_3", type:"Home Phone:", phone:"123-123-1234"}]
     })
     
 }) //This is called a router which helps you get to your page
