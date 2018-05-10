@@ -57,17 +57,13 @@
     font-size:50px;
 }
 
-#cellPhone {
+.phones {
+    position:relative;
+    top:45%;
+}
+
+.bio {
     position:absolute;
     top:45%;
 }
 
-#workPhone {
-    position:absolute;
-    top:55%;
-}
-
-#homePhone {
-    position:absolute;
-    top:65%;
-}

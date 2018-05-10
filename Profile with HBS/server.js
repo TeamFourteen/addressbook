@@ -11,8 +11,9 @@ app.get('/', function(require,response){
     
 	response.render("index.hbs", {
 
-        profileName:"Profile Name",
-        phoneNumber: [{phone:"1234567890", name:"John Doe"},{phone:"6045324567", name:"Jane Doe"},{phone:"4145679087", name:"November Falls"}]
+        profileName:[{fname:"Jhon", lname:"Doe"}],
+        bio:"This is a sample Bio",
+        phoneNumber: [{type:"Cell Phone:", phone:"123-123-1234"}, {type:"Work Phone:", phone:"123-123-1234"}, {type:"Home Phone:", phone:"123-123-1234"}]
     })
     
 }) //This is called a router which helps you get to your page
@@ -43,5 +44,5 @@ app.listen(4500, function(err){
 	console.log("listening on port 4500")
 })
 
-
+// response.sendFile(__dirname + "/example.html")
 
