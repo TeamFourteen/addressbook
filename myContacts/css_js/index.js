@@ -34,11 +34,7 @@ document.getElementById("hide").addEventListener("click",function(){
 });
 
 document.getElementById("addcontacts").addEventListener("click",function(){
-    var newcontact = document.createElement("div");
-    leftbar.appendChild(newcontact);
-    newcontact.className = "contacts";
-    count = count + 1;
-    newcontact.innerHTML = "Contact"+String(count);
+    
 });
 
 //document.getElementById("addr1").addEventListener("click",function(){
@@ -97,11 +93,25 @@ document.getElementById("addcontacts").addEventListener("click",function(){
 
 document.getElementById("confirmadd").addEventListener("click",function(){
     addone.style.display = "none";
-    infoobj.fname = fnameinputbox.value;
-    infoobj.lname = lnameinputbox.value;
-    infoobj.bio = bioinputbox.value;
-    infoobj.email = emailinputbox.value;
-    console.log(infoobj);
+//    infoobj.fname = fnameinputbox.value;
+//    infoobj.lname = lnameinputbox.value;
+//    infoobj.bio = bioinputbox.value;
+//    infoobj.email = emailinputbox.value;
+//    console.log(infoobj);
+//    
+    
+    obj = {fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value, email: emailinputbox.value};
+    fetch("/addcontacts",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(obj)
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
     fnameinputbox.value = "";
     lnameinputbox.value = "";
     bioinputbox.value = "";
@@ -126,11 +136,20 @@ document.getElementById("editaddress").addEventListener("click",function(){
 })
 
 document.getElementById("okaddress").addEventListener("click",function(){
-    infoaddress.newaddress = newaddressbox.value;
+    obj = {address: newaddressbox.value};
+    fetch("/addaddress",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(obj)
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
     newaddressbox.value = "";
-    infoobj.address = infoaddress;
     editaddresspage.style.display = "none";
-    console.log(infoobj);
 })
 
 document.getElementById("editphone").addEventListener("click",function(){
@@ -139,14 +158,24 @@ document.getElementById("editphone").addEventListener("click",function(){
 
 document.getElementById("okphone").addEventListener("click",function(){
     var numbers = document.getElementById("newphonebox").value;
-    if(numbers.length >= 10 & numbers.length <= 14 & numbers === parseInt(numbers, 10)){
-        infophone.newphone = newphonebox.value;
+    if(numbers.length >= 10 & numbers.length <= 14 & numbers == parseInt(numbers, 10)){
+        
+        obj = {type: typeselect.value, phone:newphonebox.value};
+        fetch("/addphone",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(obj)
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
         newphonebox.value = "";
-        infoobj.phone = infophone;
         editphonepage.style.display = "none";
         warningpic.style.display = "none";
         warning.style.display = "none";
-        console.log(infoobj);
     }else{
         warningpic.style.display = "block";
         warning.style.display = "block";
@@ -154,6 +183,7 @@ document.getElementById("okphone").addEventListener("click",function(){
     }
     
 });
+
 
 document.getElementById("viewonmap").addEventListener("click",function(){
     if(previewmap.style.display == "none"){
@@ -164,3 +194,19 @@ document.getElementById("viewonmap").addEventListener("click",function(){
     }
     
 });
+
+contacts = document.getElementsByClassName("contacts")
+cards = document.getElementsByClassName("cards")
+
+for(i = 0; i < contacts.length; i++){
+    item_id = contacts[i].id;
+    document.getElementById(item_id).addEventListener("click",function(){
+        for(i=0; i< cards.length; i++){
+            cards[i].style.display = "none";
+        }
+        card = document.getElementById(this.id+"_card")
+        if(card.style.display == "none"){
+            card.style.display = "block";
+        }
+    })
+}
