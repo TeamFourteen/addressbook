@@ -1,7 +1,7 @@
-var count = 1;
-var infoobj = {};
-var infoaddress = {};
-var infophone = {};
+//var userid = 1;
+//var infoobj = {};
+//var infoaddress = {};
+//var infophone = {};
 
 document.getElementById("hide").addEventListener("click",function(){
     if(leftbar.style.left == "0px"){
@@ -98,9 +98,9 @@ document.getElementById("confirmadd").addEventListener("click",function(){
 //    infoobj.bio = bioinputbox.value;
 //    infoobj.email = emailinputbox.value;
 //    console.log(infoobj);
-//    
+//    userid = userid + 1;
     
-    obj = {fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value, email: emailinputbox.value};
+    obj = {userid: userid, fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value, email: emailinputbox.value};
     fetch("/addcontacts",{
         method:"POST",
         headers:{
