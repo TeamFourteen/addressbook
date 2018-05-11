@@ -18,20 +18,29 @@ var crNum1 = document.getElementById("chatRoom1"),
 	
 
 crNum1.addEventListener("click",function(){
-	socket.emit("choiceChat",{room:this.id, user:userid})
+	
+	socket.emit("choiceChat",{room:this.id, user:userid});
 	cDetails.style.display = "block";
 });
 crNum2.addEventListener("click",function(){
-	socket.emit("choiceChat",this.id)
+	socket.emit("choiceChat",{room:this.id, user:userid});
 	cDetails.style.display = "block";
 });
 crNum3.addEventListener("click",function(){
-	socket.emit("choiceChat",this.id)
+	socket.emit("choiceChat",{room:this.id, user:userid});
 	cDetails.style.display = "block";
 });
 sdB.addEventListener("click",function(){
-	socket.emit('sendMessage', {room:currentRoom ,message:sdInp.value, user: userid});
+	socket.emit('sendMessage', {room:currentRoom, message:sdInp.value, user: userid});
+	sdInp.value = "";
 });
+sdInp.addEventListener("keyup",function(ev){
+	if(ev.keyCode=="13"){
+		socket.emit('sendMessage', {room:currentRoom, message:sdInp.value, user: userid});
+		sdInp.value="";
+	}
+});
+
 nChtRoom.addEventListener("click",function(){
 	addChtRmPupPg.style.display = "block";
 });
@@ -41,17 +50,20 @@ createBtn.addEventListener("click",function(){
 });
 
 socket.on('chat', function(data){
-	var mess = document.createElement("div")
-	var user = document.createElement("div")
-	var message = document.createElement("div")
-	user.innerHTML = data.user;
-	message.innerHTML = data.message;
+	var mess = document.createElement("div");
+	var user = document.createElement("div");
+	var message = document.createElement("div");
+	user.innerHTML = data.user+": "+data.message;
+	//message.innerHTML = data.message;
+	
+	user.className = "users"
+	
 	mess.appendChild(user)
 	mess.appendChild(message)
 	cDetails.appendChild(mess)
 	
 	
-	cDetails.appendChild(message)
+	//cDetails.appendChild(message)
 })
 socket.on('currentRoom', function(data){
 	currentRoom = data;

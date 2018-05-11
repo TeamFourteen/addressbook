@@ -91,6 +91,7 @@
 	position:relative;
 	border:2px solid blue;
 	background-color:yellow;
+	overflow:auto;
 }
 #chatDetails {
 	width:100%;
@@ -98,15 +99,13 @@
 	height:88%;
 	position:relative;
 	background-color:pink;
+	text-align:left;
+	font-size:20px;
 }
 .users {
-	width:25%;
-	height:50%;
 	position:relative;
 	display:inline-block;
-	background-color: red;
-	border-radius: 25%;
-	border:10px solid yellow;
+	background-color: #82db82;
 	font-size:20px;
 	color:black;
 }
