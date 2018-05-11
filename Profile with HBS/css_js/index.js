@@ -7,10 +7,11 @@ addressDiv.addEventListener("click", function(){
 });
 
 
-for(i=0; i < phones.length; i++){
+/*for(i=0; i < phones.length; i++){
   phone = phones[i].id
     document.getElementById(phone).addEventListener("click", function(){
        document.getElementById(this.id).style.fontSize = "25px";
         document.getElementById(this.id).style.color = "chartreuse";
     });
-};
+}; */
+

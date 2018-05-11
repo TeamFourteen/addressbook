@@ -9,15 +9,23 @@
         <div id="display">
            
             <div id="profileDiv">
-                <div id="{{profileName}}" class="columnName">{{profileName}}</div>
-                <div id="bioDiv">Bio</div>
+                {{#each profileName}}
+                    <div id="{{profileName}}" class="columnName">{{this.fname}} 
+                        <br />
+                        {{this.lname}}</div>
+                {{/each}}
+                
+                
+                <div id="{{bio}}" class="bio">{{bio}}</div>
             </div>
             
             <div id="contactDiv">
                 <div id="contactInfo">Contact Information</div>
-                <div id="cellPhone">Cell Phone: (123)-123-4567</div>
-                <div id="workPhone">Work Phone: (123)-123-4567</div>
-                <div id="homePhone">Home Phone: (123)-123-4567</div>
+                {{#each phoneNumber}}
+                    <div id="{{this.phone_id}}" class="phones">{{this.type}} {{this.phone}}</div>
+                    <br />
+                {{/each}}
+                
             </div>
             
             <div id="addressDiv">
