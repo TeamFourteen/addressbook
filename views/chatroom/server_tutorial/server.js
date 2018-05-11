@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 		socket.emit('currentRoom', data.room)
 		users.push(data.user)
 		io.in(data.room).emit('joinRoom', users)
-		io.in(data.room).emit('chat', {user:'server', message:'someone has joined this room'}) //anything.emit <-- say something
+		io.in(data.room).emit('chat', {user:'Server', message:data.user+' has joined this room !'}) //anything.emit <-- say something
 	})
 	socket.on("sendMessage", function(data){
 		io.in(data.room).emit('chat', {user:data.user, message:data.message})
@@ -68,6 +68,7 @@ io.on('connection', function(socket){
 })
 
 //-------------------------------------------------------------------
+//below setup my own server
 http.listen(4500, function(err){
 	if(err){
 		console.log(err)
@@ -75,6 +76,6 @@ http.listen(4500, function(err){
 	console.log("listening on port 4500")
 })
 
-
+//response.sendFile(__dirname + "/example.html")
 
 
