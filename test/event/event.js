@@ -65,10 +65,10 @@ for (i = 0; i < buttonSelection.length; i++) {
 
 var evname =document.getElementById('evname'),
     submit = document.getElementById('submit'),
-    startfrom = document.getElementById('startfrom'),
-    starttime=document.getElementById('hourf'),
+    startdate = document.getElementById('startdate'),
+    starttime=document.getElementById('starttime'),
+    enddate = document.getElementById('enddate'),
     endtime = document.getElementById('endtime'),
-    endh = document.getElementById('endh'),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
     objectarr =[];
@@ -81,82 +81,79 @@ function createinfo(ev){
     
     for(i=0;i<ev.length;i++){
         evename = ev[i].event;
-        fromtime = ev[i].from;
-        starthour = ev[i].fromh;
-        endti = ev[i].endt;
-        endho = ev[i].endh;
+        fromtime = ev[i].fromdate;
+        starthour = ev[i].fromtime;
+        endti = ev[i].enddate;
+        endho = ev[i].endtime;
         location = ev[i].address;
     }
     
-    newd.innerHTML ='Event Name: '+evename+'<br />';
-    newd.innerHTML +='From: '+fromtime+'  '+starthour+'<br />';
-    newd.innerHTML +='End: '+endti+'  '+endho+'<br />';
-    newd.innerHTML +='Location: '+location+'<br /><br />';
-    newd.style.fontSize ='20px';
-    newd.style.textAlign ='left';
-    info.appendChild(newd);
+    //newd.innerHTML ='Event Name: '+evename+'<br />';
+    //newd.innerHTML +='From: '+fromtime+'  '+starthour+'<br />';
+    //newd.innerHTML +='End: '+endti+'  '+endho+'<br />';
+    //newd.innerHTML +='Location: '+location+'<br /><br />';
+    //newd.style.fontSize ='20px';
+    //newd.style.textAlign ='left';
+    //info.appendChild(newd);
 }
 
 submit.addEventListener("click",function(){
-    console.log(endtime.value);
     check();
-    var objects ={event:(evname.value),
-                from:(startfrom.value),
-                fromh:(starttime.value),
-                endt:(endtime.value),
-                endh:(endh.value),
+    var objects ={eventname:(evname.value),
+                fromdate:(startdate.value),
+                fromtime:(starttime.value),
+                enddate:(enddate.value),
+                endtime:(endtime.value),
                 address:(address.value)};
     
     objectarr.push(objects);
+    createinfo(objectarr);
     console.log(objectarr);
     
-    createinfo(objectarr);
-    
-    fetch('/',{
+    fetch('/event',{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
         },
         body:JSON.stringify(
-            objects
+           objects
         )
     }).then((response)=>{
         return response.json();
     }).then((json)=>{
         console.log(json.message)
-    })
+    });
 });
-
 
 function check(){
     if (evname.value == ''){
         alert('You should enter a event name');
         throw new Error("Something went wrong!");
-    }else if(startfrom.value==''){
+    }else if(starttime.value==''){
         alert('You should enter the start time');
         throw new Error("Something went wrong!");
     }else if(endtime.value==''){
         alert('You should enter a ending time');
         throw new Error("Something went wrong!");
-    }else if(starttime.value==''){
+    }else if(startdate.value==''){
         alert('You should enter the details of start time');
         throw new Error("Something went wrong!");
-    }else if(endh.value==''){
+    }else if(enddate.value==''){
         alert('You should enter the details of ending time');
         throw new Error("Something went wrong!");
-    }else if(endtime.value < startfrom.value){
+    }else if(enddate.value < startdate.value){
         alert('The end time must be greater than the start time');
-        endtime.value = startfrom.value;
+        enddate.value = startdate.value;
         throw new Error("Something went wrong!");
-    }else if(endtime.value == startfrom.value){
-        if(starttime.value > endh.value){
+    }else if(enddate.value == startdate.value){
+        if(starttime.value > endtime.value){
             alert('The end time must be greater than the start time when they are on the same date');
-            endh.value = starttime.value;
+            endtime.value = starttime.value;
             throw new Error("Something went wrong!");
         }
     }
-    
-}
+};
+
 
 
 

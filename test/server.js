@@ -10,13 +10,18 @@ app.use(bodyParser.json())
 app.set('view engine','hbs')
 
 app.get("/",function(require,response){
-    response.render("event.hbs",{name:"Name"})
+    response.render("event.hbs",{
+        name:'username',
+        number:[{eventname:'Stuff',fromtime:'2018-05-01 01:01',endtime:'2018-05-22  01:02',location:'Vancouver,CA'},{eventname:'StuffA',fromtime:'2018-05-02 01:01',endtime:'2018-05-21  01:02',location:'Burnaby,CA'}    
+        ]
+    })
 })
 
-app.post("/",function(require,response){
-    console.log(require.body.want)
-    response.send({message:"something1"})
+app.post("/event",function(require,response){
+    console.log(require.body)
+    response.send({message:'added'})
 })
+
 
 app.listen(4500,function(err){
     if(err){
