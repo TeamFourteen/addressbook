@@ -9,16 +9,20 @@
         <div id="display">
            
             <div id="profileDiv">
-                <button id="bioAdd">Add</button>
+                <button id="bioAdd">Edit</button>
                 {{#each profileName}}
-                    <div id="{{profileName}}" class="columnName">{{this.fname}} 
+                    <div id="{{this.name_id}}" class="columnName">{{this.fname}} 
                         <br />
-                        {{this.lname}}</div>
+                        {{this.lname}}
+                    </div>
                 {{/each}}
                 
                 
                 
+                
                 <div id="{{bio}}" class="bio">{{bio}}</div>
+                
+                <div id="{{email}}" class="email">{{email}}</div>
             </div>
             
             <div id="contactDiv">
@@ -59,16 +63,19 @@
                 <option value="home">Home</option>
             </select>
             <button id="addPhone">add</button>
+            <button id="phoneDone">Done</button>
         </div>
         
         <div id="addressInputs">
             <input id="addressInput" type="text" placeholder="enter address" />
             <button id="addAddress">Add</button>
+            <button id="addressDone">Done</button>
         </div>
         
         <div id="bioInputs">
             <input id="bioInput" type="text" placeholder="enter bio" />
             <button id="addBio">Add</button>
+            <button id="bioDone">Done</button>
         </div>
         <div id="navBar"></div>
         

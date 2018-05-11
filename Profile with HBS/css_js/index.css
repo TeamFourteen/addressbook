@@ -178,10 +178,28 @@
     top:5%;
 }
 
+#bioDone {
+    position:absolute;
+    left:40%;
+    top:45%;
+}
 
+#phoneDone {
+    position:absolute;
+    left:40%;
+    top:55%;
+}
 
+#addressDone {
+    position:absolute;
+    left:40%;
+    top:45%;
+}
 
-
-
+.email {
+    position:absolute;
+    bottom:2%;
+    left:10%;
+}
 
 

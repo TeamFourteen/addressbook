@@ -11,8 +11,9 @@ app.get('/', function(require,response){
     
 	response.render("index.hbs", {
 
-        profileName:[{fname:"Jhon", lname:"Doe"}],
+        profileName:[{fname:"Jhon", lname:"Doe", name_id:"name_1"}],
         bio:"This is a sample Bio",
+        email:"someone@gmail.com",
         phoneNumber: [{phone_id:"phone_1", type:"Cell Phone:", phone:"123-123-1234"}, {phone_id:"phone_2", type:"Work Phone:", phone:"123-123-1234"}, {phone_id:"phone_3", type:"Home Phone:", phone:"123-123-1234"}],
         addresses:[{address_id:"address_1", addressName:"555 Seymour Street", addressMap:"map1"}, {address_id:"address_2", addressName:"3328 Kingsway Avenue", addressMap:"map2"}]
         

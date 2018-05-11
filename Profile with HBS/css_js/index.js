@@ -13,8 +13,21 @@ var bioAdd = document.getElementById("bioAdd");
 var bioInputs = document.getElementById("bioInputs");
 var addBio = document.getElementById("addBio");
 var bioInput = document.getElementById("bioInput");
+var phoneDone = document.getElementById("phoneDone");
+var addressDone = document.getElementById("addressDone");
+var bioDone = document.getElementById("bioDone");
 
+bioDone.addEventListener("click", function(){
+   bioInputs.style.display = "none"; 
+});
 
+phoneDone.addEventListener("click", function(){
+   contactInputs.style.display = "none"; 
+});
+
+addressDone.addEventListener("click", function(){
+   addressInputs.style.display = "none"; 
+});
 
 for(i=0; i < addressClass.length; i++){
   address = addressClass[i].id
@@ -26,6 +39,8 @@ for(i=0; i < addressClass.length; i++){
         }
     });
 };
+
+
 
 bioAdd.addEventListener("click", function(){
    bioInputs.style.display = "block"; 
@@ -45,6 +60,8 @@ addBio.addEventListener("click", function(){
     }).then((json)=>{
         console.log(json.message)
     })
+    
+    bioInput.value = "";
 });
 
 contactAdd.addEventListener("click", function(){
@@ -65,6 +82,8 @@ addPhone.addEventListener("click", function(){
     }).then((json)=>{
         console.log(json.message)
     })
+    
+    phoneInput.value = "";
 });
 
 addressAdd.addEventListener("click", function(){
@@ -85,5 +104,7 @@ addAddress.addEventListener("click", function(){
     }).then((json)=>{
         console.log(json.message)
     })
+    
+    addressInput.value = "";
 });
 
