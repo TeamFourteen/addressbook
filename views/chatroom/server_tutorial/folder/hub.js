@@ -19,7 +19,9 @@ var crNum1 = document.getElementById("chatRoom1"),
 
 crNum1.addEventListener("click",function(){
 	
+
 	socket.emit("choiceChat",{room:this.id, user:userid});
+	
 	cDetails.style.display = "block";
 });
 crNum2.addEventListener("click",function(){
@@ -53,10 +55,16 @@ socket.on('chat', function(data){
 	var mess = document.createElement("div");
 	var user = document.createElement("div");
 	var message = document.createElement("div");
-	user.innerHTML = data.user+": "+data.message;
-	//message.innerHTML = data.message;
 	
-	user.className = "users"
+	mess.className="messDiv";
+	user.className="userNameDiv";
+	message.className="textInfoDiv";
+
+	
+	user.innerHTML = data.user+":";
+	message.innerHTML = data.message;
+	
+	
 	
 	mess.appendChild(user)
 	mess.appendChild(message)
@@ -78,6 +86,7 @@ socket.on('joinRoom',function(data){
 		var user= document.createElement("div")
 	user.innerHTML = data[i]
 	uNList.appendChild(user)
+	user.className = "users"
 	}
 	
 });

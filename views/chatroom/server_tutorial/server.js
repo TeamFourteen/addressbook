@@ -7,7 +7,7 @@ const http = require("http").createServer(app);
 const io = require("socket.io").listen(http);
 
 
-var char_room= ["chatRoom1","chatRoom2","chatRoom3"],
+var char_room= [{chat_name: "chatRoom1", currentUser: []},{chat_name: "chatRoom2", currentUser: []},{chat_name: "chatRoom3", currentUser: []}]
 	user_count = 0;
 	
 
@@ -51,14 +51,26 @@ io.on('connection', function(socket){
 	console.log("user connected")
 	user_count +=1
 	socket.emit('userAcount', 'user'+user_count.toString())
+	
+	
 	socket.on("choiceChat", function(data){      //socket.on <--listen 
 		console.log(data)
 		socket.join(data.room)
 		socket.emit('currentRoom', data.room)
-		users.push(data.user)
-		io.in(data.room).emit('joinRoom', users)
-		io.in(data.room).emit('chat', {user:'Server', message:data.user+' has joined this room !'}) //anything.emit <-- say something
+		for(i=0;i < char_room.length; i++){
+			if(char_room[i].chat_name == data.room){
+				if(char_room[i].currentUser.indexOf(data.user) == -1){
+					char_room[i].currentUser.push(data.user)
+					io.in(data.room).emit('joinRoom', char_room[i].currentUser)
+					io.in(data.room).emit('chat', {user:'Server', message:data.user+' has joined this room !'})
+				}
+			}
+		}
+		
+		 //anything.emit <-- say something
 	})
+	
+	
 	socket.on("sendMessage", function(data){
 		io.in(data.room).emit('chat', {user:data.user, message:data.message})
 	})
