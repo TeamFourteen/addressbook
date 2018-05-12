@@ -106,21 +106,31 @@
 	position:relative;
 	display:inline-block;
 	background-color: #82db82;
+	border:3px solid pink;
 	font-size:20px;
 	color:black;
+	padding-left:5px;
 }
-.userImgText {
-	height:25%;
-	width:50%;
+.userNameDiv {
 	position:relative;
-	margin:20px;
-	border:2px solid blue;
-	background-color:#e4e8b9;
+	background-color:blue;
+	width: 10%;
 }
-#user1_Img_text {
-	right:0px;
-	bottom:10px;
-	position:absolute;	
+
+.textInfoDiv {
+	position:absolute;
+	left: 10%;
+	top: 0%;
+	background-color:red;
+	margin: auto;
+}
+
+.messDiv {
+	border:2px solid yellow;
+	position:relative;
+	background-color:green;
+	height:auto;
+	overflow:auto;
 }
 
 .user_jpg {
