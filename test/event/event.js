@@ -71,6 +71,7 @@ var evname =document.getElementById('evname'),
     endtime = document.getElementById('endtime'),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
+    invite = document.getElementById('invite'),
     objectarr =[];
 
 function createinfo(ev){
@@ -86,6 +87,7 @@ function createinfo(ev){
         endti = ev[i].enddate;
         endho = ev[i].endtime;
         location = ev[i].address;
+        invitemember = ev[i].invitemem;
     }
     
     //newd.innerHTML ='Event Name: '+evename+'<br />';
@@ -104,7 +106,8 @@ submit.addEventListener("click",function(){
                 fromtime:(starttime.value),
                 enddate:(enddate.value),
                 endtime:(endtime.value),
-                address:(address.value)};
+                address:(address.value),
+                invitemem:(invite.value)};
     
     objectarr.push(objects);
     createinfo(objectarr);

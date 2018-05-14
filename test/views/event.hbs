@@ -30,6 +30,7 @@
     </div>
     <input id="enddate" type="date">
     <input id="endtime" type="time">
+    <input id="invite" type="text" placeholder="Member(s) to invite">
     <div id="floating-panel">
         <input id="address" type="textbox" value="Vancouver,CA">
         <input id="sendadd" type="button" value="Show the location on the map">
@@ -81,6 +82,7 @@
                 <div>From: {{this.fromtime}}</div>
                 <div>End: {{this.endtime}}</div>
                 <div>Location: {{this.location}}</div>
+                <div>Member(s) to invite:{{this.member}}</div>
             </div>
         {{/each}}
         </div>
