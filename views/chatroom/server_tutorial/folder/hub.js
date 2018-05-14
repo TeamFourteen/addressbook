@@ -16,6 +16,7 @@ var crNum1 = document.getElementById("chatRoom1"),
 	currentRoom='',
 	uNList = document.getElementById("userNameList");
 	
+	
 
 crNum1.addEventListener("click",function(){
 	
@@ -64,11 +65,11 @@ socket.on('chat', function(data){
 	user.innerHTML = data.user+":";
 	message.innerHTML = data.message;
 	
+
 	
-	
-	mess.appendChild(user)
-	mess.appendChild(message)
-	cDetails.appendChild(mess)
+	mess.appendChild(user);
+	mess.appendChild(message);
+	cDetails.appendChild(mess);
 	
 	
 	//cDetails.appendChild(message)

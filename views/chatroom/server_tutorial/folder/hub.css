@@ -94,13 +94,15 @@
 	overflow:auto;
 }
 #chatDetails {
-	width:100%;
+	width:vw;
 	bottom:0px;
 	height:88%;
 	position:relative;
 	background-color:pink;
 	text-align:left;
 	font-size:20px;
+
+	overflow-y:auto;
 }
 .users {
 	position:relative;
@@ -112,23 +114,24 @@
 	padding-left:5px;
 }
 .userNameDiv {
-	position:relative;
+	position:absolute;
 	background-color:blue;
 	width: 10%;
+	height:auto;	
 }
-
 .textInfoDiv {
-	position:absolute;
+	position:relative;
+	width:90%;
 	left: 10%;
 	top: 0%;
+	height:auto;
 	background-color:red;
-	margin: auto;
 }
-
 .messDiv {
 	border:2px solid yellow;
 	position:relative;
 	background-color:green;
+	width:99%;
 	height:auto;
 	overflow:auto;
 }
