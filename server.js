@@ -170,7 +170,6 @@ app.post("/login", (request, response) => {
 //FRONT END CALL CENTRE HUB
 app.get("/hub", (request, response, next) => {
     sessionInfos = request.session.user_id
-    console.log(sessionInfos);
     dbfunct.getUserData(sessionInfos).then((result)=>{
         response.render('hub.hbs', {
         fname: result.fname,
@@ -210,6 +209,39 @@ app.get("/hub", (request, response, next) => {
 
 })
 
+//-----------------------------------------------------------------------
+app.post("/profile", (request, response)=>{
+    sessionInfos = request.session.user_id
+    /*dbfunct.getUserData(sessionInfos).then((result)=>{
+
+    })*/
+    response.send({script: '/profile.js', style: '/profile.css', layout: profile({
+        name_id: '1',
+        fname: 'FNAME',
+        lname: 'LNAME',
+        bio: 'A Bio',
+        email: 'email@email.com',
+        phoneNumber: [{phone_id: '1', phone: '6041231234', type: 'Work'}],
+        addresses: [{address_id: '1', addressName: '555 Seymour Street'}]
+    })})
+})
+
+app.post('/prof_address', (require,response)=>{
+    console.log(require.body)
+    response.send({message:"I got that message"})
+});
+
+app.post('/prof_phones', (require,response)=>{
+    console.log(require.body)
+    response.send({message:"I got that message"})
+});
+
+app.post('/prof_bio', (require,response)=>{
+    console.log(require.body)
+    response.send({message:"I got that message"})
+});
+
+//-----------------------------------------------------------------------
 //LOGOUT FUNCTION
 app.post("/logout", (request, response) => {
     request.session.destroy()
