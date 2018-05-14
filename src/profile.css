@@ -1,0 +1,203 @@
+#display {
+    position:absolute;
+    width:100%;
+    height:90%;
+    right:0px;
+    bottom:0px;
+    background-color:aliceblue;
+}
+
+#profileDiv {
+    position:absolute;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:15%;
+    background-color:white;
+}
+
+#contactDiv {
+    position:absolute;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:40%;
+    background-color:white;
+}
+
+#addressDiv {
+    position:absolute;
+    height:350px;
+    width:250px;
+    top:20%;
+    left:65%;
+    background-color:white;
+    transition:1s;
+}
+
+#addressDisplay {
+    font-size:50px;
+}
+
+.addressClass {
+    position:relative;
+    height:auto;
+    background-color:aquamarine;
+}
+
+#profileName {
+    position:absolute;
+    width:100%;
+    height:auto;
+    font-size:50px;
+}
+
+.columnName {
+    font-size:50px;
+}
+
+#contactInfo {
+    position:absolute;
+    font-size:50px;
+}
+
+.phones {
+    position:relative;
+    top:45%;
+}
+
+.bio {
+    position:absolute;
+    top:45%;
+}
+
+.mapHide {
+    display:none;
+}
+
+.mapShow {
+    display:block;
+}
+
+#contactAdd {
+    position:absolute;
+    right:6%;
+    top:5%;
+}
+
+#contactInputs {
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    margin:auto;
+    background-color:beige;
+    height:200px;
+    width:400px;
+    display:none;
+}
+
+#phoneInput {
+    position:absolute;
+    top:30%;
+    left:40%
+}
+
+#phoneType {
+    position:absolute;
+    top:31%;
+    left:20%;
+}
+
+#addPhone {
+    position:absolute;
+    top:43%;
+    right:20%;
+}
+
+#addressAdd {
+    position:absolute;
+    right:1%;
+    top:5%;
+}
+
+#addressInputs {
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    margin:auto;
+    background-color:beige;
+    height:200px;
+    width:400px;
+    display:none;
+}
+
+#addressInput {
+    position:absolute;
+    top:30%;
+    left:25%;
+}
+
+#addAddress {
+    position:absolute;
+    top:30%;
+    right:23%;
+}
+
+#bioInputs {
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    margin:auto;
+    background-color:beige;
+    height:200px;
+    width:400px;
+    display:none;
+}
+
+#bioInput {
+    position:absolute;
+    top:30%;
+    left:25%;
+}
+
+#addBio {
+    position:absolute;
+    top:30%;
+    right:23%;
+}
+
+#bioAdd {
+    position:absolute;
+    right:5%;
+    top:5%;
+}
+
+#bioDone {
+    position:absolute;
+    left:40%;
+    top:45%;
+}
+
+#phoneDone {
+    position:absolute;
+    left:40%;
+    top:55%;
+}
+
+#addressDone {
+    position:absolute;
+    left:40%;
+    top:45%;
+}
+
+.email {
+    position:absolute;
+    bottom:2%;
+    left:10%;
+}

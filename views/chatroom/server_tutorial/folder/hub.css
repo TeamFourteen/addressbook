@@ -1,0 +1,214 @@
+#chatroomMain {
+	position:absolute;
+	width:99%;
+	height:98%;
+	background-color:#82db82;	
+}
+#chatRoomList {
+	width:18%;
+	height:45%;
+	left:10px;
+	top:10px;
+	position:absolute;
+	overflow:scroll;
+	white-space:nowrap;
+	text-align:center;
+}
+.crNum {
+	text-align:center;
+	height:35px;
+	width:85%;
+	position:relative;
+	margin:10px;
+	border:3px solid #fffa00;
+	border-radius:10px;
+	background-color:#8cccc7;
+}
+#addChatRoom {
+	width:230px;
+	height:150px;
+	left:30px;
+	bottom:0px;
+	position:absolute;
+}
+#addChatRoomPopUpPage {
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	margin:auto;
+	position:absolute;
+	width:50%;
+	height:50%;
+	z-index:2;
+	background-color:#e4e4e4;
+	display:none;
+	border:yellow solid 5px;
+	border-radius:5px;
+}
+#addCrButton{
+	height:70px;
+	width:170px;
+	position:relative;
+	left:35px;
+	top:60px;
+}
+#chatDisplay {
+	width:78vw;
+	height:80vh;
+	right:0px;
+	position:absolute;
+	border:2px solid blue;
+	text-align:center;
+}
+#sendMessageDiv {
+	bottom:6px;
+	right:30px;
+	width:75vw;
+	height:80px;
+	position:absolute;
+	
+}
+#sendInp {
+	width:66vw;
+	height:37px;
+	left:0px;
+	top:15px;
+	position:relative;
+	font-size:20px;
+}
+#sendBtn {
+	position:absolute;
+	height:70px;
+	width:120px;
+	right:0px;
+	margin-left:10px;
+}
+#userNameList {
+	width:99.5%;
+	top:10px;
+	height:10%;
+	position:relative;
+	border:2px solid blue;
+	background-color:yellow;
+	overflow:auto;
+}
+#chatDetails {
+	width:100%;
+	bottom:0px;
+	height:88%;
+	position:relative;
+	background-color:pink;
+	text-align:left;
+	font-size:20px;
+}
+.users {
+	position:relative;
+	display:inline-block;
+	background-color: #82db82;
+	border:3px solid pink;
+	font-size:20px;
+	color:black;
+	padding-left:5px;
+}
+.userNameDiv {
+	position:relative;
+	background-color:blue;
+	width: 10%;
+}
+
+.textInfoDiv {
+	position:absolute;
+	left: 10%;
+	top: 0%;
+	background-color:red;
+	margin: auto;
+}
+
+.messDiv {
+	border:2px solid yellow;
+	position:relative;
+	background-color:green;
+	height:auto;
+	overflow:auto;
+}
+
+.user_jpg {
+	position:absolute;
+	width:20%;
+	height:70%;
+	left:0px;
+	top:0px;
+	bottom:0px;
+	margin:auto;
+	vertical-align:middle;
+	text-align:center;
+}
+.user_name {
+	position:absolute;
+	width:18%;
+	height:18%;
+	left:0px;
+	bottom:-3px;
+	white-space:nowrap;
+}
+.user_text_contents {
+	position:absolute;
+	width:75%;
+	height:90%;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	margin:auto;
+	vertical-align:middle;
+	text-align:center;
+	font-size:30px;
+}
+#personName_to_be_added {
+	font-size:30px;
+	left:10px;
+	position:absolute;
+	top:10px;
+}
+#createButton {
+	font-size:20px;
+	right:10px;
+	position:absolute;
+	bottom:6px;
+	border:red solid 2px;
+	background-color:pink;
+}
+#personContactInfo {
+	width:97.5%;
+	height:62.5%;
+	position:absolute;
+	left:10px;
+	bottom:41px;
+	background-color:#96e490;
+}
+#userContact {
+	left:20px;
+	top:20px;
+	position:absolute;
+	font-size:20px;
+}
+#userEmail {
+	left:20px;
+	top:70px;
+	position:absolute;
+	font-size:20px;
+}
+#userAddress {
+	left:20px;
+	top:120px;
+	position:absolute;
+	font-size:20px;
+}
+
+
+
+
+
+
+
+
