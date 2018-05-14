@@ -12,8 +12,8 @@
     position: absolute;
     left: 0px;
     top: 7%;
-    height: 87vh;
-    width: 15vw;
+    height: 87%;
+    width: 15%;
     background-color: aquamarine;
     overflow: auto;
 }
@@ -26,6 +26,7 @@
     text-align: center;
 }
 
+/*
 #options{
     height: 40px;
     width: 100%;
@@ -33,6 +34,7 @@
     border-radius: 10px;
     text-align: center;
 }
+*/
 
 #hide{
     position: absolute;
@@ -42,10 +44,10 @@
 
 #main{
     position: absolute;
-    height: 93vh;
-    width: 85vw;
+    height: 93%;
+    width: 85%;
     background-color: azure;
-    left:15vw;
+    left:15%;
     top: 7%;
 }
 
@@ -135,8 +137,8 @@
 
 #addcontacts{
     position: absolute;
-    height: 6vh;
-    width: 15vw;
+    height: 6%;
+    width: 15%;
     left: 0px;
     bottom: 0px;
 }
