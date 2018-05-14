@@ -23,13 +23,13 @@
 <div id="left_selection">
     <div id = "username">{{name}}</div>
     <input id="evname" type="text" placeholder="Enter your event name">
-    <input id="startfrom" type="date">
-    <input id="hourf" type="time"> 
+    <input id="startdate" type="date">
+    <input id="starttime" type="time"> 
     <div id="text">
         TO
     </div>
-    <input id="endtime" type="date">
-    <input id="endh" type="time">
+    <input id="enddate" type="date">
+    <input id="endtime" type="time">
     <div id="floating-panel">
         <input id="address" type="textbox" value="Vancouver,CA">
         <input id="sendadd" type="button" value="Show the location on the map">
@@ -74,7 +74,16 @@
 <div class="right_window" id="profile">
     <div id ="eventsinfo">
         <div id="eventname">Your Event Info</div>
-        <div id="info"></div>
+        <div id="info">
+        {{#each number}}
+            <div class="evinfo">
+                <div>Event name: {{this.eventname}}</div>
+                <div>From: {{this.fromtime}}</div>
+                <div>End: {{this.endtime}}</div>
+                <div>Location: {{this.location}}</div>
+            </div>
+        {{/each}}
+        </div>
     </div>
     
 <!-- Triple squiggy for displaying the stuff-->
