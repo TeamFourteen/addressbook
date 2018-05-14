@@ -131,28 +131,28 @@ submit.addEventListener("click",function(){
 function check(){
     if (evname.value == ''){
         alert('You should enter a event name');
-        throw new Error("Something went wrong!");
+        throw new Error("Do not enter a event name");
     }else if(starttime.value==''){
         alert('You should enter the start time');
-        throw new Error("Something went wrong!");
+        throw new Error("Do not enter the start time");
     }else if(endtime.value==''){
         alert('You should enter a ending time');
-        throw new Error("Something went wrong!");
+        throw new Error("Do not enter the end time");
     }else if(startdate.value==''){
         alert('You should enter the details of start time');
-        throw new Error("Something went wrong!");
+        throw new Error("Do not enter the start date");
     }else if(enddate.value==''){
         alert('You should enter the details of ending time');
-        throw new Error("Something went wrong!");
+        throw new Error("Do not enter the end date");
     }else if(enddate.value < startdate.value){
         alert('The end time must be greater than the start time');
         enddate.value = startdate.value;
-        throw new Error("Something went wrong!");
+        throw new Error("The end date can not be smaller than the start date");
     }else if(enddate.value == startdate.value){
         if(starttime.value > endtime.value){
             alert('The end time must be greater than the start time when they are on the same date');
             endtime.value = starttime.value;
-            throw new Error("Something went wrong!");
+            throw new Error("The end time should not be smaller than the start time");
         }
     }
 };
