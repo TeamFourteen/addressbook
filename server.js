@@ -170,11 +170,11 @@ app.post("/login", (request, response) => {
 //FRONT END CALL CENTRE HUB
 app.get("/hub", (request, response, next) => {
     sessionInfos = request.session.user_id
-    dbfunct.getUserData(sessionInfos).then((result)=>{
+    dbfunct.getUserData(sessionInfos).then((result) => {
         response.render('hub.hbs', {
-        fname: result.fname,
-        lname: result.lname
-    })
+            fname: result.fname,
+            lname: result.lname
+        })
     })
     // profile_info = {
     //     fname: 'Glenn',
@@ -210,37 +210,68 @@ app.get("/hub", (request, response, next) => {
 })
 
 //-----------------------------------------------------------------------
-app.post("/profile", (request, response)=>{
+app.post("/profile", (request, response) => {
     sessionInfos = request.session.user_id
     /*dbfunct.getUserData(sessionInfos).then((result)=>{
 
     })*/
-    response.send({script: '/profile.js', style: '/profile.css', layout: profile({
-        name_id: '1',
-        fname: 'FNAME',
-        lname: 'LNAME',
-        bio: 'A Bio',
-        email: 'email@email.com',
-        phoneNumber: [{phone_id: '1', phone: '6041231234', type: 'Work'}],
-        addresses: [{address_id: '1', addressName: '555 Seymour Street'}]
-    })})
+    response.send({
+        script: '/profile.js',
+        style: '/profile.css',
+        layout: profile({
+            name_id: '1',
+            fname: 'FNAME',
+            lname: 'LNAME',
+            bio: 'A Bio',
+            email: 'email@email.com',
+            phoneNumber: [{ phone_id: '1', phone: '6041231234', type: 'Work' }],
+            addresses: [{ address_id: '1_1_1', addressName: '555 Seymour Street' }]
+        })
+    })
 })
 
-app.post('/prof_address', (require,response)=>{
+app.post('/prof_address', (require, response) => {
     console.log(require.body)
-    response.send({message:"I got that message"})
+    response.send({ message: "I got that message" })
 });
 
-app.post('/prof_phones', (require,response)=>{
+app.post('/prof_phones', (require, response) => {
     console.log(require.body)
-    response.send({message:"I got that message"})
+    response.send({ message: "I got that message" })
 });
 
-app.post('/prof_bio', (require,response)=>{
+app.post('/prof_bio', (require, response) => {
     console.log(require.body)
-    response.send({message:"I got that message"})
+    response.send({ message: "I got that message" })
 });
 
+//-----------------------------------------------------------------------
+
+//-----------------------------------------------------------------------
+app.post('/contacts', (request, response) => {
+    sessionInfos = request.session.user_id
+    response.send({
+        script: '',
+        style: 'contacts.css',
+        layout: contacts({
+            contacts: [{
+                cont_id: '1_1',
+                fname: 'FNAME',
+                lname: 'LNAME',
+                address: [{
+                    cont_id: '1_1_1',
+                    addr: '555 Seymour Street'
+                }],
+                phonenumber: [{
+                    number: '6041231234',
+                    type: 'Home'
+                }]
+
+            }]
+        })
+
+    })
+})
 //-----------------------------------------------------------------------
 //LOGOUT FUNCTION
 app.post("/logout", (request, response) => {
