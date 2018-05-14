@@ -8,7 +8,7 @@
         <div id="topbar">{{topbar}}</div>
         <div id="leftbar">
             {{#each contacts}}
-            <div id="{{this.fname}}_{{this.lname}}" class="contacts">
+            <div id="{{this.cont_id}}" class="contacts">
                 {{this.fname}} {{this.lname}}
             </div>
             {{/each}}
@@ -20,7 +20,7 @@
             
             <!-------------------------------------------------->
             {{#each contacts}}
-            <div id="{{this.fname}}_{{this.lname}}_card" class="cards">Contact Profile
+            <div id="{{this.cont_id}}_card" class="cards">Contact Profile
                 <div id="info">Personal Info
                     <hr>
                     <div id="contname">Name: {{this.fname}}  {{this.lname}}</div>
