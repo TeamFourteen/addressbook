@@ -210,3 +210,40 @@ for(i = 0; i < contacts.length; i++){
         }
     })
 }
+
+document.getElementById("search").addEventListener("click",function(){
+    addone.style.display = "none";
+    searchwindow.style.display = "block";
+});
+
+document.getElementById("nameoremail").addEventListener("click",function(){
+    if(nameoremail.value == "name"){
+        searchnameoremail.placeholder = "Enter name"
+    }else{
+        searchnameoremail.placeholder = "Enter Email"
+    }
+});
+
+document.getElementById("searchbutton").addEventListener("click",function(){
+        obj = {type: nameoremail.value, keyword: searchnameoremail.value}
+        fetch("/sendKeyword",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(obj)
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json)
+        searchwindow.style.display = "none";
+        resultwindow.style.display = "block";
+        for(i=0; i<json.length; i++){
+            newresult = document.createElement("div");
+            newresult.className = "newresult";
+            console.log(json[i].name)
+            newresult.innerHTML = json[i].name+" "+" "+" "+" "+json[i].email
+            resultwindow.appendChild(newresult);
+        }
+    })
+})

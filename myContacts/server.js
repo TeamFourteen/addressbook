@@ -47,6 +47,15 @@ app.post("/addphone", function(require, response){
     console.log(require.body)
     response.send({message: "Phone added"})
 })
+
+app.post("/sendKeyword", function(require, response){
+    console.log(require.body)
+    //response.send({message: "Keyword sent"})
+    if(require.body.name == "Kaiser"){
+        result = [{name: "Kaiser Willhelm", email: "KaiserW@gmail.com"}, {name: "Kaiser Ferdinand", email:" KaiserF@yahoo.com"}]
+        response.json(result)
+    }
+})
 //---------------------------------------------------------------------------------------------
 //This is the part of your code which will start the server
 app.listen(4500, function(err){
