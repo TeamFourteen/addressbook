@@ -214,10 +214,23 @@
 
 #confirmadd{
     position: absolute;
+/*
     right: 0px;
     bottom: 0px;
+*/
     padding: 15px;
     right: 10px;
+    bottom: 10px;
+}
+
+#search{
+    position: absolute;
+/*
+    right: 0px;
+    bottom: 0px;
+*/
+    padding: 15px;
+    right: 90px;
     bottom: 10px;
 }
 
@@ -325,4 +338,52 @@
     display: none;
     left: 0px;
     bottom: -250px;
+}
+
+#searchwindow{
+    position: absolute;
+    height: 10%;
+    width: 30%;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    background-color: darkgoldenrod;
+    display: none;
+}
+
+#searchboxes{
+    position: absolute;
+    left: 3%;
+    top: 8%;
+}
+
+#searchbutton{
+    position: absolute;
+    bottom: 10%;
+    left: 41%;
+}
+
+#searchnameoremail{
+    width: 250px;
+}
+
+#resultwindow{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    height: 45%;
+    width: 45%;
+    background-color: darkseagreen;
+    display: none;
+    overflow: auto;
+}
+
+.newresult{
+    width: 100%;
+    height: 20%;
 }
