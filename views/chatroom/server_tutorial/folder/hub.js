@@ -44,16 +44,27 @@ addUsers.addEventListener("click",function(){
 			adUserDiv.className = "adUrDiv";
 			adUserDiv.innerHTML = json[i].fName+" "+json[i].lName;
 			adUserDiv.id = json[i].userId
+			
 			perConInfo.appendChild(adUserDiv);
 		}
     })
 });
 
-
-
-
-
-
+createBtn.addEventListener("click",function(){
+	    fetch('/newChatRoomDiv', {
+          method:"POST",
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({
+            "require":"message"
+          })
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json.message)
+    })
+});
 
 
 
