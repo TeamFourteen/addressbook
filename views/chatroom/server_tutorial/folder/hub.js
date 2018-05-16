@@ -11,13 +11,66 @@ var crNum1 = document.getElementById("chatRoom1"),
 	createBtn = document.getElementById("createButton"),
 	cDetails = document.getElementById("chatDetails"),
 	sdInp = document.getElementById("sendInp"),
+	addUsers = document.getElementById("addPeopleToChatRoom"),
+	perConInfo = document.getElementById("personContactInfo"),
+	createCRN = document.getElementById("createChatRoomName"),
+	confirmBn = document.getElementById("confrimButton"),
+	nCtRmName = document.getElementById("newChatRoomName"),
 	socket = io(),
 	userid = '',
 	currentRoom='',
+	
 	uNList = document.getElementById("userNameList");
 	
 	
+addUsers.addEventListener("click",function(){
+	    fetch('/adUserDiv', {
+          method:"POST",
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({
+            "require":"name"
+          })
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        perConInfo.innerHTML = "";
+		console.log(json)
+		for(i=0; i < json.length; i++){
+			
+			console.log(json[i]);
+			adUserDiv = document.createElement("div");
+			adUserDiv.className = "adUrDiv";
+			adUserDiv.innerHTML = json[i].fName+" "+json[i].lName;
+			adUserDiv.id = json[i].userId
+			perConInfo.appendChild(adUserDiv);
+		}
+    })
+});
 
+
+
+
+
+
+
+
+
+confirmBn.addEventListener("click",function(){
+	// socket.emit('sendMessage', {room:currentRoom, message:sdInp.value, user: userid});
+	nCtRmName.innerHTML = createCRN.value;
+	createCRN.value = "";
+});
+createCRN.addEventListener("keyup",function(ev){
+	if(ev.keyCode=="13"){
+		//socket.emit('sendMessage', {room:currentRoom, message:sdInp.value, user: userid});
+		nCtRmName.innerHTML = createCRN.value;
+		createCRN.value="";
+	}
+});
+
+	
 crNum1.addEventListener("click",function(){
 	
 

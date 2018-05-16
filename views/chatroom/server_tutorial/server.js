@@ -33,6 +33,12 @@ app.post('/item', (require,response)=>{
     response.send({message:"I got them monies"})
 });
 
+app.post('/adUserDiv', (require,response)=>{
+    console.log(require.body)
+    response.send([{fName:"tom",lName:"jack",userId:"123"}, {fName:"sasha",lName:"Ann",userId:"456"}])
+});
+
+
 app.get('/profile', (require,response)=>{
   profileInfo = {fname:"fname", lname:"lname", bio:"A users bio", email:"email", phone:["1234", "5678", "9012"], addresses:["first street", "second second avenue", "three third road"]}
     
