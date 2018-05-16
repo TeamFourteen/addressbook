@@ -38,6 +38,10 @@ app.post('/adUserDiv', (require,response)=>{
     response.send([{fName:"tom",lName:"jack",userId:"123"}, {fName:"sasha",lName:"Ann",userId:"456"}])
 });
 
+app.post('/newChatRoomDiv', (require,response)=>{
+    console.log(require.body)
+    response.send({message:"ok"})
+});
 
 app.get('/profile', (require,response)=>{
   profileInfo = {fname:"fname", lname:"lname", bio:"A users bio", email:"email", phone:["1234", "5678", "9012"], addresses:["first street", "second second avenue", "three third road"]}
