@@ -2,7 +2,7 @@ const express =require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const hbs = require('hbs')
-const checkdataa = require('./private/function.test')
+const checkdate = require('./private/function')
 
 app.use(express.static(__dirname+"/event"))
 
