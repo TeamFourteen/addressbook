@@ -1,3 +1,7 @@
+// module.exports = function(){
+	// return 'hello';
+// };
+
 var crNum1 = document.getElementById("chatRoom1"),
 	crNum2 = document.getElementById("chatRoom2"),
 	crNum3 = document.getElementById("chatRoom3"),
@@ -19,8 +23,9 @@ var crNum1 = document.getElementById("chatRoom1"),
 	socket = io(),
 	userid = '',
 	currentRoom='',
-	
+	//validateChatData = (chatData) => {},
 	uNList = document.getElementById("userNameList");
+
 	
 	
 addUsers.addEventListener("click",function(){
