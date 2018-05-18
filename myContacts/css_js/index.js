@@ -1,4 +1,4 @@
-//var userid = 1;
+var userid = 0;
 //var infoobj = {};
 //var infoaddress = {};
 //var infophone = {};
@@ -98,9 +98,9 @@ document.getElementById("confirmadd").addEventListener("click",function(){
 //    infoobj.bio = bioinputbox.value;
 //    infoobj.email = emailinputbox.value;
 //    console.log(infoobj);
-//    userid = userid + 1;
+    userid = userid + 1;
     
-    obj = {userid: userid, fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value, email: emailinputbox.value};
+    obj = {userid: userid, fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value};
     fetch("/addcontacts",{
         method:"POST",
         headers:{
@@ -115,7 +115,7 @@ document.getElementById("confirmadd").addEventListener("click",function(){
     fnameinputbox.value = "";
     lnameinputbox.value = "";
     bioinputbox.value = "";
-    emailinputbox.value = "";
+//    emailinputbox.value = "";
 //    fetch("/item",{
 //        method:"POST",
 //        headers:{
