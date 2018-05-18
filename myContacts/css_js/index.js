@@ -158,7 +158,7 @@ document.getElementById("editphone").addEventListener("click",function(){
 
 document.getElementById("okphone").addEventListener("click",function(){
     var numbers = document.getElementById("newphonebox").value;
-    if(numbers.length >= 10 & numbers.length <= 14 & numbers == parseInt(numbers, 10)){
+//    if(numbers.length >= 10 & numbers.length <= 14 & numbers == parseInt(numbers, 10)){
         
         obj = {type: typeselect.value, phone:newphonebox.value};
         fetch("/addphone",{
@@ -176,11 +176,11 @@ document.getElementById("okphone").addEventListener("click",function(){
         editphonepage.style.display = "none";
         warningpic.style.display = "none";
         warning.style.display = "none";
-    }else{
-        warningpic.style.display = "block";
-        warning.style.display = "block";
-        newphonebox.value = "";
-    }
+//    }else{
+//        warningpic.style.display = "block";
+//        warning.style.display = "block";
+//        newphonebox.value = "";
+//    }
     
 });
 

@@ -2,6 +2,7 @@ const hbs = require("hbs")
 const express = require("express")
 const app = express()
 const bodyparser = require("body-parser")
+const validation = require("./private/validation.js")
 //-------------------------------------------------------------  
 //This part of the script is run first before the whole sending to the client part
 app.use(express.static(__dirname + "/wtf"))
@@ -44,8 +45,14 @@ app.post("/addaddress", function(require, response){
 })
 
 app.post("/addphone", function(require, response){
-    console.log(require.body)
-    response.send({message: "Phone added"})
+    console.log(require.body);
+    if(validation.validate_obj(require.body) == true){
+        console.log("Phone added")
+        response.send({message: "Phone added"});
+    }else{
+        response.send({message: "Phone not added"});
+    }
+    
 })
 
 app.post("/sendKeyword", function(require, response){
