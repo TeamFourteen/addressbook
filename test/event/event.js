@@ -99,6 +99,8 @@ function createinfo(ev){
     //info.appendChild(newd);
 }
 
+
+
 submit.addEventListener("click",function(){
     check();
     var objects ={eventname:(evname.value),
@@ -126,6 +128,8 @@ submit.addEventListener("click",function(){
     }).then((json)=>{
         console.log(json.message)
     });
+
+    location.reload(true);
 });
 
 function check(){
