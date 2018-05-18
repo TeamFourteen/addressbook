@@ -3,7 +3,8 @@ var userid = 0;
 //var infoaddress = {};
 //var infophone = {};
 
-document.getElementById("hide").addEventListener("click",function(){
+//This is the function that hides the leftbar and make the main display take up the whole page.
+document.getElementById("hide").addEventListener("click",function(){  
     if(leftbar.style.left == "0px"){
         leftbar.style.left = "-15vw";
         leftbar.style.transition = "0.5s";
@@ -33,48 +34,13 @@ document.getElementById("hide").addEventListener("click",function(){
     }
 });
 
-document.getElementById("addcontacts").addEventListener("click",function(){
-    
-});
-
-//document.getElementById("addr1").addEventListener("click",function(){
-//    if(addr1.style.height != "250px"){
-//        addr1.style.height = "250px";
-//        map1.style.display = "block";
-//    }
-//    else{
-//        addr1.style.height = "23px";
-//        map1.style.display = "none";
-//    }
-//});
-//
-//document.getElementById("addr2").addEventListener("click",function(){
-//    if(addr2.style.height != "250px"){
-//        addr2.style.height = "250px";
-//        map2.style.display = "block";
-//    }
-//    else{
-//        addr2.style.height = "23px";
-//        map2.style.display = "none";
-//    }
-//});
-//
-//document.getElementById("addr3").addEventListener("click",function(){
-//    if(addr3.style.height != "250px"){
-//        addr3.style.height = "250px";
-//        map3.style.display = "block";
-//    }
-//    else{
-//        addr3.style.height = "23px";
-//        map3.style.display = "none";
-//    }
-//});
-
+//This function shows the location of the contact's address by changing the style when the address is clicked on.
 addresses = document.getElementsByClassName("addrs")
 
 for(i = 0; i < addresses.length; i++){
     item_id = addresses[i].id;
-    document.getElementById(item_id).addEventListener("click",function(){
+    if(item_id != ""){
+        document.getElementById(item_id).addEventListener("click",function(){
         map = document.getElementById(this.id+"_map")
         if(map.className == "maphide"){
             document.getElementById(this.id).style.height = "250px";
@@ -85,21 +51,18 @@ for(i = 0; i < addresses.length; i++){
             map.className = "maphide";
         }
     })
+    }
 }
 
+//This function changes the add contact window's display property to show the window.
 document.getElementById("addcontacts").addEventListener("click",function(){
     addone.style.display = "block";
 })
 
+//This function sends all the user input in the add contact window after it packs all the info to the server.
 document.getElementById("confirmadd").addEventListener("click",function(){
     addone.style.display = "none";
-//    infoobj.fname = fnameinputbox.value;
-//    infoobj.lname = lnameinputbox.value;
-//    infoobj.bio = bioinputbox.value;
-//    infoobj.email = emailinputbox.value;
-//    console.log(infoobj);
     userid = userid + 1;
-    
     obj = {userid: userid, fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value};
     fetch("/addcontacts",{
         method:"POST",
@@ -115,26 +78,14 @@ document.getElementById("confirmadd").addEventListener("click",function(){
     fnameinputbox.value = "";
     lnameinputbox.value = "";
     bioinputbox.value = "";
-//    emailinputbox.value = "";
-//    fetch("/item",{
-//        method:"POST",
-//        headers:{
-//            "Content-Type":"application/json"
-//        },
-//        body:JSON.stringify({
-//        want:"ice cream"
-//    })
-//    }).then((response)=>{
-//        return response.json();
-//    }).then((json)=>{
-//        console.log(json.message)
-//    })
 })
 
+//This function changes the add address window's display property to show the window.
 document.getElementById("editaddress").addEventListener("click",function(){
     editaddresspage.style.display = "block";
 })
 
+//Once the user done with adding address, it sends the the address data to the server.
 document.getElementById("okaddress").addEventListener("click",function(){
     obj = {address: newaddressbox.value};
     fetch("/addaddress",{
@@ -152,14 +103,14 @@ document.getElementById("okaddress").addEventListener("click",function(){
     editaddresspage.style.display = "none";
 })
 
+//This function changes the add phone window's display property to show the window.
 document.getElementById("editphone").addEventListener("click",function(){
     editphonepage.style.display = "block";
 })
 
+//Once the user done with adding phone, it sends the the address data to the server.
 document.getElementById("okphone").addEventListener("click",function(){
     var numbers = document.getElementById("newphonebox").value;
-//    if(numbers.length >= 10 & numbers.length <= 14 & numbers == parseInt(numbers, 10)){
-        
         obj = {type: typeselect.value, phone:newphonebox.value};
         fetch("/addphone",{
         method:"POST",
@@ -176,15 +127,9 @@ document.getElementById("okphone").addEventListener("click",function(){
         editphonepage.style.display = "none";
         warningpic.style.display = "none";
         warning.style.display = "none";
-//    }else{
-//        warningpic.style.display = "block";
-//        warning.style.display = "block";
-//        newphonebox.value = "";
-//    }
-    
 });
 
-
+//This function shows the location of the address from user input in add address window.
 document.getElementById("viewonmap").addEventListener("click",function(){
     if(previewmap.style.display == "none"){
         previewmap.style.display = "block";
