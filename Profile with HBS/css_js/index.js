@@ -17,6 +17,30 @@ var phoneDone = document.getElementById("phoneDone");
 var addressDone = document.getElementById("addressDone");
 var bioDone = document.getElementById("bioDone");
 
+
+
+// FUNCTIONS ----------------------------------------------------------------------------
+
+function phonePostFunction(phoneType, phoneInput) {
+    fetch('/phones', {
+        method:"POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          type:phoneType.value, phone:phoneInput.value
+        })
+  }).then((response)=>{
+      return response.json();
+  }).then((json)=>{
+      console.log(json.message)
+  })
+  
+  phoneInput.value = "";  
+};
+
+// Rest ------------------------------------------------------------------------------------
+
 bioDone.addEventListener("click", function(){
    bioInputs.style.display = "none"; 
 });
@@ -31,13 +55,15 @@ addressDone.addEventListener("click", function(){
 
 for(i=0; i < addressClass.length; i++){
   address = addressClass[i].id
-    document.getElementById(address).addEventListener("click", function(){
-        if(document.getElementById(this.id+"_map").className == "mapHide"){
-          document.getElementById(this.id+"_map").className = "mapShow";  
-        } else {
-            document.getElementById(this.id+"_map").className = "mapHide";
-        }
-    });
+    if(address != "") {
+        document.getElementById(address).addEventListener("click", function(){
+            if(document.getElementById(this.id+"_map").className == "mapHide"){
+              document.getElementById(this.id+"_map").className = "mapShow";  
+            } else {
+                document.getElementById(this.id+"_map").className = "mapHide";
+            }
+        });
+    }
 };
 
 
@@ -69,21 +95,7 @@ contactAdd.addEventListener("click", function(){
 });
 
 addPhone.addEventListener("click", function(){
-    fetch('/phones', {
-          method:"POST",
-          headers: {
-            "Content-Type":"application/json"
-          },
-          body: JSON.stringify({
-            type:phoneType.value, phone:phoneInput.value
-          })
-    }).then((response)=>{
-        return response.json();
-    }).then((json)=>{
-        console.log(json.message)
-    })
-    
-    phoneInput.value = "";
+    phonePostFunction(phoneType, phoneInput);
 });
 
 addressAdd.addEventListener("click", function(){
@@ -107,5 +119,6 @@ addAddress.addEventListener("click", function(){
     
     addressInput.value = "";
 });
+
 
 

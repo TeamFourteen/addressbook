@@ -2,6 +2,7 @@ const express = require("express")  //imports express module which helps with ma
 const app = express()
 const bodyParser = require("body-parser") //helps with retrieveing stuff from database
 const hbs = require("hbs")
+const validatePhone = require('./private/validate')
 
 app.use(express.static(__dirname + "/css_js"))
 app.use(bodyParser.json()) // this will run first before it sends something
@@ -11,12 +12,13 @@ app.get('/', function(require,response){
     
 	response.render("index.hbs", {
 
-
         profileName:[{fname:"Jhon", lname:"Doe", name_id:"name_1"}],
         bio:"This is a sample Bio",
         email:"someone@gmail.com",
-        phoneNumber: [{phone_id:"phone_1", type:"Cell Phone:", phone:"123-123-1234"}, {phone_id:"phone_2", type:"Work Phone:", phone:"123-123-1234"}, {phone_id:"phone_3", type:"Home Phone:", phone:"123-123-1234"}],
+        phoneNumber: [{phone_id:"phone_1", type:"Cell Phone:", phone:"1231231234"}, {phone_id:"phone_2", type:"Work Phone:", phone:"1231231234"}, {phone_id:"phone_3", type:"Home Phone:", phone:"1231231234"}],
         addresses:[{address_id:"address_1", addressName:"555 Seymour Street", addressMap:"map1"}, {address_id:"address_2", addressName:"3328 Kingsway Avenue", addressMap:"map2"}]
+        
+        
     })
     
 }) //This is called a router which helps you get to your page
@@ -28,13 +30,17 @@ app.post('/item', (require,response)=>{
 
 app.post('/phones', (require,response)=>{
     console.log(require.body)
-    response.send({message:"I got that message"})
+    if (validatePhone(require.body.phone) == true) {
+        response.send({message:"Phone Added"})
+    } else {
+        response.send({message:"Phone not Added"})
+    }  
+   
 });
 
 app.post('/bio', (require,response)=>{
     console.log(require.body)
     response.send({message:"I got that message"})
-
 });
 
 app.get('/profile', (require,response)=>{
@@ -59,4 +65,6 @@ app.listen(4500, function(err){
 })
 
 // response.sendFile(__dirname + "/example.html")
+
+
 

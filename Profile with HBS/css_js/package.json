@@ -1,0 +1,21 @@
+{
+  "name": "private",
+  "version": "1.0.0",
+  "description": "",
+  "main": "validate.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^22.4.3"
+  },
+  "devDependencies": {
+    "jest-extended": "^0.7.1"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "jest-extended"
+  }
+}

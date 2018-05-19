@@ -9,7 +9,6 @@
         <div id="display">
            
             <div id="profileDiv">
-
                 <button id="bioAdd">Edit</button>
                 {{#each profileName}}
                     <div id="{{this.name_id}}" class="columnName">{{this.fname}} 
@@ -21,10 +20,13 @@
                 
                 
                 
-                <div id="{{bio}}" class="bio">{{bio}}</div>
+                <div id="bio" class="bio">{{bio}}</div>
                 
-                <div id="{{email}}" class="email">{{email}}</div>
-
+                <div id="email" class="email">{{email}}</div>
+            </div>
+            
+            <div id="contactDiv">
+                <div id="contactInfo">Contact Information</div>
                 <button id="contactAdd">Add</button>
                 {{#each phoneNumber}}
                     <div id="{{this.phone_id}}" class="phones">{{this.type}} {{this.phone}}</div>
@@ -34,7 +36,6 @@
             </div>
             
             <div id="addressDiv">
-
                 <button id="addressAdd">Add</button>
                 <div id="addressDisplay">Addresses</div>
                 <div id="addressesDiv">
@@ -77,7 +78,6 @@
             <button id="bioDone">Done</button>
         </div>
         <div id="navBar"></div>
-
         
         <script src="index.js"></script>
     </body>
