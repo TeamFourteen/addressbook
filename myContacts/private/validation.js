@@ -3,13 +3,17 @@ var validate_phone = (phonenum)=>{
     try{
         if(phonenum != ""){
             console.log(true)
-        phonenum = parseInt(phonenum);
-        console.log(phonenum)
-        if(phonenum.toString().length == 10){
-            console.log(true)
-            if(Number.isInteger(phonenum)){
+            phonenum = parseInt(phonenum);
+            console.log(phonenum)
+            if(phonenum.toString().length == 10){
                 console.log(true)
-                return true
+                if(Number.isInteger(phonenum)){
+                    console.log(true)
+                    return true
+                }else{
+                    console.log(false)
+                    return false
+                }
             }else{
                 console.log(false)
                 return false
@@ -18,10 +22,6 @@ var validate_phone = (phonenum)=>{
             console.log(false)
             return false
         }
-    }else{
-        console.log(false)
-        return false
-    }
     }catch(err){
         console.log(false)
         return false

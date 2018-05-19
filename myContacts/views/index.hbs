@@ -5,7 +5,7 @@
         <link href="index.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <div id="leftbar">
+        <div id="leftbar"> <!--On the left bar area, it uses HBS module to show all contacts that retrieves from the server-->
             {{#each contacts}}
             <div id="{{this.cont_id}}" class="contacts">
                 {{this.fname}} {{this.lname}}
@@ -13,24 +13,21 @@
             {{/each}}
         </div>
         <button id="addcontacts">Add Contact</button>
-        <div id="main">
+        <div id="main">   
             <button id="hide">-</button>
-            
-            
-            <!-------------------------------------------------->
-            {{#each contacts}}
+            {{#each contacts}}   <!--On the main display area, it uses HBS module to show contact's personal info-->
             <div id="{{this.cont_id}}_card" class="cards">Contact Profile
                 <div id="info">Personal Info
                     <hr>
                     <div id="contname">Name: {{this.fname}}  {{this.lname}}</div>
                     <div id="conbio">Contact Bio:</div>
-                    <div id="email">Email:</div>
+<!--                    <div id="email">Email:</div>-->
 <!--
                     <div id="phone1">Home Phone:</div>
                     <div id="phone2">Work Phone:</div>
 -->
                 </div>
-                <div id="address">Address
+                <div id="address">Address  <!--On the main display area, it uses HBS module to show contact's address-->
                     <button id="editaddress">Add</button>
                     <hr>
                     {{#each this.address}}
@@ -40,7 +37,7 @@
                     </div>
                     {{/each}}
                 </div>
-                <div id="phone">Phone
+                <div id="phone">Phone    <!--On the main display area, it uses HBS module to show contact's phone-->
                     <button id="editphone">Add</button>
                     <hr>
                     {{#each this.phonenumber}}
@@ -50,9 +47,8 @@
                     {{/each}}
                 </div>
             </div>
-            {{/each}}
-            <!-------------------------------------------------->
-            <div id="addone">Add Contact
+            {{/each}}   <!--This is where the HBS module ends-->
+            <div id="addone">Add Contact   <!--This is the add contact section-->
                 <div id="fnamediv">Contact's First Name
                     <input id="fnameinputbox" type="text" placeholder="Enter first name">
                 </div>
@@ -62,21 +58,10 @@
                 <div id="bioinput">Contact's Bio
                     <textarea id="bioinputbox" type="text" placeholder="Enter Bio" cols="40" rows="5"></textarea>
                 </div>
-                <div id="emailinput">Contact's Email
-                    <input id="emailinputbox" type="text" placeholder="Enter Email">
-                </div>
-<!--
-                <div id="phoneinput">Contact's phone
-                    <input id="phoneinputbox" type="text" placeholder="Enter phone number">
-                </div>
-                <div id="addressinput">Contact's address
-                    <input id="addressinputbox" type="text" placeholder="Enter address">
-                </div>
--->
                 <button id="search">Search</button>
                 <button id="confirmadd">Done</button>
             </div>
-            <div id="searchwindow">
+            <div id="searchwindow">    <!--This is the search contact section-->
                 <div id="searchboxes">
                     <select id="nameoremail">
                     <option value="name">Name</option>
@@ -86,15 +71,15 @@
                 </div>
                 <button id="searchbutton">Search</button>
             </div>
-            <div id="resultwindow">Result:</div>
-            <div id="editaddresspage">
+            <div id="resultwindow">Result:</div>    <!--This is the result section (after the search function)-->
+            <div id="editaddresspage">    <!--This is the add address section. It adds another address detail to the contact-->
                 <textarea id="newaddressbox" type="text" placeholder="Enter a new address" rows="2"></textarea>
                 <button id="okaddress">Done</button>
                 <button id="viewonmap">View on Map</button>
                 <iframe id="previewmap" class = "maphide" width="100%" height="240px" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q={{this.location}}" allowfullscreen>
                 </iframe>
             </div>
-            <div id="editphonepage">
+            <div id="editphonepage">    <!--This is the add address section. It adds another phone detail to the contact-->
                 <select id="typeselect">
                 <option value="cell">Cell</option>
                 <option value="home">Home</option>
