@@ -122,9 +122,16 @@ app.use(express.static(__dirname + "/src"))
 app.use((request, response, next) => {
     profile = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/profile.hbs", 'utf8'))
     contacts = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/contacts.hbs", 'utf8'))
+    events = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/event.hbs", 'utf8'))
     next();
 })
 
+var createContacts = (cont_data) =>{
+    contacts = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/contacts.hbs", 'utf8'))
+    return contacts({
+        contacts: cont_data
+    })
+}
 /**
  * This module helps with registering partial handlebar templates
  * @name hbs/registerPartials
@@ -212,37 +219,51 @@ app.get("/hub", (request, response, next) => {
 //-----------------------------------------------------------------------
 app.post("/profile", (request, response) => {
     sessionInfos = request.session.user_id
-    /*dbfunct.getUserData(sessionInfos).then((result)=>{
-
-    })*/
-    response.send({
-        script: '/profile.js',
-        style: '/profile.css',
-        layout: profile({
-            name_id: '1',
-            fname: 'FNAME',
-            lname: 'LNAME',
-            bio: 'A Bio',
-            email: 'email@email.com',
-            phoneNumber: [{ phone_id: '1', phone: '6041231234', type: 'Work' }],
-            addresses: [{ address_id: '1_1_1', addressName: '555 Seymour Street' }]
+    dbfunct.getUserData(sessionInfos).then((result) => {
+        response.send({
+            script: '/profile.js',
+            style: '/profile.css',
+            layout: profile({
+                name_id: sessionInfos,
+                fname: result.fname,
+                lname: result.lname,
+                bio: result.bio,
+                email: result.email,
+                phoneNumber: result.phone_numbers,
+                addresses: result.addresses
+            })
         })
     })
 })
 
 app.post('/prof_address', (require, response) => {
-    console.log(require.body)
-    response.send({ message: "I got that message" })
+    sessionInfos = require.session.user_id
+    dbfunct.addUserAddress(sessionInfos, require.body.address).then((result)=>{
+        response.send({ status: 'OK', url: '/hub' })
+    }).catch((err)=>{
+        response.send({ status: 'NOK' })
+    })
 });
 
 app.post('/prof_phones', (require, response) => {
-    console.log(require.body)
-    response.send({ message: "I got that message" })
+    sessionInfos = require.session.user_id
+    dbfunct.addUserPhone(sessionInfos, require.body.phone, require.body.type).then((result)=>{
+        response.send({ status: 'OK', url: '/hub' })
+    }).catch((err)=>{
+        response.send({ status: 'NOK' })
+    })
 });
 
 app.post('/prof_bio', (require, response) => {
-    console.log(require.body)
-    response.send({ message: "I got that message" })
+    sessionInfos = require.session.user_id
+    if (require.body.bio.length <= 500) {
+        dbfunct.editUserBio(sessionInfos, require.body.bio).then((result) => {
+            response.send({ status: 'OK', url: '/hub' })
+        }).catch((err) => {
+            response.send({ status: 'NOK' })
+        })
+    }
+
 });
 
 //-----------------------------------------------------------------------
@@ -250,69 +271,65 @@ app.post('/prof_bio', (require, response) => {
 //-----------------------------------------------------------------------
 app.post('/contacts', (request, response) => {
     sessionInfos = request.session.user_id
+    dbfunct.getContInfo(sessionInfos).then((result) => {
+        response.send({
+            script: 'contacts.js',
+            style: 'contacts.css',
+            layout: createContacts(result)
+
+        })
+    })
+    // response.send({
+    //     script: 'contacts.js',
+    //     style: 'contacts.css',
+    //     layout: contacts({
+    //         contacts: result
+    //         }]
+    //     })
+
+    // })
+})
+
+
+app.post("/cont_addcontacts", function(require, response) {
+    console.log(require.body)
+    response.send({ message: "Personal info added" })
+})
+
+app.post("/cont_addaddress", function(require, response) {
+    console.log(require.body)
+    response.send({ message: "Address added" })
+})
+
+app.post("/cont_addphone", function(require, response) {
+    console.log(require.body)
+    response.send({ message: "Phone added" })
+})
+
+//-----------------------------------------------------------------------
+
+//-----------------------------------------------------------------------
+app.post("/events", function(require, response) {
     response.send({
         script: '',
-        style: 'contacts.css',
-        layout: contacts({
-            contacts: [{
-                cont_id: '1_1',
-                fname: 'FNAME',
-                lname: 'LNAME',
-                address: [{
-                    cont_id: '1_1_1',
-                    addr: '555 Seymour Street'
-                }],
-                phonenumber: [{
-                    number: '6041231234',
-                    type: 'Home'
-                }]
-
-            }]
+        style: '',
+        layout: events({
+            name: 'username',
+            number: [{ eventname: 'Stuff', fromtime: '2018-05-01 01:01', endtime: '2018-05-22  01:02', location: 'Vancouver,CA' }, { eventname: 'StuffA', fromtime: '2018-05-02 01:01', endtime: '2018-05-21  01:02', location: 'Burnaby,CA' }]
         })
-
     })
+    // response.render("event.hbs",{
+    //     name:'username',
+    //     number:[{eventname:'Stuff',fromtime:'2018-05-01 01:01',endtime:'2018-05-22  01:02',location:'Vancouver,CA'},{eventname:'StuffA',fromtime:'2018-05-02 01:01',endtime:'2018-05-21  01:02',location:'Burnaby,CA'}    
+    //     ]
+    // })
 })
+
 //-----------------------------------------------------------------------
 //LOGOUT FUNCTION
 app.post("/logout", (request, response) => {
     request.session.destroy()
     response.json({ status: "OK", message: "Log out successfully" })
-})
-
-app.post("/update", (request, response) => {
-
-    sessionInfos = request.session.user_id
-    new_phone = request.body["phone"]
-    new_address = request.body["address"]
-    pgpool.query('update users set p_numbers = $2, locate = $3 where user_id = $1', [sessionInfos, new_phone, new_address], (err, res) => {
-        if (err) {
-            response.json({ status: "NOK", message: "Update Not Added" })
-        } else {
-            response.json({ status: "OK", message: "Update Added" })
-        }
-    })
-    // response.json({ status: "OK", message: "Update Added" })
-})
-
-app.post("/addcontact", (request, response) => {
-    if (!(request.body["fname"] === "") && !(request.body["lname"] === "")) {
-        sessionInfos = request.session.user_id
-        new_fname = request.body["fname"]
-        new_lname = request.body["lname"]
-        new_phone = request.body["phone"]
-        new_address = request.body["address"]
-        pgpool.query('insert into contacts(user_id, firstname, lastname, address, phone) values ($1, $2, $3, $4, $5)', [sessionInfos, new_fname, new_lname, new_address, new_phone], (err, res) => {
-            if (err) {
-                console.log(err);
-                response.json({ status: "NOK", message: "Contact Not Added" })
-            } else {
-                response.json({ status: "OK", message: "Contact Added" })
-            }
-        })
-    } else {
-        response.json({ status: "NOK", message: "Required fields not filled" })
-    }
-    // response.json({ status: "OK", message: "Update Added" })
 })
 //Code copy ends here
 //--------------------------------------------------------------------------------------------------------------------------

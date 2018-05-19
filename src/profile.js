@@ -49,6 +49,7 @@ bioAdd.addEventListener("click", function(){
 addBio.addEventListener("click", function(){
     fetch('/prof_bio', {
           method:"POST",
+          credentials: "include",
           headers: {
             "Content-Type":"application/json"
           },
@@ -58,7 +59,11 @@ addBio.addEventListener("click", function(){
     }).then((response)=>{
         return response.json();
     }).then((json)=>{
-        console.log(json.message)
+      if (json.status == 'OK'){
+        window.location.assign(json.url)
+      } else if (json.status == 'NOK'){
+        alert('Invalid Bio Input')
+      }
     })
     
     bioInput.value = "";
@@ -71,6 +76,7 @@ contactAdd.addEventListener("click", function(){
 addPhone.addEventListener("click", function(){
     fetch('/prof_phones', {
           method:"POST",
+          credentials: "include",
           headers: {
             "Content-Type":"application/json"
           },
@@ -80,7 +86,11 @@ addPhone.addEventListener("click", function(){
     }).then((response)=>{
         return response.json();
     }).then((json)=>{
-        console.log(json.message)
+      if (json.status == 'OK'){
+        window.location.assign(json.url)
+      } else if (json.status == 'NOK'){
+        alert('Invalid Phone Input')
+      }
     })
     
     phoneInput.value = "";
@@ -93,6 +103,7 @@ addressAdd.addEventListener("click", function(){
 addAddress.addEventListener("click", function(){
     fetch('/prof_address', {
           method:"POST",
+          credentials: "include",
           headers: {
             "Content-Type":"application/json"
           },
@@ -102,7 +113,11 @@ addAddress.addEventListener("click", function(){
     }).then((response)=>{
         return response.json();
     }).then((json)=>{
-        console.log(json.message)
+      if (json.status == 'OK'){
+        window.location.assign(json.url)
+      } else if (json.status == 'NOK'){
+        alert('Invalid Address Input')
+      }
     })
     
     addressInput.value = "";
