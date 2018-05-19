@@ -5,32 +5,12 @@ var userid = 0;
 
 //This is the function that hides the leftbar and make the main display take up the whole page.
 document.getElementById("hide").addEventListener("click",function(){  
-    if(leftbar.style.left == "0px"){
-        leftbar.style.left = "-15vw";
-        leftbar.style.transition = "0.5s";
+    if(main.style.width == "85%"){
         main.style.left = "0px";
-        main.style.width = "100vw";
-        main.style.transition = "0.5s";
-        info.style.width = "25vw";
-        info.style.left = "2vw";
-        address.style.width = "25vw";
-        address.style.left = "28vw";
-        phone.style.width = "25vw";
-        phone.style.left = "54vw";
-    }
-    else{
-        leftbar.style.left = "0px";
-        leftbar.style.transition = "0.5s";
-        main.style.left = "15vw";
-        main.style.width = "85vw";
-        main.style.transition = "0.5s";
-        info.style.width = "20vw";
-        info.style.left = "3vw";
-        address.style.width = "20vw";
-        address.style.left = "25vw";
-        phone.style.width = "20vw";
-        phone.style.left = "47vw";
-        
+        main.style.width = "100%";
+    }else{
+        main.style.left = "15%";
+        main.style.width = "85%";
     }
 });
 
