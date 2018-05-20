@@ -150,7 +150,7 @@ document.getElementById("nameoremail").addEventListener("click",function(){
 });
 
 document.getElementById("searchbutton").addEventListener("click",function(){
-        obj = {type: nameoremail.value, keyword: searchnameoremail.value}
+        obj = {keyword: searchnameoremail.value}
         fetch("/sendKeyword",{
         method:"POST",
         headers:{
