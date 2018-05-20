@@ -1,9 +1,10 @@
+
 #leftbar{
     position: absolute;
     left: 0px;
-    top: 7%;
-    height: 87vh;
-    width: 15vw;
+    top: 0px;
+    height: 100%;
+    width: 15%;
     background-color: aquamarine;
     overflow: auto;
 }
@@ -15,6 +16,7 @@
     border-radius: 10px;
     text-align: center;
 }
+
 #hide{
     position: absolute;
     top: 90%;
@@ -24,9 +26,11 @@
 #main{
     position: absolute;
     height: 100%;
-    width: 70%;
-    left: 30%;
+    width: 85%;
     background-color: azure;
+    left:15%;
+    top: 0px;
+    transition: 0.4s;
 }
 
 .cards{
@@ -47,8 +51,8 @@
 #info{
     position: absolute;
     height: 45vh;
-    width: 20vw;
-    left: 2vw;
+    width: 28%;
+    left: 4%;
     top: 6vw;
     background-color: rgb(0,0,0,0.2);
 }
@@ -56,8 +60,8 @@
 #phone{
     position: absolute;
     height: 45vh;
-    width: 20vw;
-    left: 46vw;
+    width: 28%;
+    left: 36%;
     top: 6vw;
     background-color: rgb(0,0,0,0.2);
 }
@@ -65,8 +69,8 @@
 #address{
     position: absolute;
     height: 45vh;
-    width: 20vw;
-    left: 24vw;
+    width: 28%;
+    left: 68%;
     top: 6vw;
     background-color: rgb(0,0,0,0.2);
     overflow: auto;
@@ -87,6 +91,21 @@
     padding: 5px;
 }
 
+#phone1{
+    font-size: 20px;
+    padding: 5px;
+}
+
+#phone2{
+    font-size: 20px;
+    padding: 5px;
+}
+
+#phone3{
+    font-size: 20px;
+    padding: 5px;
+}
+
 #email{
     font-size: 20px;
     padding: 5px;
@@ -100,8 +119,8 @@
 
 #addcontacts{
     position: absolute;
-    height: 6vh;
-    width: 15vw;
+    height: 6%;
+    width: 15%;
     left: 0px;
     bottom: 0px;
 }
@@ -186,10 +205,23 @@
 
 #confirmadd{
     position: absolute;
+/*
     right: 0px;
     bottom: 0px;
+*/
     padding: 15px;
     right: 10px;
+    bottom: 10px;
+}
+
+#search{
+    position: absolute;
+/*
+    right: 0px;
+    bottom: 0px;
+*/
+    padding: 15px;
+    right: 90px;
     bottom: 10px;
 }
 
@@ -297,4 +329,52 @@
     display: none;
     left: 0px;
     bottom: -250px;
+}
+
+#searchwindow{
+    position: absolute;
+    height: 10%;
+    width: 30%;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    background-color: darkgoldenrod;
+    display: none;
+}
+
+#searchboxes{
+    position: absolute;
+    left: 3%;
+    top: 8%;
+}
+
+#searchbutton{
+    position: absolute;
+    bottom: 10%;
+    left: 41%;
+}
+
+#searchnameoremail{
+    width: 250px;
+}
+
+#resultwindow{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    height: 45%;
+    width: 45%;
+    background-color: darkseagreen;
+    display: none;
+    overflow: auto;
+}
+
+.newresult{
+    width: 100%;
+    height: 20%;
 }

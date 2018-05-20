@@ -183,37 +183,6 @@ app.get("/hub", (request, response, next) => {
             lname: result.lname
         })
     })
-    // profile_info = {
-    //     fname: 'Glenn',
-    //     lname: 'Parale',
-    //     p_numbers: [{ number: '604 777 2818' }],
-    //     locs: [{ location: '555 Seymour Street, Vancouver, BC' }]
-    // }
-
-    // contactees = [{ cont_id: 1, fname: 'Billy', lname: 'Wong', p_number: '604 123 4567', location: '555 Seymour Street, Vancouver, BC' },
-    //     { cont_id: 2, fname: 'Billy', lname: 'Wong', p_number: '604 123 4567', location: '555 Seymour Street, Vancouver, BC' },
-    //     { cont_id: 3, fname: 'Billy', lname: 'Wong', p_number: '604 123 4567', location: '555 Seymour Street, Vancouver, BC' }
-    // ]
-
-    // response.render("hub.hbs", {
-    //     username: 'glenn',
-    //     sel: [{
-    //         id_name: "profile",
-    //         opt_name: "Profile",
-    //         img_source: "https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png",
-    //         layout: profile(profile_info),
-    //         script: ""
-    //     }, {
-    //         id_name: "contacts",
-    //         opt_name: "Contacts",
-    //         img_source: "http://www.gaby-moreno.com/administrator/public_html/css/ionicons/png/512/android-contacts.png",
-    //         layout: contacts({
-    //             contact: contactees
-    //         }),
-    //         script: "/contacts.js"
-    //     }]
-    // })
-
 })
 
 //-----------------------------------------------------------------------
@@ -279,33 +248,54 @@ app.post('/contacts', (request, response) => {
 
         })
     })
-    // response.send({
-    //     script: 'contacts.js',
-    //     style: 'contacts.css',
-    //     layout: contacts({
-    //         contacts: result
-    //         }]
-    //     })
-
-    // })
 })
 
 
 app.post("/cont_addcontacts", function(require, response) {
-    console.log(require.body)
-    response.send({ message: "Personal info added" })
+    sessionInfos = require.session.user_id
+    dbfunct.addContact(sessionInfos, require.body.fname, require.body.lname, require.body.bio).then((result)=>{
+        response.send({ status: 'OK', url: '/hub' })
+    }).catch((err)=>{
+        response.send({ status: 'NOK' })
+    })   
 })
 
 app.post("/cont_addaddress", function(require, response) {
-    console.log(require.body)
-    response.send({ message: "Address added" })
+    dbfunct.addContactAddress(require.body.cont_id, require.body.user_id, require.body.address).then((result)=>{
+      response.send({ status: 'OK', url: '/hub' })
+    }).catch((err)=>{
+        response.send({ status: 'NOK' })
+    })   
 })
 
 app.post("/cont_addphone", function(require, response) {
-    console.log(require.body)
-    response.send({ message: "Phone added" })
+    dbfunct.addContactPhone(require.body.cont_id, require.body.user_id, require.body.phone, require.body.type).then((result)=>{
+      response.send({ status: 'OK', url: '/hub' })
+    }).catch((err)=>{
+        response.send({ status: 'NOK' })
+    }) 
 })
 
+app.post("/cont_sendKeyword", function(require, response){
+    dbfunct.getContAccount(require.body.keyword).then((result)=>{
+        sendback = []
+        for(i=0; i < result.length; i++){
+            result_info = {user_id:result[i].user_id + '_'+ result[i].fname + '_' + result[i].lname, name: result[i].fname + " " + result[i].lname, email:result[i].username}
+            sendback.push(result_info)
+        }
+        response.json(sendback)
+    })
+})
+
+app.post("/cont_addcontactswithaccount", function(require, response){
+    sessionInfos = require.session.user_id
+    add_info = require.body.cont_info.split("_")
+    dbfunct.addContactwithAccount(sessionInfos, add_info[1], add_info[2], add_info[0]).then((result)=>{
+        response.send({ status: 'OK', url: '/hub' })
+    }).catch((err)=>{
+        response.send({ status: 'NOK' })
+    })
+})
 //-----------------------------------------------------------------------
 
 //-----------------------------------------------------------------------

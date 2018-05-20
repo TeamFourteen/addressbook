@@ -1,74 +1,20 @@
-var count = 1;
-var infoobj = {};
-var infoaddress = {};
-var infophone = {};
+var cont_id = '';
+//var infoobj = {};
+//var infoaddress = {};
+//var infophone = {};
 
+//This is the function that hides the leftbar and make the main display take up the whole page.
 document.getElementById("hide").addEventListener("click", function() {
-    if (leftbar.style.left == "0px") {
-        leftbar.style.left = "-15vw";
-        leftbar.style.transition = "0.5s";
+    if (main.style.width == "85%") {
         main.style.left = "0px";
-        main.style.width = "100vw";
-        main.style.transition = "0.5s";
-        info.style.width = "25vw";
-        info.style.left = "2vw";
-        address.style.width = "25vw";
-        address.style.left = "28vw";
-        phone.style.width = "25vw";
-        phone.style.left = "54vw";
+        main.style.width = "100%";
     } else {
-        leftbar.style.left = "0px";
-        leftbar.style.transition = "0.5s";
-        main.style.left = "15vw";
-        main.style.width = "85vw";
-        main.style.transition = "0.5s";
-        info.style.width = "20vw";
-        info.style.left = "3vw";
-        address.style.width = "20vw";
-        address.style.left = "25vw";
-        phone.style.width = "20vw";
-        phone.style.left = "47vw";
-
+        main.style.left = "15%";
+        main.style.width = "85%";
     }
 });
 
-document.getElementById("addcontacts").addEventListener("click", function() {
-
-});
-
-//document.getElementById("addr1").addEventListener("click",function(){
-//    if(addr1.style.height != "250px"){
-//        addr1.style.height = "250px";
-//        map1.style.display = "block";
-//    }
-//    else{
-//        addr1.style.height = "23px";
-//        map1.style.display = "none";
-//    }
-//});
-//
-//document.getElementById("addr2").addEventListener("click",function(){
-//    if(addr2.style.height != "250px"){
-//        addr2.style.height = "250px";
-//        map2.style.display = "block";
-//    }
-//    else{
-//        addr2.style.height = "23px";
-//        map2.style.display = "none";
-//    }
-//});
-//
-//document.getElementById("addr3").addEventListener("click",function(){
-//    if(addr3.style.height != "250px"){
-//        addr3.style.height = "250px";
-//        map3.style.display = "block";
-//    }
-//    else{
-//        addr3.style.height = "23px";
-//        map3.style.display = "none";
-//    }
-//});
-
+//This function shows the location of the contact's address by changing the style when the address is clicked on.
 addresses = document.getElementsByClassName("addrs")
 
 for (i = 0; i < addresses.length; i++) {
@@ -85,35 +31,20 @@ for (i = 0; i < addresses.length; i++) {
             }
         })
     }
-    // document.getElementById(item_id).addEventListener("click",function(){
-    //     map = document.getElementById(this.id+"_map")
-    //     if(map.className == "maphide"){
-    //         document.getElementById(this.id).style.height = "250px";
-    //         map.className = "mapshow";
-    //     }
-    //     else{
-    //         document.getElementById(this.id).style.height = "23px";
-    //         map.className = "maphide";
-    //     }
-    // })
 }
 
+//This function changes the add contact window's display property to show the window.
 document.getElementById("addcontacts").addEventListener("click", function() {
     addone.style.display = "block";
 })
 
+//This function sends all the user input in the add contact window after it packs all the info to the server.
 document.getElementById("confirmadd").addEventListener("click", function() {
     addone.style.display = "none";
-    //    infoobj.fname = fnameinputbox.value;
-    //    infoobj.lname = lnameinputbox.value;
-    //    infoobj.bio = bioinputbox.value;
-    //    infoobj.email = emailinputbox.value;
-    //    console.log(infoobj);
-    //    
-
-    obj = { fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value, email: emailinputbox.value };
+    obj = { fname: fnameinputbox.value, lname: lnameinputbox.value, bio: bioinputbox.value };
     fetch("/cont_addcontacts", {
         method: "POST",
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json"
         },
@@ -121,33 +52,29 @@ document.getElementById("confirmadd").addEventListener("click", function() {
     }).then((response) => {
         return response.json();
     }).then((json) => {
-        console.log(json.message)
+        if (json.status == 'OK') {
+            window.location.assign(json.url)
+        } else if (json.status == 'NOK') {
+            alert('Invalid Bio Input')
+        }
     })
     fnameinputbox.value = "";
     lnameinputbox.value = "";
     bioinputbox.value = "";
-    emailinputbox.value = "";
-    //    fetch("/item",{
-    //        method:"POST",
-    //        headers:{
-    //            "Content-Type":"application/json"
-    //        },
-    //        body:JSON.stringify({
-    //        want:"ice cream"
-    //    })
-    //    }).then((response)=>{
-    //        return response.json();
-    //    }).then((json)=>{
-    //        console.log(json.message)
-    //    })
 })
 
-document.getElementById("editaddress").addEventListener("click", function() {
-    editaddresspage.style.display = "block";
-})
+//This function changes the add address window's display property to show the window.
+editaddress = document.getElementsByClassName("editaddress")
+for (i = 0; i < editaddress.length; i++) {
+    document.getElementById(editaddress[i].id).addEventListener("click", function() {
+        editaddresspage.style.display = "block";
+    })
+}
 
+//Once the user done with adding address, it sends the the address data to the server.
 document.getElementById("okaddress").addEventListener("click", function() {
-    obj = { address: newaddressbox.value };
+    send_info = cont_id.split("_")
+    obj = { cont_id: send_info[0], user_id: send_info[1], address: newaddressbox.value };
     fetch("/cont_addaddress", {
         method: "POST",
         headers: {
@@ -157,45 +84,52 @@ document.getElementById("okaddress").addEventListener("click", function() {
     }).then((response) => {
         return response.json();
     }).then((json) => {
-        console.log(json.message)
+        if (json.status == 'OK') {
+            window.location.assign(json.url)
+        } else if (json.status == 'NOK') {
+            alert('Invalid Address Input')
+        }
     })
     newaddressbox.value = "";
     editaddresspage.style.display = "none";
 })
 
-document.getElementById("editphone").addEventListener("click", function() {
-    editphonepage.style.display = "block";
-})
+//This function changes the add phone window's display property to show the window.
+editphone = document.getElementsByClassName("editphone")
+for (i = 0; i < editphone.length; i++) {
+    document.getElementById(editphone[i].id).addEventListener("click", function() {
+        editphonepage.style.display = "block";
+    })
+}
 
+
+//Once the user done with adding phone, it sends the the address data to the server.
 document.getElementById("okphone").addEventListener("click", function() {
     var numbers = document.getElementById("newphonebox").value;
-    if (numbers.length >= 10 & numbers.length <= 14 & numbers == parseInt(numbers, 10)) {
-
-        obj = { type: typeselect.value, phone: newphonebox.value };
-        fetch("/cont_addphone", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(obj)
-        }).then((response) => {
-            return response.json();
-        }).then((json) => {
-            console.log(json.message)
-        })
-        newphonebox.value = "";
-        editphonepage.style.display = "none";
-        warningpic.style.display = "none";
-        warning.style.display = "none";
-    } else {
-        warningpic.style.display = "block";
-        warning.style.display = "block";
-        newphonebox.value = "";
-    }
-
+    send_info = cont_id.split("_")
+    obj = { cont_id: send_info[0], user_id: send_info[1], type: typeselect.value, phone: newphonebox.value };
+    fetch("/cont_addphone", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(obj)
+    }).then((response) => {
+        return response.json();
+    }).then((json) => {
+        if (json.status == 'OK') {
+            window.location.assign(json.url)
+        } else if (json.status == 'NOK') {
+            alert('Invalid Phone Input')
+        }
+    })
+    newphonebox.value = "";
+    editphonepage.style.display = "none";
+    warningpic.style.display = "none";
+    warning.style.display = "none";
 });
 
-
+//This function shows the location of the address from user input in add address window.
 document.getElementById("viewonmap").addEventListener("click", function() {
     if (previewmap.style.display == "none") {
         previewmap.style.display = "block";
@@ -217,7 +151,64 @@ for (i = 0; i < contacts.length; i++) {
         }
         card = document.getElementById(this.id + "_card")
         if (card.style.display == "none") {
+            cont_id = card.id
             card.style.display = "block";
         }
     })
 }
+
+document.getElementById("search").addEventListener("click", function() {
+    addone.style.display = "none";
+    searchwindow.style.display = "block";
+});
+
+document.getElementById("nameoremail").addEventListener("click", function() {
+    if (nameoremail.value == "name") {
+        searchnameoremail.placeholder = "Enter name"
+    } else {
+        searchnameoremail.placeholder = "Enter Email"
+    }
+});
+
+document.getElementById("searchbutton").addEventListener("click", function() {
+    obj = { type: nameoremail.value, keyword: searchnameoremail.value }
+    fetch("/cont_sendKeyword", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(obj)
+    }).then((response) => {
+        return response.json();
+    }).then((json) => {
+        console.log(json)
+        searchwindow.style.display = "none";
+        resultwindow.style.display = "block";
+        for (i = 0; i < json.length; i++) {
+            newresult = document.createElement("div");
+            newresult.innerHTML = json[i].name + " " + " " + " " + " " + json[i].email
+            newresult.id = json[i].user_id
+            resultwindow.appendChild(newresult);
+
+            newresult.addEventListener("click", function() {
+                fetch("/cont_addcontactswithaccount", {
+                    method: "POST",
+                    credentials: 'include',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ cont_info: this.id })
+                }).then((response) => {
+                    return response.json();
+                }).then((json) => {
+                    if (json.status == 'OK') {
+                        window.location.assign(json.url)
+                    } else if (json.status == 'NOK') {
+                        alert('Invalid Input')
+                    }
+                })
+            })
+
+        }
+    })
+})
