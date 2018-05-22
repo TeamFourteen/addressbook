@@ -428,6 +428,7 @@ async function checkChat(user_id) {
     }
     return r_chatr
 }
+
 module.exports = {
     getLoginData,
     getUserData,
