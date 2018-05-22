@@ -1,30 +1,70 @@
-<div>
-Personal Info
-	<div>
-	Name : {{fname}}{{lname}}
-	</div>
-</div>
-
-<div>
-
-Phone numbers
-{{#each p_numbers}}
-	<div>
-	{{this.number}}
-	</div>
-{{/each}}
-
-</div>
-
-<div>
-Locations
-{{#each locs}}
-	{{#if this.location}}
-	<div>
-            {{this.location}} <br>
-            <iframe width="500" height="240" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q={{this.location}}" allowfullscreen>
-            </iframe>        
-	</div>
-	{{/if}}
-{{/each}}
-</div>
+<div id="display">
+           
+            <div id="profileDiv">
+                <button id="bioAdd">Edit</button>
+                    <div id="{{name_id}}" class="columnName">{{fname}} 
+                        <br />
+                        {{lname}}
+                    </div>
+                
+                
+                
+                
+                <div id="bio" class="bio">{{bio}}</div>
+                
+                <div id="email" class="email">{{email}}</div>
+            </div>
+            
+            <div id="contactDiv">
+                <div id="contactInfo">Contact Information</div>
+                <button id="contactAdd">Add</button>
+                {{#each phoneNumber}}
+                    <div id="{{this.phone_id}}" class="phones">{{this.type}} {{this.phone}}</div>
+                    <br />
+                {{/each}}
+                
+            </div>
+            
+            <div id="addressDiv">
+                <button id="addressAdd">Add</button>
+                <div id="addressDisplay">Addresses</div>
+                <div id="addressesDiv">
+                    {{#each addresses}}
+                        <div id="{{this.address_id}}" class="addressClass">{{this.addressName}}
+                    
+                        <iframe id="{{this.address_id}}_map" class="mapHide" width="100%" height="auto" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q={{this.addressName}}" allowfullscreen>
+                        </iframe>
+                        
+                        
+                        </div>
+                        
+                    {{/each}}
+                </div>
+            </div>
+            
+                
+        </div>
+        
+        <div id="contactInputs">
+            <input id="phoneInput" type="text" placeholder="enter phone number" />
+            <select id="phoneType">
+                <option value="cell">Cell</option>
+                <option value="work">Work</option>
+                <option value="home">Home</option>
+            </select>
+            <button id="addPhone">add</button>
+            <button id="phoneDone">Done</button>
+        </div>
+        
+        <div id="addressInputs">
+            <input id="addressInput" type="text" placeholder="enter address" />
+            <button id="addAddress">Add</button>
+            <button id="addressDone">Done</button>
+        </div>
+        
+        <div id="bioInputs">
+            <input id="bioInput" type="text" placeholder="enter bio" />
+            <button id="addBio">Add</button>
+            <button id="bioDone">Done</button>
+        </div>
+        <div id="navBar"></div>
