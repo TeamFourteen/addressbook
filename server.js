@@ -415,7 +415,7 @@ app.post('/chat', function(require,response){
     SessionInfos = require.session.user_id
     dbfunct.checkChat(SessionInfos).then((result)=>{
         response.send({
-            script: '',
+            script: 'chat.js',
             style: 'chat.css',
             layout: chat({
                 chatroom: result

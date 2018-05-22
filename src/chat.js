@@ -1,15 +1,14 @@
 
 	// sdB = document.getElementById("sendBtn"),
-	// nChtRoom = document.getElementById("addCrButton"),
+	nChtRoom = document.getElementById("addCrButton"),
 	// chtDisp = document.getElementById("chatDisplay"),
-	// addChtRmPupPg = document.getElementById("addChatRoomPopUpPage"),
+	addChtRmPupPg = document.getElementById("addChatRoomPopUpPage"),
 	// createBtn = document.getElementById("createButton"),
 	// cDetails = document.getElementById("chatDetails"),
 	// ctRmList = document.getElementById("chatRoomList"),
 	// sdInp = document.getElementById("sendInp"),
-	// perConInfo = document.getElementById("personContactInfo"),
-	// createCRN = document.getElementById("createChatRoomName"),
-	// nCtRmName = document.getElementById("newChatRoomName"),
+	perConInfo = document.getElementById("personContactInfo"),
+	nCtRmName = document.getElementById("newChatRoomName"),
 	// ctRmToBeAdd = document.getElementById("chatroom_to_be_added"),
 	// socket = io(),
 	// userid = '',
@@ -38,6 +37,7 @@ nChtRoom.addEventListener("click",function(){                  //  "new chatroom
 		for(i=0; i < json.length; i++){
 			
 			console.log(json[i]);
+
 			adUserDiv = document.createElement("div");
 			adUserDiv.className = "adUrDiv";
 			adUserDiv.innerHTML = json[i].fName+" "+json[i].lName;
@@ -53,14 +53,6 @@ nChtRoom.addEventListener("click",function(){                  //  "new chatroom
 	
 // });
 
-
-// createCRN.addEventListener("keyup", function(ev){                  // give a name of a new created chatroom text "input-box"
-// 	if(ev.keyCode=="13"){
-// 		nCtRmName.innerHTML = createCRN.value;
-// 		createCRN.value="";
-// 	};
-// });
-	
 // crNum1.addEventListener("click",function(){                      // chatroom main page --> "ChatRoom No.1"
 // 	socket.emit("choiceChat",{room:this.id, user:userid});	
 // 	cDetails.style.display = "block";
