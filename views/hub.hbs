@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome {{fname}} {{lname}}</title>
+    <link rel="stylesheet" type="text/css" href="/hub.css">
+    <link id="indiv_styles" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header id="upper_menus">
+        <div>Hello, {{fname}} {{lname}}</div>
+        <div id="options">
+        Options
+        <div class="dropdown-content">
+                <div id="profile">Profile</div>
+                <div id="contacts">Contacts</div>
+                <div id="chat">Chat</div>
+                <div id="events">Events</div>
+                <div id="logout">Logout</div>
+            </div>
+        </div>
+    </header>
+    <div id='main_window'>
+    </div>
+    <script src="/hub.js"></script>
+    <script type="text/javascript" id='indiv_scripts'></script>  
+</body>
+
+</html>
