@@ -346,5 +346,8 @@ module.exports = {
     addUserAddress,
     editUserBio,
     addContact,
-    addContactwithAccount
+    addContactwithAccount,
+    getContactAddresses,
+    getContactPhone,
+    getContactsInfo
 }
