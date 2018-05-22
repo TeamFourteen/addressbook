@@ -61,15 +61,15 @@ document.getElementById("contacts").addEventListener('click', ()=>{
 	})
 })
 
-document.getElementById("events").addEventListener('click', ()=>{
-	fetch("/events", {
+document.getElementById("chat").addEventListener('click', ()=>{
+	fetch("/chat", {
 		method: "POST",
 		credentials: "include",
 		headers: {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-            "command": "profile"
+            "command": "pchat"
 		})
 	}).then((response)=>{
 		return response.json()
@@ -80,3 +80,24 @@ document.getElementById("events").addEventListener('click', ()=>{
 		document.getElementById('indiv_scripts').src = json.script
 	})
 })
+
+document.getElementById("events").addEventListener('click', ()=>{
+	fetch("/events", {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+            "command": "pchat"
+		})
+	}).then((response)=>{
+		return response.json()
+	}).then((json)=>{
+		console.log(json)
+		main_window.innerHTML = json.layout
+		indiv_styles.href = json.style
+		document.getElementById('indiv_scripts').src = json.script
+	})
+})
+

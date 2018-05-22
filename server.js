@@ -80,6 +80,7 @@ app.use(express.static(__dirname + "/src"))
 app.use((request, response, next) => {
     profile = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/profile.hbs", 'utf8'))
     events = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/event.hbs", 'utf8'))
+    chat = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat.hbs", 'utf8'))
     next();
 })
 
@@ -90,7 +91,10 @@ var createContacts = (cont_data) => {
         contacts: cont_data
     })
 }
-
+ var pageChat = (cont_data) => {
+    chat = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat.hbs", 'utf8'))
+    return chat()
+ }
 /**
  * @event Body_parser_to_JSON
  * @desc Converts any data retrieved from the client as JSON object.
@@ -405,6 +409,30 @@ app.post("/cont_addcontactswithaccount", function(require, response) {
     })
 })
 //-----------------------------------------------------------------------
+
+//-----------------------------------------------------------------------
+app.post('/chat', function(require,response){
+    SessionInfos = require.session.user_id
+    dbfunct.checkChat(SessionInfos).then((result)=>{
+        response.send({
+            script: '',
+            style: 'chat.css',
+            layout: chat({
+                chatroom: result
+            })
+
+        })
+    })
+    
+})
+
+app.post('/chat_adUserDiv', (require,response)=>{
+    SessionInfos = require.session.user_id
+    dbfunct.getContactsWithAccount(SessionInfos).then((result)=>{
+        response.send(result)
+    })
+    
+});
 
 //-----------------------------------------------------------------------
 app.post("/events", function(require, response) {
