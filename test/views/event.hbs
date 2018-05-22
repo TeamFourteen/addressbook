@@ -12,11 +12,7 @@
     <input id="evname" type="text" placeholder="Enter your event name">
     <input id="startdate" type="date">
     <input id="starttime" type="time"> 
-    <div id="text">
-        TO
-    </div>
-    <input id="enddate" type="date">
-    <input id="endtime" type="time">
+   
     <input id="invite" type="text" placeholder="Member(s) to invite">
     <div id="floating-panel">
         <input id="address" type="textbox" value="Vancouver,CA">
@@ -66,8 +62,7 @@
         {{#each number}}
             <div class="evinfo">
                 <div>Event name: {{this.eventname}}</div>
-                <div>From: {{this.fromtime}}</div>
-                <div>End: {{this.endtime}}</div>
+                <div>Time: {{this.fromtime}}</div>
                 <div>Location: {{this.location}}</div>
                 <div>Member(s) to invite:{{this.member}}</div>
             </div>
