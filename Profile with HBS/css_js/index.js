@@ -21,6 +21,25 @@ var bioDone = document.getElementById("bioDone");
 
 // FUNCTIONS ----------------------------------------------------------------------------
 
+function bioPostFunction(bioInput) {
+    fetch('/bio', {
+        method:"POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          bio:bioInput.value
+        })
+  }).then((response)=>{
+      return response.json();
+  }).then((json)=>{
+      console.log(json.message)
+  })
+  
+  bioInput.value = "";
+}
+
+
 function phonePostFunction(phoneType, phoneInput) {
     fetch('/phones', {
         method:"POST",
@@ -73,21 +92,7 @@ bioAdd.addEventListener("click", function(){
 });
 
 addBio.addEventListener("click", function(){
-    fetch('/bio', {
-          method:"POST",
-          headers: {
-            "Content-Type":"application/json"
-          },
-          body: JSON.stringify({
-            bio:bioInput.value
-          })
-    }).then((response)=>{
-        return response.json();
-    }).then((json)=>{
-        console.log(json.message)
-    })
-    
-    bioInput.value = "";
+    bioPostFunction(bioInput);
 });
 
 contactAdd.addEventListener("click", function(){
