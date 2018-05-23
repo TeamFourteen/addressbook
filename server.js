@@ -55,6 +55,11 @@ const pgSession = require('connect-pg-simple')(session)
 const dbfunct = require("./private/databaseFunctions.js")
 
 const app = express();
+
+const http = require("http").createServer(app);
+
+const io = require("socket.io").listen(http);
+
 /**
  * @global
  * @name dbUrl
@@ -81,6 +86,8 @@ app.use((request, response, next) => {
     profile = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/profile.hbs", 'utf8'))
     events = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/event.hbs", 'utf8'))
     chat = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat.hbs", 'utf8'))
+    chat_sel = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat_sel.hbs", 'utf8'))
+    chat_main_body = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat_main_body.hbs", 'utf8'))
     next();
 })
 
@@ -91,10 +98,6 @@ var createContacts = (cont_data) => {
         contacts: cont_data
     })
 }
- var pageChat = (cont_data) => {
-    chat = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat.hbs", 'utf8'))
-    return chat()
- }
 /**
  * @event Body_parser_to_JSON
  * @desc Converts any data retrieved from the client as JSON object.
@@ -411,28 +414,114 @@ app.post("/cont_addcontactswithaccount", function(require, response) {
 //-----------------------------------------------------------------------
 
 //-----------------------------------------------------------------------
-app.post('/chat', function(require,response){
+app.post('/chat', function(require, response) {
     SessionInfos = require.session.user_id
-    dbfunct.checkChat(SessionInfos).then((result)=>{
+    dbfunct.checkChat(SessionInfos).then((result) => {
         response.send({
             script: 'chat.js',
             style: 'chat.css',
             layout: chat({
-                chatroom: result
+                chatroom: result,
             })
 
         })
     })
-    
+
 })
 
-app.post('/chat_adUserDiv', (require,response)=>{
+app.post('/chat_adUserDiv', (require, response) => {
     SessionInfos = require.session.user_id
-    dbfunct.getContactsWithAccount(SessionInfos).then((result)=>{
+    dbfunct.getContactsWithAccount(SessionInfos).then((result) => {
         response.send(result)
+    })
+});
+
+app.post('/chat_user', (require, response) => {
+    SessionInfos = require.session.user_id
+    dbfunct.getUserData(SessionInfos).then((result)=>{
+        response.send({ user_id: SessionInfos, user_name: result.fname + " " + result.lname })
     })
     
 });
+
+app.post('/chat_newChatRoomDiv', (require, response) => {
+    cont_ids = [require.session.user_id]
+    for (i = 0; i < require.body.chatroom_users.length; i++) {
+        sep = require.body.chatroom_users[i].split("_")
+        cont_ids.push(sep[0])
+    }
+    dbfunct.createChatRoom(require.body.chatroom_name, cont_ids).then((result) => {
+        response.send({ message: "OK" })
+    }).catch((err) => {
+        response.send({ message: "NOK" })
+    })
+
+});
+
+io.on('connection', function(socket) {
+    socket.emit('reqUser_ID', { request: 'user_id' })
+
+    socket.on('resUser_ID', function(data) {
+        userID = data.user_id
+        socket.userID = userID
+        dbfunct.getUserData(userID).then((resultA) => {
+            name_user = resultA.fname + " " + resultA.lname
+            dbfunct.checkChat(userID).then((resultB) => {
+                socket.emit('room_length' ,  resultB.length)
+                for(let i in resultB){
+                    socket.join(resultB[i].chatroom_id);
+                    io.in(resultB[i].chatroom_id).emit('joinRoom', {room: resultB[i].chatroom_id, message: name_user + " is online."})
+                }
+            })
+
+        }).catch((err)=>{
+            console.log('name problem')
+        })
+    })
+
+    socket.on("sendMessage", function(data) {
+        io.in(data.room).emit('chat', { room: data.room, user: data.user, message: data.message })
+    })
+
+    socket.on("update_chatroom", function(data){
+        userID = socket.userID
+        dbfunct.getUserData(userID).then((resultA) => {
+            name_user = resultA.fname + " " + resultA.lname
+            dbfunct.checkChat(userID).then((resultB) => {
+                resultB.splice(0 ,data.rl_length)
+                for(let i in resultB){
+                    socket.emit("new_room", {selection: chat_sel({
+                        chatroom_id: resultB[i].chatroom_id,
+                        chatroom_name: resultB[i].chatroom_name
+                    }) , main_body: chat_main_body({
+                        chatroom_id: resultB[i].chatroom_id,
+                        users: resultB[i].users
+                    })})
+                }
+            })
+
+        }).catch((err)=>{
+            console.log('name problem')
+        })
+    })
+
+    socket.on('disconnect', function() {
+        userID = socket.userID
+        dbfunct.getUserData(userID).then((resultA) => {
+            name_user = resultA.fname + " " + resultA.lname
+            dbfunct.checkChat(userID).then((resultB) => {
+                socket.emit('room_length' ,  resultB.length)
+                for(let i in resultB){
+                    socket.leave(resultB[i].chatroom_id);
+                    io.in(resultB[i].chatroom_id).emit('joinRoom', {room: resultB[i].chatroom_id, message: name_user + " is offline"})
+                }
+            })
+
+        }).catch((err)=>{
+            console.log('name problem')
+        })
+    });
+})
 
 //-----------------------------------------------------------------------
 app.post("/events", function(require, response) {
@@ -483,10 +572,10 @@ app.post("/signup", function(req, resp) {
 });
 
 /**
-* @event Port_Listener
-* @desc Listens to the designated port number for connection route request
-*/
-app.listen(3000, (err) => {
+ * @event Port_Listener
+ * @desc Listens to the designated port number for connection route request
+ */
+http.listen(3000, (err) => {
     if (err) {
         console.log('Server is down');
         return false;
