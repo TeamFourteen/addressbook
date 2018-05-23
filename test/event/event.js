@@ -42,7 +42,7 @@ selectmem.addEventListener("click",function(){
             "Content-Type":"application/json"
         },
         body:JSON.stringify({
-            Member:selectpeople
+            text:"invite people"
         })
     }).then((response)=>{
         return response.json();
@@ -57,12 +57,22 @@ selectmem.addEventListener("click",function(){
         member.style.width="30%";
         member.style.backgroundColor="skyblue";
         member.style.top="10%";
+        member.style.overflow="scroll";
+        submitBut = document.createElement('button');
+        submitBut.id = "submitInvite";
+        submitBut.style.position="absolute";
+        submitBut.style.top ="42%";
+        submitBut.style.left="70%";
+        submitBut.innerHTML="Submit the invitation";
+        submitBut.width="15%;"
+        leftbox.appendChild(submitBut);
         leftbox.appendChild(member);
         var num1 =10,
             num2 =10;
         for(var num =0; num<json.length;num++){
             ndiv= document.createElement('button');
             ndiv.id="ndiv"+num;
+            ndiv.className="newdivs";
             ndiv.innerHTML=json[num].lname+" "+json[num].fname;
             ndiv.style.position="absolute";
             ndiv.style.left=num1+"%";
@@ -74,10 +84,38 @@ selectmem.addEventListener("click",function(){
             if (num1>=70){
                 num1 = 10;
                 num2 =num2+25;
-            }
+            }      
         };
+        
+        var newdivs = document.getElementsByClassName('newdivs');
+        
+        for (var n=0;n<newdivs.length;n++){
+            newdiv = newdivs[n].id;
+            document.getElementById(newdiv).addEventListener("click",function(){
+                console.log(this.innerHTML);               
+                alert(this.innerHTML+'has been added');
+                selectpeople.push(this.innerHTML);
+                console.log(selectpeople);
+            });
+        };
+        document.getElementById('submitInvite').addEventListener("click",function(){
+            fetch('/selectpeople',{
+            method:'POST',
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                Member:selectpeople
+            })
+            }).then((response)=>{
+                return response.json();
+            }).then((json)=>{
+                console.log(json);
+            });
+        });
     });
 });
+
 
 
 submit.addEventListener("click",function(){
