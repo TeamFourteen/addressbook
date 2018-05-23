@@ -5,7 +5,10 @@ var evname =document.getElementById('evname'),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
     invite = document.getElementById('invite'),
-    objectarr =[];
+    selectmem = document.getElementById('selectmem'),
+    objectarr =[],
+    selectpeople=[],
+    leftbox = document.getElementById('left_selection');
 
 function createinfo(ev){
     var newd=document.createElement('div'),
@@ -28,8 +31,53 @@ function createinfo(ev){
     //newd.style.fontSize ='20px';
     //newd.style.textAlign ='left';
     //info.appendChild(newd);
-}
+};
 
+
+selectmem.addEventListener("click",function(){
+    selectpeople=[];
+    fetch('/selectpeople',{
+        method:'POST',
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            Member:selectpeople
+        })
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json);
+        console.log(json[0]);
+        member = document.createElement('div');
+        member.id="member";
+        member.style.position="absolute";
+        member.style.left="67%";
+        member.style.height="30%";
+        member.style.width="30%";
+        member.style.backgroundColor="skyblue";
+        member.style.top="10%";
+        leftbox.appendChild(member);
+        var num1 =10,
+            num2 =10;
+        for(var num =0; num<json.length;num++){
+            ndiv= document.createElement('button');
+            ndiv.id="ndiv"+num;
+            ndiv.innerHTML=json[num].lname+" "+json[num].fname;
+            ndiv.style.position="absolute";
+            ndiv.style.left=num1+"%";
+            ndiv.style.height="30%";
+            ndiv.style.width="30%";
+            ndiv.style.top=num2+"%";
+            member.appendChild(ndiv);
+            num1+=35;
+            if (num1>=70){
+                num1 = 10;
+                num2 =num2+25;
+            }
+        };
+    });
+});
 
 
 submit.addEventListener("click",function(){
@@ -58,6 +106,8 @@ submit.addEventListener("click",function(){
         console.log(json.message)
     });
 });
+
+
 
 function check(){
     if (evname.value == ''){

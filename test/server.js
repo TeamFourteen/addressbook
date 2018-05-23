@@ -23,6 +23,13 @@ app.post("/event",function(require,response){
     response.send({message:'added'})
 })
 
+app.post("/selectpeople",function(require,response){
+    console.log(require.body)
+    response.send(select_people)
+})
+
+select_people=[{fname:'Allen' , lname:'Doll' , usrId:'1_Allen_Doll'},{fname:'Len' , lname:'Steve' , usrId:'2_Len_Steve'},];
+
 
 app.listen(4500,function(err){
     if(err){
