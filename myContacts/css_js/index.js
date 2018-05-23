@@ -110,15 +110,26 @@ document.getElementById("okphone").addEventListener("click",function(){
 });
 
 //This function shows the location of the address from user input in add address window.
-document.getElementById("viewonmap").addEventListener("click",function(){
-    if(previewmap.style.display == "none"){
-        previewmap.style.display = "block";
-        previewmap.src = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q='+newaddressbox.value;
-    }else{
-        previewmap.style.display = "none";
-    }
-    
+
+//document.getElementById("viewonmap").addEventListener("click",function(){
+//    if(previewmap.style.display == "none"){
+//        previewmap.style.display = "block";
+//        previewmap.src = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q='+newaddressbox.value;
+//    }else{
+//        previewmap.style.display = "none";
+//    }
+//});
+
+
+//--------------------------------------------------------------------------
+//--------------------------------------------------------------------------
+//The code below is the refined VIEW ON MAP function.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Please see this Glenn!!!!
+document.getElementById("viewonmap").addEventListener("click", function(){
+    previewmap.style.display = "block";
+    previewmap.src = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q='+newaddressbox.value;
 });
+//--------------------------------------------------------------------------
+//--------------------------------------------------------------------------
 
 contacts = document.getElementsByClassName("contacts")
 cards = document.getElementsByClassName("cards")
