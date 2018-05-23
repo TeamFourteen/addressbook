@@ -124,7 +124,7 @@ app.use(session({
     }),
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge: 60 * 60000 }
+    cookie: { maxAge:  60 * 60000 }
 }))
 
 /**
@@ -467,7 +467,6 @@ io.on('connection', function(socket) {
         dbfunct.getUserData(userID).then((resultA) => {
             name_user = resultA.fname + " " + resultA.lname
             dbfunct.checkChat(userID).then((resultB) => {
-                socket.emit('room_length' ,  resultB.length)
                 for(let i in resultB){
                     socket.join(resultB[i].chatroom_id);
                     io.in(resultB[i].chatroom_id).emit('joinRoom', {room: resultB[i].chatroom_id, message: name_user + " is online."})
@@ -481,28 +480,6 @@ io.on('connection', function(socket) {
 
     socket.on("sendMessage", function(data) {
         io.in(data.room).emit('chat', { room: data.room, user: data.user, message: data.message })
-    })
-
-    socket.on("update_chatroom", function(data){
-        userID = socket.userID
-        dbfunct.getUserData(userID).then((resultA) => {
-            name_user = resultA.fname + " " + resultA.lname
-            dbfunct.checkChat(userID).then((resultB) => {
-                resultB.splice(0 ,data.rl_length)
-                for(let i in resultB){
-                    socket.emit("new_room", {selection: chat_sel({
-                        chatroom_id: resultB[i].chatroom_id,
-                        chatroom_name: resultB[i].chatroom_name
-                    }) , main_body: chat_main_body({
-                        chatroom_id: resultB[i].chatroom_id,
-                        users: resultB[i].users
-                    })})
-                }
-            })
-
-        }).catch((err)=>{
-            console.log('name problem')
-        })
     })
 
     socket.on('disconnect', function() {

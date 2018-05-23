@@ -98,8 +98,10 @@ crNum = document.getElementsByClassName('crNum')
 for (i = 0; i < crNum.length; i++) {
     document.getElementById(crNum[i].id).addEventListener('click', function() {
         for (j = 0; j < crNum.length; j++) {
+        	document.getElementById(crNum[j].id).style.backgroundColor = '#8cccc7'
             document.getElementById(crNum[j].id + "_display").style.display = 'none'
         }
+        document.getElementById(this.id).style.backgroundColor = 'green'
         document.getElementById(this.id + "_display").style.display = 'block'
         currentRoom = this.id
     })
@@ -155,28 +157,3 @@ socket.on('chat', function(data) {
     mess.appendChild(message);
     document.getElementById(data.room + "_chatlog").appendChild(mess);
 })
-
-socket.on('room_length', function(data) {
-    crooms = data
-})
-
-socket.on('new_room', function(data) {
-    document.getElementById("chatRoomList").innerHTML += data.selection
-    document.getElementById("chatroomMain").innerHTM += data.main_body
-    crNum = document.getElementsByClassName('crNum')
-
-    for (i = 0; i < crNum.length; i++) {
-        document.getElementById(crNum[i].id).addEventListener('click', function() {
-            for (j = 0; j < crNum.length; j++) {
-                document.getElementById(crNum[j].id + "_display").style.display = 'none'
-            }
-            document.getElementById(this.id + "_display").style.display = 'block'
-            currentRoom = this.id
-        })
-    }
-
-    crooms += 1
-})
-setInterval(function() {
-    socket.emit('update_chatroom', { rl_length: crooms })
-}, 5000)
