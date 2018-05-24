@@ -93,8 +93,9 @@ selectmem.addEventListener("click",function(){
             newdiv = newdivs[n].id;
             document.getElementById(newdiv).addEventListener("click",function(){
                 console.log(this.innerHTML);               
-                alert(this.innerHTML+'has been added');
+                alert(this.innerHTML+' has been added');
                 selectpeople.push(this.innerHTML);
+                member.removeChild(this);
                 console.log(selectpeople);
             });
         };
@@ -111,6 +112,9 @@ selectmem.addEventListener("click",function(){
                 return response.json();
             }).then((json)=>{
                 console.log(json);
+                leftbox.removeChild(member);
+                leftbox.removeChild(submitBut);
+                alert('Submit successfully!')
             });
         });
     });
