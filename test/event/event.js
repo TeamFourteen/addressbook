@@ -5,7 +5,10 @@ var evname =document.getElementById('evname'),
     address = document.getElementById('address'),
     info = document.getElementById('info'),
     invite = document.getElementById('invite'),
-    objectarr =[];
+    selectmem = document.getElementById('selectmem'),
+    objectarr =[],
+    selectpeople=[],
+    leftbox = document.getElementById('left_selection');
 
 function createinfo(ev){
     var newd=document.createElement('div'),
@@ -28,7 +31,94 @@ function createinfo(ev){
     //newd.style.fontSize ='20px';
     //newd.style.textAlign ='left';
     //info.appendChild(newd);
-}
+};
+
+
+selectmem.addEventListener("click",function(){
+    selectpeople=[];
+    fetch('/selectpeople',{
+        method:'POST',
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            text:"invite people"
+        })
+    }).then((response)=>{
+        return response.json();
+    }).then((json)=>{
+        console.log(json);
+        console.log(json[0]);
+        member = document.createElement('div');
+        member.id="member";
+        member.style.position="absolute";
+        member.style.left="67%";
+        member.style.height="30%";
+        member.style.width="30%";
+        member.style.backgroundColor="skyblue";
+        member.style.top="10%";
+        member.style.overflow="scroll";
+        submitBut = document.createElement('button');
+        submitBut.id = "submitInvite";
+        submitBut.style.position="absolute";
+        submitBut.style.top ="42%";
+        submitBut.style.left="70%";
+        submitBut.innerHTML="Submit the invitation";
+        submitBut.width="15%;"
+        leftbox.appendChild(submitBut);
+        leftbox.appendChild(member);
+        var num1 =10,
+            num2 =10;
+        for(var num =0; num<json.length;num++){
+            ndiv= document.createElement('button');
+            ndiv.id="ndiv"+num;
+            ndiv.className="newdivs";
+            ndiv.innerHTML=json[num].lname+" "+json[num].fname;
+            ndiv.style.position="absolute";
+            ndiv.style.left=num1+"%";
+            ndiv.style.height="30%";
+            ndiv.style.width="30%";
+            ndiv.style.top=num2+"%";
+            member.appendChild(ndiv);
+            num1+=35;
+            if (num1>=70){
+                num1 = 10;
+                num2 =num2+25;
+            }      
+        };
+        
+        var newdivs = document.getElementsByClassName('newdivs');
+        
+        for (var n=0;n<newdivs.length;n++){
+            newdiv = newdivs[n].id;
+            document.getElementById(newdiv).addEventListener("click",function(){
+                console.log(this.innerHTML);               
+                alert(this.innerHTML+' has been added');
+                selectpeople.push(this.innerHTML);
+                member.removeChild(this);
+                console.log(selectpeople);
+            });
+        };
+        document.getElementById('submitInvite').addEventListener("click",function(){
+            fetch('/selectpeople',{
+            method:'POST',
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                Member:selectpeople
+            })
+            }).then((response)=>{
+                return response.json();
+            }).then((json)=>{
+                console.log(json);
+                leftbox.removeChild(member);
+                leftbox.removeChild(submitBut);
+                alert('Submit successfully!')
+            });
+        });
+    });
+});
 
 
 
@@ -58,6 +148,8 @@ submit.addEventListener("click",function(){
         console.log(json.message)
     });
 });
+
+
 
 function check(){
     if (evname.value == ''){

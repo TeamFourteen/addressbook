@@ -7,7 +7,7 @@ const functions ={
     },
     eventtime:()=>{
         const event ={
-            fromtime : '1'
+            fromtime : ''
         };
         return event;
     },
