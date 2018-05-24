@@ -1,23 +1,34 @@
-module.exports = function validatePhone(phoneNumber) {
-    try {
-        if (phoneNumber != "") {
-            phoneNumber = parseInt(phoneNumber)
-            if (phoneNumber.toString().length == 10) {
-                if (Number.isInteger(phoneNumber) == true) {
-                    return true  
-            } else if (Number.isInteger(phoneNumber) == false){
-                return false
-            }
-        } else if (Number.isInteger(phoneNumber)) {
-            return true
-        } else {
+var validatePhone = (phoneNumber) => {
+  if (phoneNumber == "") {
+    return false;
+  } else if (phoneNumber.length == 10) {
+        phoneNumber = parseInt(phoneNumber);
+        if(Number.isInteger(phoneNumber) == true) {
+           if(phoneNumber.toString().length == 10) {
+               return true
+           }
+       } else {
             return false
         }
-    } 
-    } catch(err) {
-        return false
-    }
+  } else {
+    return false;
+  }
+};
+
+var validateAddress = (address) => {
+  if (address == "") {
+    return false
+  } else {
+    return true
+  }
 }
 
-    
+var validateBio = (bio) => {
+  if (bio == "") {
+    return false
+  } else {
+    return true
+  }
+}
 
+module.exports = {validatePhone, validateAddress, validateBio}

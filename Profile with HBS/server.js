@@ -2,7 +2,7 @@ const express = require("express")  //imports express module which helps with ma
 const app = express()
 const bodyParser = require("body-parser") //helps with retrieveing stuff from database
 const hbs = require("hbs")
-const validatePhone = require('./private/validate')
+const validate = require('./private/validate.js')
 
 app.use(express.static(__dirname + "/css_js"))
 app.use(bodyParser.json()) // this will run first before it sends something
@@ -25,12 +25,16 @@ app.get('/', function(require,response){
 
 app.post('/item', (require,response)=>{
     console.log(require.body)
-    response.send({message:"I got that message"})
+    if (validate.validateAddress(require.body.address) == true) {
+        response.send({message:"Address Added"})
+    } else {
+        response.send({message:"Address not Added"})
+    }
 });
 
 app.post('/phones', (require,response)=>{
     console.log(require.body)
-    if (validatePhone(require.body.phone) == true) {
+    if (validate.validatePhone(require.body.phone) == true) {
         response.send({message:"Phone Added"})
     } else {
         response.send({message:"Phone not Added"})
@@ -40,7 +44,11 @@ app.post('/phones', (require,response)=>{
 
 app.post('/bio', (require,response)=>{
     console.log(require.body)
-    response.send({message:"I got that message"})
+    if (validate.validateBio(require.body.bio) == true) {
+        response.send({message:"Bio Added"})
+    } else {
+        response.send({message:"Bio not Added"})
+    }
 });
 
 app.get('/profile', (require,response)=>{
