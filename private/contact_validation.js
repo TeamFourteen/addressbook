@@ -51,4 +51,4 @@ var validate_type = (phonetype) => {
     }
 };
 
-module.exports = {validate_obj};
+module.exports = {validate_phone,validate_obj,validate_type};
