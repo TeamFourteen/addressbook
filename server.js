@@ -124,7 +124,7 @@ app.use(session({
     }),
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge:  60 * 60000 }
+    cookie: { maxAge: 60 * 60000 }
 }))
 
 /**
@@ -200,7 +200,7 @@ app.post("/profile", (request, response) => {
      */
     dbfunct.getUserData(sessionInfos).then((result) => {
         response.send({
-            script: '/profile.js',
+            script: './profile.js',
             style: '/profile.css',
             layout: profile({
                 name_id: sessionInfos,
@@ -209,7 +209,7 @@ app.post("/profile", (request, response) => {
                 bio: result.bio,
                 email: result.email,
                 phoneNumber: result.phone_numbers,
-                addresses: result.addresses
+                addresses: result.addresses,
             })
         })
     })
@@ -289,16 +289,18 @@ app.post('/prof_bio', (require, response) => {
  */
 app.post('/contacts', (request, response) => {
     sessionInfos = request.session.user_id
-    /**
-     * @event getContInfo
-     * @desc Retrieves the users' contacts' information
-     * @param {number} user_id - Needed for user contacts' data retrieval
-     */
     dbfunct.getContInfo(sessionInfos).then((result) => {
         response.send({
-            script: 'contacts.js',
+            script: './contacts.js',
             style: 'contacts.css',
             layout: createContacts(result)
+
+        })
+    }).catch((err)=>{
+        response.send({
+            script: './contacts.js',
+            style: 'contacts.css',
+            layout: createContacts(err)
 
         })
     })
@@ -418,7 +420,7 @@ app.post('/chat', function(require, response) {
     SessionInfos = require.session.user_id
     dbfunct.checkChat(SessionInfos).then((result) => {
         response.send({
-            script: 'chat.js',
+            script: './chat.js',
             style: 'chat.css',
             layout: chat({
                 chatroom: result,
@@ -438,10 +440,10 @@ app.post('/chat_adUserDiv', (require, response) => {
 
 app.post('/chat_user', (require, response) => {
     SessionInfos = require.session.user_id
-    dbfunct.getUserData(SessionInfos).then((result)=>{
+    dbfunct.getUserData(SessionInfos).then((result) => {
         response.send({ user_id: SessionInfos, user_name: result.fname + " " + result.lname })
     })
-    
+
 });
 
 app.post('/chat_newChatRoomDiv', (require, response) => {
@@ -467,13 +469,13 @@ io.on('connection', function(socket) {
         dbfunct.getUserData(userID).then((resultA) => {
             name_user = resultA.fname + " " + resultA.lname
             dbfunct.checkChat(userID).then((resultB) => {
-                for(let i in resultB){
+                for (let i in resultB) {
                     socket.join(resultB[i].chatroom_id);
-                    io.in(resultB[i].chatroom_id).emit('joinRoom', {room: resultB[i].chatroom_id, message: name_user + " is online."})
+                    io.in(resultB[i].chatroom_id).emit('joinRoom', { room: resultB[i].chatroom_id, message: name_user + " is online." })
                 }
             })
 
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log('name problem')
         })
     })
@@ -487,14 +489,14 @@ io.on('connection', function(socket) {
         dbfunct.getUserData(userID).then((resultA) => {
             name_user = resultA.fname + " " + resultA.lname
             dbfunct.checkChat(userID).then((resultB) => {
-                socket.emit('room_length' ,  resultB.length)
-                for(let i in resultB){
+                socket.emit('room_length', resultB.length)
+                for (let i in resultB) {
                     socket.leave(resultB[i].chatroom_id);
-                    io.in(resultB[i].chatroom_id).emit('joinRoom', {room: resultB[i].chatroom_id, message: name_user + " is offline"})
+                    io.in(resultB[i].chatroom_id).emit('joinRoom', { room: resultB[i].chatroom_id, message: name_user + " is offline" })
                 }
             })
 
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log('name problem')
         })
     });
@@ -527,25 +529,17 @@ app.post("/logout", (request, response) => {
 //--------------------------------------------------------------------------------------------------------------------------
 
 app.post("/signup", function(req, resp) {
+    dbfunct.createAccount(req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]).then((result) => {
+        req.session.user_id = result.user_id
+        resp.json({ status: "OK", url: "/hub" })
+    }).catch((err) => {
+        if (err == 'Acc_Exist') {
+            resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })
+        } else if (err == 'Req_Fields') {
+            resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
+        }
 
-    if (!(req.body["fname"] === "") && !(req.body["lname"] === "") && !(req.body["user"] === "") && !(req.body["pass"] === "")) {
-        pgpool.query('insert into users(username, password, fname, lname) values($1, $2, $3, $4)', [req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]], (err, res) => {
-            if (err) {
-                resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })
-            } else {
-                pgpool.query('SELECT user_id FROM users WHERE username = $1', [req.body["user"]], (err, res) => {
-                    req.session.user_id = res.rows[0].user_id
-                    resp.json({ status: "OK", url: "hub" })
-                })
-            }
-
-        })
-
-    } else {
-        resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
-    }
-    // resp.json({ status: "OK", url: "hub" })
-
+    })
 });
 
 /**

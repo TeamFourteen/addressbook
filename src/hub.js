@@ -37,7 +37,14 @@ document.getElementById("profile").addEventListener('click', ()=>{
 		console.log(json)
 		main_window.innerHTML = json.layout
 		indiv_styles.href = json.style
-		document.getElementById('indiv_scripts').src = json.script
+
+		document.getElementById('indiv_scripts').remove()
+
+		new_s = document.createElement('script')
+		new_s.type = "text/javascript"
+		new_s.id = "indiv_scripts"
+		new_s.src = json.script
+		document.body.appendChild(new_s)
 	})
 })
 
@@ -57,7 +64,13 @@ document.getElementById("contacts").addEventListener('click', ()=>{
 		console.log(json)
 		main_window.innerHTML = json.layout
 		indiv_styles.href = json.style
-		document.getElementById('indiv_scripts').src = json.script
+		document.getElementById('indiv_scripts').remove()
+
+		new_s = document.createElement('script')
+		new_s.type = "text/javascript"
+		new_s.id = "indiv_scripts"
+		new_s.src = json.script
+		document.body.appendChild(new_s)
 	})
 })
 
@@ -77,7 +90,16 @@ document.getElementById("chat").addEventListener('click', ()=>{
 		console.log(json)
 		main_window.innerHTML = json.layout
 		indiv_styles.href = json.style
-		document.getElementById('indiv_scripts').src = json.script
+
+		document.getElementById('indiv_scripts').remove()
+
+		new_s = document.createElement('script')
+		new_s.type = "text/javascript"
+		new_s.id = "indiv_scripts"
+		new_s.src = json.script
+
+		document.body.appendChild(new_s)
+		
 	})
 })
 
@@ -97,7 +119,12 @@ document.getElementById("events").addEventListener('click', ()=>{
 		console.log(json)
 		main_window.innerHTML = json.layout
 		indiv_styles.href = json.style
-		document.getElementById('indiv_scripts').src = json.script
+		document.getElementById('indiv_scripts').remove()
+		new_s = document.createElement('script')
+		new_s.type = "text/javascript"
+		new_s.id = "indiv_scripts"
+		new_s.src = json.script
+		document.body.appendChild(new_s)
 	})
 })
 

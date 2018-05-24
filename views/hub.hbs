@@ -7,7 +7,7 @@
     <link id="indiv_styles" rel="stylesheet" type="text/css">
 </head>
 <script id="chat_feat" src="/socket.io/socket.io.js"></script>
-<body>
+<body id="body">
     <header id="upper_menus">
         <div>Hello, {{fname}} {{lname}}</div>
         <div id="options">
@@ -24,7 +24,7 @@
     <div id='main_window'>
     </div>
     <script src="/hub.js"></script>
-    <script type="text/javascript" id='indiv_scripts'></script>  
+    <script type="text/javascript" id='indiv_scripts' async></script>  
 </body>
 
 </html>

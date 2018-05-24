@@ -3,9 +3,7 @@ addChtRmPupPg = document.getElementById("addChatRoomPopUpPage")
 createBtn = document.getElementById("createButton")
 perConInfo = document.getElementById("personContactInfo")
 nCtRmName = document.getElementById("newChatRoomName")
-
 socket = io();
-
 selected_people = []
 userID = 0;
 userfullname = ""

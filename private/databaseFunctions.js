@@ -276,9 +276,23 @@ var addContactAddress = (cont_id, user_id, address) => {
     })
 }
 
-var createAccount = (e_mail, password) => {
+var createAccount = (e_mail, password, fname, lname) => {
     return new Promise((resolve, reject) => {
-        resolve('Account Added')
+        if (!(fname === "") && !(lname === "") && !(e_mail === "") && !(password === "")) {
+            pgpool.query('insert into users(username, password, fname, lname) values($1, $2, $3, $4)', [e_mail, password, fname, lname], (err, res) => {
+                if (err) {
+                    reject('Acc_Exist')
+                } else {
+                    pgpool.query('SELECT user_id FROM users WHERE username = $1', [e_mail], (err, res) => {
+                        resolve({user_id: res.rows[0].user_id})
+                    })
+                }
+
+            })
+
+        } else {
+            reject('Req_Fields')
+        }
     })
 }
 //--------------------- User Account Edits And Additions ---------------------
