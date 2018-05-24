@@ -8,6 +8,8 @@ var evname =document.getElementById('evname'),
     selectmem = document.getElementById('selectmem'),
     objectarr =[],
     selectpeople=[],
+    submitBut=document.getElementById('submitInvite'),
+    member=document.getElementById('member'),
     leftbox = document.getElementById('left_selection');
 
 function createinfo(ev){
@@ -47,24 +49,8 @@ selectmem.addEventListener("click",function(){
     }).then((response)=>{
         return response.json();
     }).then((json)=>{
-        console.log(json);
-        console.log(json[0]);
-        member = document.createElement('div');
-        member.id="member";
-        member.style.position="absolute";
-        member.style.left="67%";
-        member.style.height="30%";
-        member.style.width="30%";
-        member.style.backgroundColor="skyblue";
-        member.style.top="10%";
-        member.style.overflow="scroll";
-        submitBut = document.createElement('button');
-        submitBut.id = "submitInvite";
-        submitBut.style.position="absolute";
-        submitBut.style.top ="42%";
-        submitBut.style.left="70%";
-        submitBut.innerHTML="Submit the invitation";
-        submitBut.width="15%;"
+        member.style.display="inline";
+        submitBut.style.display="inline";
         leftbox.appendChild(submitBut);
         leftbox.appendChild(member);
         var num1 =10,
@@ -98,29 +84,14 @@ selectmem.addEventListener("click",function(){
                 member.removeChild(this);
                 console.log(selectpeople);
             });
-        };
-        document.getElementById('submitInvite').addEventListener("click",function(){
-            fetch('/selectpeople',{
-            method:'POST',
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                Member:selectpeople
-            })
-            }).then((response)=>{
-                return response.json();
-            }).then((json)=>{
-                console.log(json);
-                leftbox.removeChild(member);
-                leftbox.removeChild(submitBut);
-                alert('Submit successfully!')
-            });
-        });
+        };    
     });
 });
 
-
+submitBut.addEventListener('click',function(){
+    submitBut.style.display="none";
+    member.style.display="none";
+});
 
 submit.addEventListener("click",function(){
     check();
@@ -128,7 +99,7 @@ submit.addEventListener("click",function(){
                 fromdate:(startdate.value),
                 fromtime:(starttime.value),
                 address:(address.value),
-                invitemem:(invite.value)};
+                invitemem:(selectpeople)};
     
     objectarr.push(objects);
     createinfo(objectarr);
