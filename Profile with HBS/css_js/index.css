@@ -163,7 +163,9 @@
 #bioInput {
     position:absolute;
     top:30%;
-    left:25%;
+    left:15%;
+    width:50%;
+    height:50%;
 }
 
 #addBio {
@@ -181,7 +183,7 @@
 #bioDone {
     position:absolute;
     left:40%;
-    top:45%;
+    bottom:5%;
 }
 
 #phoneDone {

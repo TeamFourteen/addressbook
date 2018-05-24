@@ -1,4 +1,4 @@
-module.exports = function validatePhone(phoneNumber) {
+var validatePhone = (phoneNumber) => {
   if (phoneNumber == "") {
     return false;
   } else if (phoneNumber.length == 10) {
@@ -14,3 +14,21 @@ module.exports = function validatePhone(phoneNumber) {
     return false;
   }
 };
+
+var validateAddress = (address) => {
+  if (address == "") {
+    return false
+  } else {
+    return true
+  }
+}
+
+var validateBio = (bio) => {
+  if (bio == "") {
+    return false
+  } else {
+    return true
+  }
+}
+
+module.exports = {validatePhone, validateAddress, validateBio}
