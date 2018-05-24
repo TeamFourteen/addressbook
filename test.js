@@ -1,4 +1,4 @@
-const imported_function = require("./validation.js");
+const imported_function = require("./myContacts/private/validation.js");
 
 //test("testing my own phone number (2048692788), which should be good ", () => {
 //    expect(imported_function.validate_phone(2048692788)).toBeTruthy(); 
