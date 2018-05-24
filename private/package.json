@@ -1,0 +1,11 @@
+{
+  "name": "private",
+  "version": "1.0.0",
+  "description": "",
+  "main": "contact_validation.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
