@@ -1,4 +1,4 @@
-const validate = require("./validate.js");
+const validate = require("./Profile with HBS/private/validate.js");
 
 test("not null", () => {
     expect(validate.validatePhone('adfas')).toBeFalsy();
