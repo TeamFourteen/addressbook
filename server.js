@@ -67,6 +67,7 @@ const io = require("socket.io").listen(http);
  * @description This is the database port to which the server will communicate to the database
  */
 var dbURL = process.env.DATABASE_URL || "postgres://postgres:thegreatpass@localhost:5432/callcenter"; // change this per db name
+const port = process.env.PORT || 3000
 
 const pgpool = new Pool({
     connectionString: dbURL,
@@ -574,7 +575,7 @@ app.post("/signup", function(req, resp) {
  * @event Port_Listener
  * @desc Listens to the designated port number for connection route request
  */
-http.listen(3000, (err) => {
+http.listen(port, (err) => {
     if (err) {
         console.log('Server is down');
         return false;
