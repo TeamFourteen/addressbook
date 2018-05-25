@@ -567,7 +567,7 @@ app.post("/signup", function(req, resp) {
 
         })
     } else {
-    	resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
+    	resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields or Invalid Email or Not A Strong Password" })
     }
 });
 
