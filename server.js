@@ -53,6 +53,7 @@ const { Pool, Client } = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 
 const dbfunct = require("./private/databaseFunctions.js")
+const dbVal = require("./private/databaseValidation.js")
 
 const app = express();
 
@@ -134,21 +135,21 @@ app.use(session({
  * @param {object} response - Information to send to the client
  */
 app.get("/", (request, response) => {
-	if(request.session.user_id == undefined){
-		response.sendFile(__dirname + "/front_end.html")
-	}else{
-		sessionInfos = request.session.user_id
+    if (request.session.user_id == undefined) {
+        response.sendFile(__dirname + "/front_end.html")
+    } else {
+        sessionInfos = request.session.user_id
 
         dbfunct.getUserData(sessionInfos).then((result) => {
             response.render('hub.hbs', {
                 fname: result.fname,
                 lname: result.lname
             })
-        }).catch((err)=>{
-        	response.sendFile(__dirname + "/expired_or_invalid.html")
+        }).catch((err) => {
+            response.sendFile(__dirname + "/expired_or_invalid.html")
         })
-	}
-    
+    }
+
 })
 
 /**
@@ -163,14 +164,19 @@ app.post("/login", (request, response) => {
      * @desc Checks the database for the user login info
      * @param {string} username - Username required to retrieve user_ID and password
      */
-    dbfunct.getLoginData(request.body["user"]).then((result) => {
-        if (result.password == request.body["pass"]) {
-            request.session.user_id = result.user_id
-            response.json({ message: "Login Successful", url: "/" })
-        } else {
-            response.json({ message: "Login Failed", url: "Message Failed" })
-        }
-    })
+    if (dbVal.validateGetLoginData(request.body["user"])) {
+        dbfunct.getLoginData(request.body["user"]).then((result) => {
+            if (result.password == request.body["pass"]) {
+                request.session.user_id = result.user_id
+                response.json({ message: "Login Successful", url: "/" })
+            } else {
+                response.json({ message: "Login Failed", url: "Message Failed" })
+            }
+        })
+    } else {
+        response.json({ message: "Login Failed", url: "Message Failed" })
+    }
+
 })
 
 //---------------------------------------------------------------------------------------------------------------
@@ -189,21 +195,25 @@ app.post("/profile", (request, response) => {
      * @desc Retrieves the user personal and contact information
      * @param {number} user_id - Needed for user data retrieval
      */
-    dbfunct.getUserData(sessionInfos).then((result) => {
-        response.send({
-            script: './profile.js',
-            style: '/profile.css',
-            layout: profile({
-                name_id: sessionInfos,
-                fname: result.fname,
-                lname: result.lname,
-                bio: result.bio,
-                email: result.email,
-                phoneNumber: result.phone_numbers,
-                addresses: result.addresses,
+    if (dbVal.validateGetUserData(sessionInfos)) {
+        dbfunct.getUserData(sessionInfos).then((result) => {
+            response.send({
+                script: './profile.js',
+                style: '/profile.css',
+                layout: profile({
+                    name_id: sessionInfos,
+                    fname: result.fname,
+                    lname: result.lname,
+                    bio: result.bio,
+                    email: result.email,
+                    phoneNumber: result.phone_numbers,
+                    addresses: result.addresses,
+                })
             })
         })
-    })
+    } else {
+        response.send({ message: 'NOK' })
+    }
 })
 /**
  * @event Profile_Adress_Add_Route
@@ -542,17 +552,22 @@ app.post("/logout", (request, response) => {
 //--------------------------------------------------------------------------------------------------------------------------
 
 app.post("/signup", function(req, resp) {
-    dbfunct.createAccount(req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]).then((result) => {
-        req.session.user_id = result.user_id
-        resp.json({ status: "OK", url: "/" })
-    }).catch((err) => {
-        if (err == 'Acc_Exist') {
-            resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })
-        } else if (err == 'Req_Fields') {
-            resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
-        }
 
-    })
+    if(dbVal.validateSignup(req.body["fname"], req.body["lname"], req.body["user"], req.body["pass"])) {
+        dbfunct.createAccount(req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]).then((result) => {
+            req.session.user_id = result.user_id
+            resp.json({ status: "OK", url: "/" })
+        }).catch((err) => {
+            if (err == 'Acc_Exist') {
+                resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })
+            } else if (err == 'Req_Fields') {
+                resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
+            }
+
+        })
+    } else {
+    	resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
+    }
 });
 
 /**
