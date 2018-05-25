@@ -443,6 +443,85 @@ async function checkChat(user_id) {
     return r_chatr
 }
 
+//------------------------------------------------------------------------
+var checkEventDetails = (user_id) => {
+    return new Promise((resolve, reject) => {
+        pgpool.query('SELECT events.event_id, events.event_name, events.from_time, events.location FROM event_users left join events on event_users.event_id = events.event_id where user_id = $1 ', [user_id], (err, res) => {
+            if (err) {
+                reject(err)
+            }
+            resolve(res.rows)
+        })
+    })
+}
+
+var checkEventGuest = (event_id) => {
+    return new Promise((resolve, reject) => {
+        pgpool.query('SELECT users.fname, users.lname FROM event_users left join users on event_users.user_id = users.user_id where event_id = $1', [event_id], (err, res) => {
+            if (err) {
+                reject(err)
+            }
+            resolve(res.rows)
+        })
+    })
+}
+
+async function checkEvents(user_id) {
+    var events = await checkEventDetails(user_id)
+    var r_eventr = []
+    for (let i in events) {
+        event_info = { event_name: events[i].event_name, event_id: events[i].event_id + '_' + events[i].event_name, from_time: events[i].from_time, location: events[i].location }
+        var eventg = await checkEventGuest(events[i].event_id)
+        r_eventg = []
+        for (let j in eventg) {
+            guestname = eventg[j].fname + ' ' + eventg[j].lname
+            r_eventg.push(guestname)
+        }
+        event_info['users'] = r_eventg.join(", ")
+        r_eventr.push(event_info)
+    }
+    return r_eventr
+}
+
+var addEvent = (event_name, from_time, location) => {
+    return new Promise((resolve, reject) => {
+        pgpool.query('INSERT INTO events(event_name, from_time, location) values($1, $2, $3)', [event_name, from_time, location], (err, res) => {
+            if (err) {
+                reject('Event Not Added')
+            }
+            pgpool.query('SELECT event_id FROM events WHERE event_name = $1 and from_time = $2 and location = $3', [event_name, from_time, location], (err, result) => {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result.rows[0].event_id)
+            })
+        })
+    })
+}
+
+var addEventGuest = (event_guests) => {
+    return new Promise((resolve, reject) => {
+        pgpool.query('INSERT INTO event_users(event_id, user_id) values ' + event_guests.join(', '), (err, res) => {
+            if (err) {
+                reject(err)
+            }
+            resolve('All added to chatroom')
+        })
+    })
+}
+
+async function createEvent(event_name, from_time, location, event_guests) {
+    var c = await addEvent(event_name, from_time, location);
+    var c_list = []
+    for (let i in event_guests) {
+        c_index = '(' + c + ',' + event_guests[i] + ')'
+        c_list.push(c_index)
+    }
+    var d = await addEventGuest(c_list);
+    return d
+}
+
+//------------------------------------------------------------------------
 module.exports = {
     getLoginData,
     getUserData,
@@ -461,5 +540,11 @@ module.exports = {
     addContactwithAccount,
     getContactsWithAccount,
     createChatRoom,
-    checkChat
+    checkChat,
+    checkEventDetails,
+    checkEventGuest,
+    checkEvents,
+    addEvent,
+    addEventGuest,
+    createEvent
 }

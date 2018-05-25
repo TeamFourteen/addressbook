@@ -296,7 +296,7 @@ app.post('/contacts', (request, response) => {
             layout: createContacts(result)
 
         })
-    }).catch((err)=>{
+    }).catch((err) => {
         response.send({
             script: './contacts.js',
             style: 'contacts.css',
@@ -504,21 +504,43 @@ io.on('connection', function(socket) {
 
 //-----------------------------------------------------------------------
 app.post("/events", function(require, response) {
-    response.send({
-        script: '',
-        style: '',
-        layout: events({
-            name: 'username',
-            number: [{ eventname: 'Stuff', fromtime: '2018-05-01 01:01', endtime: '2018-05-22  01:02', location: 'Vancouver,CA' }, { eventname: 'StuffA', fromtime: '2018-05-02 01:01', endtime: '2018-05-21  01:02', location: 'Burnaby,CA' }]
+    sessionInfos = require.session.user_id
+    dbfunct.getUserData(sessionInfos).then((resultA) => {
+        user_name = resultA.fname + " " + resultA.lname
+        dbfunct.checkEvents(sessionInfos).then((resultB) => {
+            response.send({
+                script: './event.js',
+                style: 'event.css',
+                layout: events({
+                    name: user_name,
+                    number: resultB
+                })
+            })
         })
     })
-    // response.render("event.hbs",{
-    //     name:'username',
-    //     number:[{eventname:'Stuff',fromtime:'2018-05-01 01:01',endtime:'2018-05-22  01:02',location:'Vancouver,CA'},{eventname:'StuffA',fromtime:'2018-05-02 01:01',endtime:'2018-05-21  01:02',location:'Burnaby,CA'}    
-    //     ]
-    // })
 })
 
+app.post("/event_selectpeople", function(require, response) {
+	sessionInfos = require.session.user_id
+	dbfunct.getContactsWithAccount(sessionInfos).then((result) => {
+        response.send(result)
+    })
+})
+
+app.post("/event_addevent", function(require, response) {
+	cont_ids = [require.session.user_id]
+
+    for (i = 0; i < require.body.event_guests.length; i++) {
+        sep = require.body.event_guests[i].split("_")
+        cont_ids.push(sep[0])
+    }
+
+    dbfunct.createEvent(require.body.event_name, require.body.from_time, require.body.location, cont_ids).then((result) => {
+        response.send({ status: 'OK', url: '/hub' })
+    }).catch((err) => {
+        response.send({ status: "NOK" })
+    })
+})
 //-----------------------------------------------------------------------
 //LOGOUT FUNCTION
 app.post("/logout", (request, response) => {
