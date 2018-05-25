@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Glenn/Rory",
   "license": "ISC",
@@ -16,6 +16,11 @@
     "hbs": "*",
     "jsdoc": "^3.5.5",
     "pg": "^7.4.1",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "babel-jest": "^22.4.4",
+    "jest": "^22.4.4"
   }
 }

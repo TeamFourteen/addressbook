@@ -4,137 +4,117 @@
  * @author Rory Woo - Past Contributor
  * @author Sam Hadavi - FRONT-BACK Communication
  */
-/** Provide connection between Back End Server Functions and Front End Client Requests
- * @module express
+
+/** This is the server file.
+ * @module server
  * @requires express
+ * @requires body-parser
+ * @requires express-session
+ * @requires hbs
+ * @requires fs
+ * @requires pg
+ * @requires connect-pg-simple
+ * @requires {@link ./module-databaseFunctions.html databaseFunctions }
  */
 /**
- * Express module
+ * Express module - Used for connecting and communication with client
  * @const
  */
 const express = require('express')
-/** Parses request from the client. Needed to retrieve information from the client
- * @module bodyParser
- * @requires body-parser
- */
 /**
- * Body Parser Module
+ * Body Parser Module - Used for parsing requests from client
  * @const
  */
 const bodyParser = require('body-parser')
 /**
- * Module Needed for creating seperate sessions for user logins and individual information
- * @module session
- * @requires express-session
- */
-/**
- * Session Module
+ * Session Module - Used for creating sessions between the user and the server. This ensures user security
  * @const
  */
 const session = require('express-session')
 /**
- * Module Needed for design template and layout of the page
- * @module hbs
- * @requires hbs
- */
-/**
- * Handlebars module
+ * Handlebars module - Used for design templating
  * @const
  */
 const hbs = require('hbs')
 /**
- * Module needed for importing files from directory
- * @module fs
- * @requires fs
- */
-/**
- * File systems module
+ * File systems module - Used for retrieving HBS files
  * @const 
  */
 const fs = require('fs')
 /**
- * Module needed for communication with the server database
- * @module Postgres
- * @requires pg
- */
-/**
- * Database Pool/Client module
+ * Database Pool/Client module - Used for Activating the database
  * @const 
  */
 const { Pool, Client } = require('pg')
 /**
- * Module needed for saving sessions to the database (useful for logins using express session)
- * @module pgSession
- * @requires connect-pg-simple
- * @requires pg
- * @requires session
- */
-/**
- * Postgres Session Module
+ * Postgres Session Module - Used for storing client session into the database
  * @const 
  */
 const pgSession = require('connect-pg-simple')(session)
 
 const dbfunct = require("./private/databaseFunctions.js")
-/**
- * Express router to mount user related functions on.
- * @type {object}
- * @const
- * @namespace userRoutes
- */
+
 const app = express();
+
+const http = require("http").createServer(app);
+
+const io = require("socket.io").listen(http);
+
 /**
  * @global
  * @name dbUrl
  * @description This is the database port to which the server will communicate to the database
  */
 var dbURL = process.env.DATABASE_URL || "postgres://postgres:thegreatpass@localhost:5432/callcenter"; // change this per db name
-/**
- * @global
- * @const
- * @name pgpool
- * @description This code will set the communication between server and database
- */
+
 const pgpool = new Pool({
     connectionString: dbURL,
 })
-/*pgpool.query('SELECT username fROM USERS WHERE password= $1', ["LisiWoo"], (err, res) => {
-    //console.log(err, res)
-    console.log(res.rows[0].username)
-    //console.log(res.rows[0].username)
-    pool.end()
-})*/
+
 /**
- * @description Scripts that will run before sending the page information (i.e. Client Preparation). This is where most middleware actions take place.
- * @module app/use
- */
-/**
- * This will make "/src" directory static (useful for styling and effects for the client)
- * @name Static Directory
- * @memberof module:app/use
+ * @event Static_CSS_JS
+ * @desc Designates a directory where CSS and Javascript files are found and used for the webpage
  */
 app.use(express.static(__dirname + "/src"))
+
 /**
- * This will read all the HBS Files and store them to a variable (so any view files that had been created for the hub can be stored here for later use for this program).
- * @name HBS Window Reader
- * @memberof module:app/use
+ * @event Page_reader
+ * @desc Reads and compiles hbs files for the main window
  */
+
 app.use((request, response, next) => {
     profile = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/profile.hbs", 'utf8'))
-    contacts = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/contacts.hbs", 'utf8'))
+    events = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/event.hbs", 'utf8'))
+    chat = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat.hbs", 'utf8'))
+    chat_sel = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat_sel.hbs", 'utf8'))
+    chat_main_body = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/chat_main_body.hbs", 'utf8'))
     next();
 })
 
+
+var createContacts = (cont_data) => {
+    contacts = hbs.compile(fs.readFileSync(__dirname + "/views/radicals/contacts.hbs", 'utf8'))
+    return contacts({
+        contacts: cont_data
+    })
+}
 /**
- * This module helps with registering partial handlebar templates
- * @name hbs/registerPartials
- * @memberof module:hbs
+ * @event Body_parser_to_JSON
+ * @desc Converts any data retrieved from the client as JSON object.
  */
-hbs.registerPartials(__dirname + "/views/partials")
 
 app.use(bodyParser.json()) //Needed for when retrieving JSON from front-end
 
+/**
+ * @event HBS_Template
+ * @desc Sets the render engine to Handlebars
+ */
 app.set('view engine', 'hbs')
+
+/**
+ * @event Session_Database_Setup
+ * @desc Sets the session database to recieve session cookies.
+ */
 
 app.use(session({
     secret: 'tolkien',
@@ -144,21 +124,49 @@ app.use(session({
     }),
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge: 60 * 60000 }
+    cookie: { maxAge: 4 * 60 * 60 * 1000 }
 }))
 
+/**
+ * @event Front_Page_Route
+ * @desc Route for the front page of the website(first thing the user sees.) This can either be the user's hub or the front page, depending whether or not the user's session expired
+ * @param {object} request - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
 app.get("/", (request, response) => {
+	if(request.session.user_id == undefined){
+		response.sendFile(__dirname + "/front_end.html")
+	}else{
+		sessionInfos = request.session.user_id
 
-    response.sendFile(__dirname + "/front_end.html")
-    //response.end('This is a test for stuff')
+        dbfunct.getUserData(sessionInfos).then((result) => {
+            response.render('hub.hbs', {
+                fname: result.fname,
+                lname: result.lname
+            })
+        }).catch((err)=>{
+        	response.sendFile(__dirname + "/expired_or_invalid.html")
+        })
+	}
+    
 })
 
-
+/**
+ * @event Login_Route
+ * @desc This route determines if the user can authenticate themselves.
+ * @param {object} request - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
 app.post("/login", (request, response) => {
+    /**
+     * @event getLoginData
+     * @desc Checks the database for the user login info
+     * @param {string} username - Username required to retrieve user_ID and password
+     */
     dbfunct.getLoginData(request.body["user"]).then((result) => {
         if (result.password == request.body["pass"]) {
             request.session.user_id = result.user_id
-            response.json({ message: "Login Successful", url: "hub" })
+            response.json({ message: "Login Successful", url: "/" })
         } else {
             response.json({ message: "Login Failed", url: "Message Failed" })
         }
@@ -166,149 +174,392 @@ app.post("/login", (request, response) => {
 })
 
 //---------------------------------------------------------------------------------------------------------------
-/* From this line, look at the additions for the hub and the logout button*/
-//FRONT END CALL CENTRE HUB
-app.get("/hub", (request, response, next) => {
+
+//-----------------------------------------------------------------------
+/**
+ * @event Profile_Route
+ * @desc This route sends page design for the Profile page.
+ * @param {object} request - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post("/profile", (request, response) => {
     sessionInfos = request.session.user_id
-    dbfunct.getUserData(sessionInfos).then((result)=>{
-        response.render('hub.hbs', {
-        fname: result.fname,
-        lname: result.lname
+    /**
+     * @event getUserData
+     * @desc Retrieves the user personal and contact information
+     * @param {number} user_id - Needed for user data retrieval
+     */
+    dbfunct.getUserData(sessionInfos).then((result) => {
+        response.send({
+            script: './profile.js',
+            style: '/profile.css',
+            layout: profile({
+                name_id: sessionInfos,
+                fname: result.fname,
+                lname: result.lname,
+                bio: result.bio,
+                email: result.email,
+                phoneNumber: result.phone_numbers,
+                addresses: result.addresses,
+            })
+        })
     })
+})
+/**
+ * @event Profile_Adress_Add_Route
+ * @desc This route adds user address to the database.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post('/prof_address', (require, response) => {
+    sessionInfos = require.session.user_id
+    /**
+     * @event addUserAddress
+     * @desc Adds the user address to the database
+     * @param {number} user_id - Required for adding user address
+     * @param {string} address - The address to be added
+     */
+    dbfunct.addUserAddress(sessionInfos, require.body.address).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: 'NOK' })
     })
-    // profile_info = {
-    //     fname: 'Glenn',
-    //     lname: 'Parale',
-    //     p_numbers: [{ number: '604 777 2818' }],
-    //     locs: [{ location: '555 Seymour Street, Vancouver, BC' }]
-    // }
+});
+/**
+ * @event Profile_Phone_Add_Route
+ * @desc This route adds user address to the database.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post('/prof_phones', (require, response) => {
+    sessionInfos = require.session.user_id
+    /**
+     * @event addUserPhone
+     * @desc Adds the user phone number to the database
+     * @param {number} user_id - Required for adding user phone number
+     * @param {string} address - The phone number to be added
+     */
+    dbfunct.addUserPhone(sessionInfos, require.body.phone, require.body.type).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: 'NOK' })
+    })
+});
+/**
+ * @event Edit_Bio_Route
+ * @desc This route edits the bio of the user.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post('/prof_bio', (require, response) => {
+    sessionInfos = require.session.user_id
+    if (require.body.bio.length <= 500) {
+        /**
+         * @event editUserBio
+         * @desc Edits the user biography
+         * @param {number} user_id - Required for adding user phone number
+         * @param {string} bio - TThe biography/comment to change to
+         */
+        dbfunct.editUserBio(sessionInfos, require.body.bio).then((result) => {
+            response.send({ status: 'OK', url: '/' })
+        }).catch((err) => {
+            response.send({ status: 'NOK' })
+        })
+    }
 
-    // contactees = [{ cont_id: 1, fname: 'Billy', lname: 'Wong', p_number: '604 123 4567', location: '555 Seymour Street, Vancouver, BC' },
-    //     { cont_id: 2, fname: 'Billy', lname: 'Wong', p_number: '604 123 4567', location: '555 Seymour Street, Vancouver, BC' },
-    //     { cont_id: 3, fname: 'Billy', lname: 'Wong', p_number: '604 123 4567', location: '555 Seymour Street, Vancouver, BC' }
-    // ]
+});
 
-    // response.render("hub.hbs", {
-    //     username: 'glenn',
-    //     sel: [{
-    //         id_name: "profile",
-    //         opt_name: "Profile",
-    //         img_source: "https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png",
-    //         layout: profile(profile_info),
-    //         script: ""
-    //     }, {
-    //         id_name: "contacts",
-    //         opt_name: "Contacts",
-    //         img_source: "http://www.gaby-moreno.com/administrator/public_html/css/ionicons/png/512/android-contacts.png",
-    //         layout: contacts({
-    //             contact: contactees
-    //         }),
-    //         script: "/contacts.js"
-    //     }]
-    // })
+//-----------------------------------------------------------------------
 
+//-----------------------------------------------------------------------
+/**
+ * @event Contact_Page_Route
+ * @desc This route sends page design for the Contacts Page.
+ * @param {object} request - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post('/contacts', (request, response) => {
+    sessionInfos = request.session.user_id
+    dbfunct.getContInfo(sessionInfos).then((result) => {
+        response.send({
+            script: './contacts.js',
+            style: 'contacts.css',
+            layout: createContacts(result)
+
+        })
+    }).catch((err) => {
+        response.send({
+            script: './contacts.js',
+            style: 'contacts.css',
+            layout: createContacts(err)
+
+        })
+    })
+})
+
+/**
+ * @event Contact_Add_Route
+ * @desc This routeadds the contacts to the user's contact list.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post("/cont_addcontacts", function(require, response) {
+    sessionInfos = require.session.user_id
+    /**
+     * @event addContact
+     * @desc Adds the contact information to the database
+     * @param {number} user_id - Needed for user contacts' data retrieval
+     * @param {string} fname - Contact's First Name
+     * @param {string} lname - Contact's Last Name
+     * @param {string} bio - Contact's Biography/Comments
+     */
+    dbfunct.addContact(sessionInfos, require.body.fname, require.body.lname, require.body.bio).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: 'NOK' })
+    })
+})
+/**
+ * @event Contact_Add_Address_Route
+ * @desc This route adds the contact address to the database.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post("/cont_addaddress", function(require, response) {
+    /**
+     * @event addContactAddress
+     * @desc Adds the contact's address information to the database
+     * @param {number} cont_id - Contact's ID
+     * @param {number} user_id - User ID
+     * @param {string} address - Contact's Address
+     */
+    dbfunct.addContactAddress(require.body.cont_id, require.body.user_id, require.body.address).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: 'NOK' })
+    })
+})
+/**
+ * @event Contact_Add_Phone_Route
+ * @desc This route adds the contact's phone number to the database.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post("/cont_addphone", function(require, response) {
+    /**
+     * @event addContactPhone
+     * @desc Adds the contact's Phone Number to the database
+     * @param {number} cont_id - Contact's ID
+     * @param {number} user_id - User ID
+     * @param {string} phone_number - Contact's phone number
+     * @param {string} type - Contact's phone type
+     */
+    dbfunct.addContactPhone(require.body.cont_id, require.body.user_id, require.body.phone, require.body.type).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: 'NOK' })
+    })
+})
+/**
+ * @event Person_Search
+ * @desc This route searches the database for the names and email that contains the keyword.
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post("/cont_sendKeyword", function(require, response) {
+    /**
+     * @event getContAccount
+     * @desc Gets the contact account information
+     * @param {string} keyword - Keyword needed for account data retrieval
+     */
+    dbfunct.getContAccount(require.body.keyword).then((result) => {
+        sendback = []
+        for (i = 0; i < result.length; i++) {
+            result_info = { user_id: result[i].user_id + '_' + result[i].fname + '_' + result[i].lname, name: result[i].fname + " " + result[i].lname, email: result[i].username }
+            sendback.push(result_info)
+        }
+        response.json(sendback)
+    })
+})
+/**
+ * @event Add_Contact_With_Account
+ * @desc This route adds the contacts to the user's contact list. However, their user ID is also recorded
+ * @param {object} require - Information to be taken from the client
+ * @param {object} response - Information to send to the client
+ */
+app.post("/cont_addcontactswithaccount", function(require, response) {
+    sessionInfos = require.session.user_id
+    add_info = require.body.cont_info.split("_")
+    /**
+     * @event addContactwithAccount
+     * @desc Adds the contact with user
+     * @param {string} user_id - User ID to add the contact to
+     * @param fname - Contact First Name
+     * @param lname - Contact Last Name
+     * @param acct_num - Contact's User ID
+     */
+    dbfunct.addContactwithAccount(sessionInfos, add_info[1], add_info[2], add_info[0]).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: 'NOK' })
+    })
+})
+//-----------------------------------------------------------------------
+
+//-----------------------------------------------------------------------
+app.post('/chat', function(require, response) {
+    SessionInfos = require.session.user_id
+    dbfunct.checkChat(SessionInfos).then((result) => {
+        response.send({
+            script: './chat.js',
+            style: 'chat.css',
+            layout: chat({
+                chatroom: result,
+            })
+
+        })
+    })
+
+})
+
+app.post('/chat_adUserDiv', (require, response) => {
+    SessionInfos = require.session.user_id
+    dbfunct.getContactsWithAccount(SessionInfos).then((result) => {
+        response.send(result)
+    })
+});
+
+app.post('/chat_user', (require, response) => {
+    SessionInfos = require.session.user_id
+    dbfunct.getUserData(SessionInfos).then((result) => {
+        response.send({ user_id: SessionInfos, user_name: result.fname + " " + result.lname })
+    })
+
+});
+
+app.post('/chat_newChatRoomDiv', (require, response) => {
+    cont_ids = [require.session.user_id]
+    for (i = 0; i < require.body.chatroom_users.length; i++) {
+        sep = require.body.chatroom_users[i].split("_")
+        cont_ids.push(sep[0])
+    }
+    dbfunct.createChatRoom(require.body.chatroom_name, cont_ids).then((result) => {
+        response.send({ message: "OK" })
+    }).catch((err) => {
+        response.send({ message: "NOK" })
+    })
+
+});
+
+io.on('connection', function(socket) {
+    socket.emit('reqUser_ID', { request: 'user_id' })
+
+    socket.on('resUser_ID', function(data) {
+        userID = data.user_id
+        socket.userID = userID
+        dbfunct.getUserData(userID).then((resultA) => {
+            name_user = resultA.fname + " " + resultA.lname
+            dbfunct.checkChat(userID).then((resultB) => {
+                for (let i in resultB) {
+                    socket.join(resultB[i].chatroom_id);
+                    io.in(resultB[i].chatroom_id).emit('joinRoom', { room: resultB[i].chatroom_id, message: name_user + " is online." })
+                }
+            })
+
+        }).catch((err) => {
+            console.log('name problem')
+        })
+    })
+
+    socket.on("sendMessage", function(data) {
+        io.in(data.room).emit('chat', { room: data.room, user: data.user, message: data.message })
+    })
+
+    socket.on('disconnect', function() {
+        userID = socket.userID
+        dbfunct.getUserData(userID).then((resultA) => {
+            name_user = resultA.fname + " " + resultA.lname
+            dbfunct.checkChat(userID).then((resultB) => {
+                socket.emit('room_length', resultB.length)
+                for (let i in resultB) {
+                    socket.leave(resultB[i].chatroom_id);
+                    io.in(resultB[i].chatroom_id).emit('joinRoom', { room: resultB[i].chatroom_id, message: name_user + " is offline" })
+                }
+            })
+
+        }).catch((err) => {
+            console.log('name problem')
+        })
+    });
 })
 
 //-----------------------------------------------------------------------
-app.post("/profile", (request, response)=>{
-    sessionInfos = request.session.user_id
-    /*dbfunct.getUserData(sessionInfos).then((result)=>{
-
-    })*/
-    response.send({script: '/profile.js', style: '/profile.css', layout: profile({
-        name_id: '1',
-        fname: 'FNAME',
-        lname: 'LNAME',
-        bio: 'A Bio',
-        email: 'email@email.com',
-        phoneNumber: [{phone_id: '1', phone: '6041231234', type: 'Work'}],
-        addresses: [{address_id: '1', addressName: '555 Seymour Street'}]
-    })})
+app.post("/events", function(require, response) {
+    sessionInfos = require.session.user_id
+    dbfunct.getUserData(sessionInfos).then((resultA) => {
+        user_name = resultA.fname + " " + resultA.lname
+        dbfunct.checkEvents(sessionInfos).then((resultB) => {
+            response.send({
+                script: './event.js',
+                style: 'event.css',
+                layout: events({
+                    name: user_name,
+                    number: resultB
+                })
+            })
+        })
+    })
 })
 
-app.post('/prof_address', (require,response)=>{
-    console.log(require.body)
-    response.send({message:"I got that message"})
-});
+app.post("/event_selectpeople", function(require, response) {
+    sessionInfos = require.session.user_id
+    dbfunct.getContactsWithAccount(sessionInfos).then((result) => {
+        response.send(result)
+    })
+})
 
-app.post('/prof_phones', (require,response)=>{
-    console.log(require.body)
-    response.send({message:"I got that message"})
-});
+app.post("/event_addevent", function(require, response) {
+    cont_ids = [require.session.user_id]
 
-app.post('/prof_bio', (require,response)=>{
-    console.log(require.body)
-    response.send({message:"I got that message"})
-});
+    for (i = 0; i < require.body.event_guests.length; i++) {
+        sep = require.body.event_guests[i].split("_")
+        cont_ids.push(sep[0])
+    }
 
+    dbfunct.createEvent(require.body.event_name, require.body.from_time, require.body.location, cont_ids).then((result) => {
+        response.send({ status: 'OK', url: '/' })
+    }).catch((err) => {
+        response.send({ status: "NOK" })
+    })
+})
 //-----------------------------------------------------------------------
 //LOGOUT FUNCTION
 app.post("/logout", (request, response) => {
     request.session.destroy()
     response.json({ status: "OK", message: "Log out successfully" })
 })
-
-app.post("/update", (request, response) => {
-
-    sessionInfos = request.session.user_id
-    new_phone = request.body["phone"]
-    new_address = request.body["address"]
-    pgpool.query('update users set p_numbers = $2, locate = $3 where user_id = $1', [sessionInfos, new_phone, new_address], (err, res) => {
-        if (err) {
-            response.json({ status: "NOK", message: "Update Not Added" })
-        } else {
-            response.json({ status: "OK", message: "Update Added" })
-        }
-    })
-    // response.json({ status: "OK", message: "Update Added" })
-})
-
-app.post("/addcontact", (request, response) => {
-    if (!(request.body["fname"] === "") && !(request.body["lname"] === "")) {
-        sessionInfos = request.session.user_id
-        new_fname = request.body["fname"]
-        new_lname = request.body["lname"]
-        new_phone = request.body["phone"]
-        new_address = request.body["address"]
-        pgpool.query('insert into contacts(user_id, firstname, lastname, address, phone) values ($1, $2, $3, $4, $5)', [sessionInfos, new_fname, new_lname, new_address, new_phone], (err, res) => {
-            if (err) {
-                console.log(err);
-                response.json({ status: "NOK", message: "Contact Not Added" })
-            } else {
-                response.json({ status: "OK", message: "Contact Added" })
-            }
-        })
-    } else {
-        response.json({ status: "NOK", message: "Required fields not filled" })
-    }
-    // response.json({ status: "OK", message: "Update Added" })
-})
 //Code copy ends here
 //--------------------------------------------------------------------------------------------------------------------------
 
 app.post("/signup", function(req, resp) {
+    dbfunct.createAccount(req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]).then((result) => {
+        req.session.user_id = result.user_id
+        resp.json({ status: "OK", url: "/" })
+    }).catch((err) => {
+        if (err == 'Acc_Exist') {
+            resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })
+        } else if (err == 'Req_Fields') {
+            resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
+        }
 
-    if (!(req.body["fname"] === "") && !(req.body["lname"] === "") && !(req.body["user"] === "") && !(req.body["pass"] === "")) {
-        pgpool.query('insert into users(username, password, fname, lname) values($1, $2, $3, $4)', [req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]], (err, res) => {
-            if (err) {
-                resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })
-            } else {
-                pgpool.query('SELECT user_id FROM users WHERE username = $1', [req.body["user"]], (err, res) => {
-                    req.session.user_id = res.rows[0].user_id
-                    resp.json({ status: "OK", url: "hub" })
-                })
-            }
-
-        })
-
-    } else {
-        resp.json({ status: "NOK", message: "Signup Failed: Failed to fill required fields" })
-    }
-    // resp.json({ status: "OK", url: "hub" })
-
+    })
 });
 
-app.listen(3000, (err) => {
+/**
+ * @event Port_Listener
+ * @desc Listens to the designated port number for connection route request
+ */
+http.listen(3000, (err) => {
     if (err) {
         console.log('Server is down');
         return false;

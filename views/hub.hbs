@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="/hub.css">
     <link id="indiv_styles" rel="stylesheet" type="text/css">
 </head>
-
-<body>
+<script id="chat_feat" src="/socket.io/socket.io.js"></script>
+<body id="body">
     <header id="upper_menus">
         <div>Hello, {{fname}} {{lname}}</div>
         <div id="options">
@@ -24,7 +24,7 @@
     <div id='main_window'>
     </div>
     <script src="/hub.js"></script>
-    <script id='indiv_scripts'></script>
+    <script type="text/javascript" id='indiv_scripts' async></script>  
 </body>
 
 </html>
