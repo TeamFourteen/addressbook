@@ -129,6 +129,26 @@ CREATE TABLE chatroom_users
 	foreign key (chatr_id) references chatrooms(chatr_id),
 	foreign key (user_id) references users(user_id)
 );
+/*Events*/
+
+CREATE TABLE events 
+(
+	event_id serial,
+	event_name character varying(20) NOT NULL,
+	from_time timestamp NOT NUll,
+	location character varying(50),
+	primary key (event_id)
+	
+);
+
+CREATE TABLE event_users 
+(
+	event_id integer not null,
+	user_id integer not null,
+	primary key (event_id, user_id),
+	foreign key (event_id) references events(event_id),
+	foreign key (user_id) references users(user_id)
+);
 
 /* Inputs for testing*/
 /*
@@ -158,6 +178,7 @@ insert into contact_address(cont_id, user_id, address) values(2,1,'3766 E 1st Av
 update users set bio = 'This is some dip shit' where user_id = 1;
 update users set bio = 'Wow I am so coolkjadfgbvulhyja ewbuiv sfifghdjkavb ijlskgrefzidyhjvgavefghcvajesdhvuikaerhghdf,jwmvsfhdgk2rqegavyuoesgrbtekuryaehd' where user_id = 2;
 */
+
 /*
 SELECT * FROM session
 SELECT * FROM users
@@ -168,16 +189,20 @@ SELECT * FROM contact_phone
 SELECT * FROM contact_address
 SELECT * FROM chatrooms
 SELECT * FROM chatroom_users
+SELECT * FROM events
+SELECT * FROM event_users
 */
-
+SELECT events.event_id, events.event_name, to_char(events.from_time, 'Month DD YYYY HH12:MM AM') as from_time, events.location FROM event_users left join events on event_users.event_id = events.event_id where user_id = 1 
 /*
-DROP TABLE session;
-DROP TABLE users;
-DROP TABLE contacts;
-DROP TABLE user_phone;
-DROP TABLE user_address;
+DROP TABLE event_users;
+DROP TABLE events;
+DROP TABLE chatroom_users;
+DROP TABLE chatrooms;
 DROP TABLE contact_phone;
 DROP TABLE contact_address;
-DROP TABLE chatroom_users;
-DROP TABLE chatrooms
+DROP TABLE user_phone;
+DROP TABLE user_address;
+DROP TABLE contacts;
+DROP TABLE users;
+DROP TABLE session;
 */
