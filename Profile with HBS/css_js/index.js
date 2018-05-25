@@ -16,6 +16,10 @@ var bioInput = document.getElementById("bioInput");
 var phoneDone = document.getElementById("phoneDone");
 var addressDone = document.getElementById("addressDone");
 var bioDone = document.getElementById("bioDone");
+var viewMap = document.getElementById("viewMap");
+var viewOnMap = document.getElementById("viewOnMap");
+var previewMap = document.getElementById("previewmap");
+
 
 
 
@@ -58,6 +62,7 @@ function phonePostFunction(phoneType, phoneInput) {
   phoneInput.value = "";  
 };
 
+
 // Rest ------------------------------------------------------------------------------------
 
 bioDone.addEventListener("click", function(){
@@ -69,9 +74,10 @@ phoneDone.addEventListener("click", function(){
 });
 
 addressDone.addEventListener("click", function(){
-   addressInputs.style.display = "none"; 
+   addressInputs.style.display = "none";
+   viewOnMap.className = "mapHide"; 
 });
-
+// ADDED THE FUNCTION TO HIDE THE SHOWMAP WHEN YOU PRESS THE DONE BUTTON IN THE ADDRESS INPUTS
 for(i=0; i < addressClass.length; i++){
   address = addressClass[i].id
     if(address != "") {
@@ -124,6 +130,14 @@ addAddress.addEventListener("click", function(){
     
     addressInput.value = "";
 });
+// GLENN NOTICE THIS FUNCTION AT THE BOTTOM HERE ----------------------------------------------------------------
+viewMap.addEventListener("click", function(){
+    viewOnMap.className = "mapShow";   
+    previewMap.src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBo7uKcrJKGkcPuoKgo-Si-pNHAHE4V-5U&q="+addressInput.value;
+});
+
+// GLENN NOTICE THIS FUNCTION AT THE TOP HERE -----------------------------------------------------------------------
+// IT IS THE FUNCTION TO SHOW THE MAP WHEN YOU PRESS SHOW MAP
 
 
 

@@ -204,4 +204,20 @@
     left:10%;
 }
 
+#viewMap {
+    position:absolute;
+    right:20%;
+    top:45%;
+}
+
+#viewOnMap {
+    position:absolute;
+    height:200px;
+    width:400px;
+    background-color:lightblue;
+    left:0px;
+    right:0px;
+    margin:auto;
+    bottom:15%;
+}
 
