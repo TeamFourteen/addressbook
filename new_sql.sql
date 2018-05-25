@@ -151,7 +151,9 @@ CREATE TABLE event_users
 );
 
 /* Inputs for testing*/
+
 /*
+
 insert into users(username, password, fname, lname) values('Thamy@mail.com', 'LisiWoo', 'Thaman', 'Woo');
 insert into users(username, password, fname, lname) values('poop@mail.com', 'poop', 'Turd', 'Master');
 
@@ -177,7 +179,9 @@ insert into contact_address(cont_id, user_id, address) values(2,1,'3766 E 1st Av
 
 update users set bio = 'This is some dip shit' where user_id = 1;
 update users set bio = 'Wow I am so coolkjadfgbvulhyja ewbuiv sfifghdjkavb ijlskgrefzidyhjvgavefghcvajesdhvuikaerhghdf,jwmvsfhdgk2rqegavyuoesgrbtekuryaehd' where user_id = 2;
+
 */
+
 
 /*
 SELECT * FROM session
