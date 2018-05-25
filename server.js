@@ -124,17 +124,31 @@ app.use(session({
     }),
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge: 60 * 60000 }
+    cookie: { maxAge: 4 * 60 * 60 * 1000 }
 }))
 
 /**
  * @event Front_Page_Route
- * @desc Route for the front page of the website(first thing the user sees.)
+ * @desc Route for the front page of the website(first thing the user sees.) This can either be the user's hub or the front page, depending whether or not the user's session expired
  * @param {object} request - Information to be taken from the client
  * @param {object} response - Information to send to the client
  */
 app.get("/", (request, response) => {
-    response.sendFile(__dirname + "/front_end.html")
+	if(request.session.user_id == undefined){
+		response.sendFile(__dirname + "/front_end.html")
+	}else{
+		sessionInfos = request.session.user_id
+
+        dbfunct.getUserData(sessionInfos).then((result) => {
+            response.render('hub.hbs', {
+                fname: result.fname,
+                lname: result.lname
+            })
+        }).catch((err)=>{
+        	response.sendFile(__dirname + "/expired_or_invalid.html")
+        })
+	}
+    
 })
 
 /**
@@ -152,7 +166,7 @@ app.post("/login", (request, response) => {
     dbfunct.getLoginData(request.body["user"]).then((result) => {
         if (result.password == request.body["pass"]) {
             request.session.user_id = result.user_id
-            response.json({ message: "Login Successful", url: "hub" })
+            response.json({ message: "Login Successful", url: "/" })
         } else {
             response.json({ message: "Login Failed", url: "Message Failed" })
         }
@@ -160,29 +174,6 @@ app.post("/login", (request, response) => {
 })
 
 //---------------------------------------------------------------------------------------------------------------
-/* From this line, look at the additions for the hub and the logout button*/
-//FRONT END CALL CENTRE HUB
-
-/**
- * @event Hub_Page_Route
- * @desc This route displays the page menu.
- * @param {object} request - Information to be taken from the client
- * @param {object} response - Information to send to the client
- */
-app.get("/hub", (request, response) => {
-    sessionInfos = request.session.user_id
-    /**
-     * @event getUserData
-     * @desc Retrieves the user personal and contact information
-     * @param {number} user_id - Needed for user data retrieval
-     */
-    dbfunct.getUserData(sessionInfos).then((result) => {
-        response.render('hub.hbs', {
-            fname: result.fname,
-            lname: result.lname
-        })
-    })
-})
 
 //-----------------------------------------------------------------------
 /**
@@ -229,7 +220,7 @@ app.post('/prof_address', (require, response) => {
      * @param {string} address - The address to be added
      */
     dbfunct.addUserAddress(sessionInfos, require.body.address).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: 'NOK' })
     })
@@ -249,7 +240,7 @@ app.post('/prof_phones', (require, response) => {
      * @param {string} address - The phone number to be added
      */
     dbfunct.addUserPhone(sessionInfos, require.body.phone, require.body.type).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: 'NOK' })
     })
@@ -270,7 +261,7 @@ app.post('/prof_bio', (require, response) => {
          * @param {string} bio - TThe biography/comment to change to
          */
         dbfunct.editUserBio(sessionInfos, require.body.bio).then((result) => {
-            response.send({ status: 'OK', url: '/hub' })
+            response.send({ status: 'OK', url: '/' })
         }).catch((err) => {
             response.send({ status: 'NOK' })
         })
@@ -323,7 +314,7 @@ app.post("/cont_addcontacts", function(require, response) {
      * @param {string} bio - Contact's Biography/Comments
      */
     dbfunct.addContact(sessionInfos, require.body.fname, require.body.lname, require.body.bio).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: 'NOK' })
     })
@@ -343,7 +334,7 @@ app.post("/cont_addaddress", function(require, response) {
      * @param {string} address - Contact's Address
      */
     dbfunct.addContactAddress(require.body.cont_id, require.body.user_id, require.body.address).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: 'NOK' })
     })
@@ -364,7 +355,7 @@ app.post("/cont_addphone", function(require, response) {
      * @param {string} type - Contact's phone type
      */
     dbfunct.addContactPhone(require.body.cont_id, require.body.user_id, require.body.phone, require.body.type).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: 'NOK' })
     })
@@ -408,7 +399,7 @@ app.post("/cont_addcontactswithaccount", function(require, response) {
      * @param acct_num - Contact's User ID
      */
     dbfunct.addContactwithAccount(sessionInfos, add_info[1], add_info[2], add_info[0]).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: 'NOK' })
     })
@@ -521,14 +512,14 @@ app.post("/events", function(require, response) {
 })
 
 app.post("/event_selectpeople", function(require, response) {
-	sessionInfos = require.session.user_id
-	dbfunct.getContactsWithAccount(sessionInfos).then((result) => {
+    sessionInfos = require.session.user_id
+    dbfunct.getContactsWithAccount(sessionInfos).then((result) => {
         response.send(result)
     })
 })
 
 app.post("/event_addevent", function(require, response) {
-	cont_ids = [require.session.user_id]
+    cont_ids = [require.session.user_id]
 
     for (i = 0; i < require.body.event_guests.length; i++) {
         sep = require.body.event_guests[i].split("_")
@@ -536,7 +527,7 @@ app.post("/event_addevent", function(require, response) {
     }
 
     dbfunct.createEvent(require.body.event_name, require.body.from_time, require.body.location, cont_ids).then((result) => {
-        response.send({ status: 'OK', url: '/hub' })
+        response.send({ status: 'OK', url: '/' })
     }).catch((err) => {
         response.send({ status: "NOK" })
     })
@@ -553,7 +544,7 @@ app.post("/logout", (request, response) => {
 app.post("/signup", function(req, resp) {
     dbfunct.createAccount(req.body["user"], req.body["pass"], req.body["fname"], req.body["lname"]).then((result) => {
         req.session.user_id = result.user_id
-        resp.json({ status: "OK", url: "/hub" })
+        resp.json({ status: "OK", url: "/" })
     }).catch((err) => {
         if (err == 'Acc_Exist') {
             resp.json({ status: "NOK", message: "Signup Failed: Username or Password already in use" })

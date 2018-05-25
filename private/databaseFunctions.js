@@ -446,7 +446,7 @@ async function checkChat(user_id) {
 //------------------------------------------------------------------------
 var checkEventDetails = (user_id) => {
     return new Promise((resolve, reject) => {
-        pgpool.query('SELECT events.event_id, events.event_name, events.from_time, events.location FROM event_users left join events on event_users.event_id = events.event_id where user_id = $1 ', [user_id], (err, res) => {
+        pgpool.query('SELECT events.event_id, events.event_name, to_char(events.from_time, \'Month DD YYYY HH12:MM AM\') as from_time, events.location FROM event_users left join events on event_users.event_id = events.event_id where user_id = $1  ', [user_id], (err, res) => {
             if (err) {
                 reject(err)
             }
