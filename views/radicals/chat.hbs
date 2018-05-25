@@ -1,0 +1,46 @@
+<div id="chatroomMain">
+
+    <div id="chatRoomList">
+        {{#each chatroom}}
+        <div id="{{this.chatroom_id}}" class="crNum"> {{this.chatroom_name}} </div>
+        {{/each}}
+    </div>
+
+    {{#each chatroom}}
+    <div id="{{this.chatroom_id}}_display" class="chatDisplay">
+        <div id="{{this.chatroom_id}}_list" class="userNameList">
+        	{{#each this.users}}
+        	<div class="users">{{this}}</div>
+        	{{/each}}
+        </div>
+        <div id="{{this.chatroom_id}}_chatlog" class="chatDetails">
+        </div>
+    </div>
+    {{/each}}
+
+
+    <div id="addChatRoomPopUpPage">
+
+        <div id="chatroom_to_be_added">ChatRoom Name:
+            <input type="text" placeholder="Type in Chat Room Name and press create" id="createChatRoomName"></input>
+        </div>
+
+        <div id="personContactInfo">
+
+        </div>
+
+        <button id="createButton">Create</button>
+
+    </div>
+
+
+
+    <div id="sendMessageDiv">
+        <button id="sendBtn">Send Message</button>
+        <input type="text" placeholder="   Type in message to send" id="sendInp" />
+    </div>
+
+    <div id="addChatRoom">
+        <button id="addCrButton">New Chatroom</button>
+    </div>
+</div>
